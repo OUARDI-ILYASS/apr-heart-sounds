@@ -1,0 +1,11 @@
+# A6 - 1 second segments.
+# Purpose: design-choice justification. A 1 s window at 60 bpm contains roughly
+# one cardiac cycle and can straddle an S1-S2 boundary, so some windows will
+# contain no complete systole - exactly where a murmur lives.
+experiment:
+  name: "A6_seglen_1s"
+  description: "Ablation A6: 1 s segments instead of 3 s"
+segmentation:
+  segment_seconds: 1.0
+  train_hop_seconds: 0.5
+  eval_hop_seconds: 1.0

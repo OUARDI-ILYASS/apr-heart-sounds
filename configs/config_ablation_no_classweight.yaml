@@ -1,0 +1,16 @@
+# A3 - Disable class weighting everywhere.
+# Purpose: quantify how much of the performance comes from imbalance handling.
+# Expected: accuracy stays high (majority class is ~78%) while MAcc collapses
+# toward 0.5. This is the cleanest demonstration of WHY accuracy is the wrong
+# headline metric for this dataset.
+experiment:
+  name: "A3_no_classweight"
+  description: "Ablation A3: no class weighting (SVM, RF, CNN)"
+classical:
+  svm:
+    class_weight: null
+  random_forest:
+    class_weight: null
+cnn:
+  training:
+    class_weighting: false

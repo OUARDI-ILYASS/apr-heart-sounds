@@ -1,0 +1,11 @@
+# A4 - MFCC without delta and delta-delta.
+# Purpose: justify the dynamic coefficients. Heart sounds are transients, so
+# the rate of change of the cepstrum should carry onset information that the
+# static coefficients miss.
+experiment:
+  name: "A4_no_delta"
+  description: "Ablation A4: static MFCC only (13*6 = 78 dims instead of 234)"
+features:
+  mfcc:
+    use_delta: false
+    use_delta2: false

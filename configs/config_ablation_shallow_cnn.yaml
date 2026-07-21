@@ -1,0 +1,9 @@
+# A5 - Halve the CNN depth.
+# Purpose: verify that 4 blocks are actually needed, i.e. that the network is
+# not just acting as a fancy energy detector.
+experiment:
+  name: "A5_shallow_cnn"
+  description: "Ablation A5: 2 conv blocks instead of 4"
+cnn:
+  architecture:
+    conv_channels: [16, 32]

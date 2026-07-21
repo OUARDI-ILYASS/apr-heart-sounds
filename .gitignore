@@ -1,0 +1,54 @@
+# Data — never commit the corpus. It is ~3 GB and PhysioNet has its own terms.
+data/raw/
+data/interim/
+data/processed/
+*.wav
+*.hea
+
+# Generated artifacts. Everything here is reproducible from the code + config,
+# so committing it would only create merge conflicts and stale results.
+models/**/*.joblib
+models/**/*.pt
+models/**/*.json
+results/
+figures/
+reports/
+paper/figs/
+paper/tables/*.tex
+!paper/tables/.gitkeep
+
+# LaTeX build products
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.log
+paper/*.out
+paper/*.pdf
+paper/*.synctex.gz
+paper/*.fls
+paper/*.fdb_latexmk
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Environments
+.venv/
+venv/
+env/
+.python-version
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+*.swp

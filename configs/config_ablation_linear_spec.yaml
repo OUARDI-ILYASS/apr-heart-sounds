@@ -1,0 +1,11 @@
+# A2 - Replace the mel filterbank with a linear-frequency filterbank.
+# Purpose: test whether the mel warping contributes anything at all in the
+# 25-400 Hz band. Because the mel scale is near-linear below 1 kHz we EXPECT
+# little or no difference. A null result here is a genuine finding: it says the
+# 'mel' in log-Mel is doing no work for PCG, which is worth stating.
+experiment:
+  name: "A2_linear_spec"
+  description: "Ablation A2: linear-frequency filterbank instead of mel"
+features:
+  logmel:
+    scale: "linear"
