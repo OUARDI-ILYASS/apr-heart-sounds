@@ -1,0 +1,201 @@
+{
+  "model": "svm",
+  "best_params": {
+    "C": 1.0,
+    "gamma": 0.01
+  },
+  "best_cv_score": 0.8211477521482982,
+  "best_cv_std": 0.011057072092910297,
+  "n_candidates": 16,
+  "selection_strategy": "subsample_prune_then_full_refit_topk",
+  "search_n_samples": 7537,
+  "full_n_samples": 25365,
+  "search_segments_per_recording": 4,
+  "refit_top_k": 3,
+  "calibrated_during_search": false,
+  "scoring": "balanced_accuracy",
+  "cv_strategy": "stratified_group_kfold",
+  "n_folds": 5,
+  "subsample_ranking": [
+    {
+      "params": {
+        "C": 0.1,
+        "gamma": 0.0005
+      },
+      "subsample_mean": 0.7102895457600032,
+      "subsample_std": 0.010507373042134163
+    },
+    {
+      "params": {
+        "C": 0.1,
+        "gamma": 0.001
+      },
+      "subsample_mean": 0.7266294063962311,
+      "subsample_std": 0.010747815449530332
+    },
+    {
+      "params": {
+        "C": 0.1,
+        "gamma": 0.005
+      },
+      "subsample_mean": 0.7521279766438038,
+      "subsample_std": 0.00545954944667398
+    },
+    {
+      "params": {
+        "C": 0.1,
+        "gamma": 0.01
+      },
+      "subsample_mean": 0.7578233879520149,
+      "subsample_std": 0.006124037130694144
+    },
+    {
+      "params": {
+        "C": 1.0,
+        "gamma": 0.0005
+      },
+      "subsample_mean": 0.7561132574754685,
+      "subsample_std": 0.008251624310559856
+    },
+    {
+      "params": {
+        "C": 1.0,
+        "gamma": 0.001
+      },
+      "subsample_mean": 0.7633242906464592,
+      "subsample_std": 0.009414020128602764
+    },
+    {
+      "params": {
+        "C": 1.0,
+        "gamma": 0.005
+      },
+      "subsample_mean": 0.7689662393980811,
+      "subsample_std": 0.004656300921759857
+    },
+    {
+      "params": {
+        "C": 1.0,
+        "gamma": 0.01
+      },
+      "subsample_mean": 0.7725448035124984,
+      "subsample_std": 0.009304790103557954
+    },
+    {
+      "params": {
+        "C": 10.0,
+        "gamma": 0.0005
+      },
+      "subsample_mean": 0.7637990282324493,
+      "subsample_std": 0.009581429776795118
+    },
+    {
+      "params": {
+        "C": 10.0,
+        "gamma": 0.001
+      },
+      "subsample_mean": 0.7667844660863771,
+      "subsample_std": 0.00938923278832368
+    },
+    {
+      "params": {
+        "C": 10.0,
+        "gamma": 0.005
+      },
+      "subsample_mean": 0.7579738401605034,
+      "subsample_std": 0.007684030117701927
+    },
+    {
+      "params": {
+        "C": 10.0,
+        "gamma": 0.01
+      },
+      "subsample_mean": 0.7424798948369723,
+      "subsample_std": 0.012493338502525798
+    },
+    {
+      "params": {
+        "C": 100.0,
+        "gamma": 0.0005
+      },
+      "subsample_mean": 0.7611907774902031,
+      "subsample_std": 0.01303364479632375
+    },
+    {
+      "params": {
+        "C": 100.0,
+        "gamma": 0.001
+      },
+      "subsample_mean": 0.7608718976149756,
+      "subsample_std": 0.011381198199795198
+    },
+    {
+      "params": {
+        "C": 100.0,
+        "gamma": 0.005
+      },
+      "subsample_mean": 0.7288512686450536,
+      "subsample_std": 0.01196090448686421
+    },
+    {
+      "params": {
+        "C": 100.0,
+        "gamma": 0.01
+      },
+      "subsample_mean": 0.6966940289232727,
+      "subsample_std": 0.016514410873068732
+    }
+  ],
+  "best_train_score": 0.8571829402961525,
+  "overfit_gap": 0.08463813678365406,
+  "val_segment": {
+    "accuracy": 0.8255152807391614,
+    "sensitivity": 0.635343618513324,
+    "specificity": 0.8900523560209425,
+    "macc": 0.7626979872671332,
+    "precision": 0.6622807017543859,
+    "recall": 0.635343618513324,
+    "f1": 0.6485325697924124,
+    "f1_macro": 0.7662421771202668,
+    "f1_weighted": 0.8243022108697556,
+    "mcc": 0.5327539514180577,
+    "kappa": 0.532550864849613,
+    "tp": 453.0,
+    "tn": 1870.0,
+    "fp": 231.0,
+    "fn": 260.0,
+    "n": 2814,
+    "prevalence": 0.2533759772565743,
+    "ppv": 0.6622807017543859,
+    "npv": 0.8779342723004695,
+    "roc_auc": 0.9024861599999465,
+    "average_precision": 0.7086348051371809
+  },
+  "val_recording": {
+    "accuracy": 0.8123456790123457,
+    "sensitivity": 0.6304347826086957,
+    "specificity": 0.865814696485623,
+    "macc": 0.7481247395471593,
+    "precision": 0.58,
+    "recall": 0.6304347826086957,
+    "f1": 0.6041666666666666,
+    "f1_macro": 0.7405946601941747,
+    "f1_weighted": 0.815040552958568,
+    "mcc": 0.48218780968802144,
+    "kappa": 0.4814690026954178,
+    "tp": 58.0,
+    "tn": 271.0,
+    "fp": 42.0,
+    "fn": 34.0,
+    "n": 405,
+    "prevalence": 0.2271604938271605,
+    "ppv": 0.58,
+    "npv": 0.8885245901639345,
+    "roc_auc": 0.8864772885122933,
+    "average_precision": 0.6631317778131942
+  },
+  "tuned_threshold": 0.19999999999999996,
+  "tuned_threshold_val_macc": 0.8373732462842062,
+  "feature_domain": "pwp",
+  "n_features": 84
+}

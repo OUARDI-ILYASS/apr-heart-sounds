@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\caption{Comparison with published PhysioNet/CinC 2016 entries.}
+\label{tab:literature}
+\begin{tabular}{lrrrc}
+\toprule
+System & MAcc & Se. & Sp. & Comparable \\
+\midrule
+This work (best) & 0.871 & 0.889 & 0.853 & \checkmark \\
+Potes et al. 2016 (CinC winner) & 0.860 & 0.942 & 0.778 & -- \\
+Rubin et al. 2016 (CNN) & 0.839 & 0.727 & 0.951 & -- \\
+Zabihi et al. 2016 (ensemble) & 0.859 & 0.869 & 0.849 & -- \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}\footnotesize Published entries were scored on the official hidden test set, which was never released. Our numbers come from a held-out split of the public training data, so the comparison is contextual rather than like-for-like.\end{flushleft}
+\end{table}

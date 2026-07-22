@@ -1,0 +1,65 @@
+2026-07-22 03:24:37,062 | INFO    | 07_explain_shap:56 | ==============================================================================
+2026-07-22 03:24:37,062 | INFO    | 07_explain_shap:57 |       PHASE 07_explain_shap: SHAP explanations for the classical models       
+2026-07-22 03:24:37,062 | INFO    | 07_explain_shap:58 | ==============================================================================
+2026-07-22 03:24:37,063 | INFO    | 07_explain_shap:78 | Experiment : baseline_full
+2026-07-22 03:24:37,063 | INFO    | 07_explain_shap:79 | Config     : /workspace/apr-heart-sounds/configs/config.yaml  (hash bfdef2da)
+2026-07-22 03:24:38,657 | INFO    | 07_explain_shap:82 | Seed       : 42 (torch=True, cuda=True)
+2026-07-22 03:24:38,657 | INFO    | 07_explain_shap:86 | Shapes     : {'segment_samples': 6000, 'n_frames': 188, 'mfcc_dim': 234, 'logmel_shape': [32, 188], 'pwp_n_bands': 12, 'pwp_dim': 84, 'fft_bin_width_hz': 7.8125, 'usable_fft_bins_in_band': 49, 'wp_subband_width_hz': 15.625}
+2026-07-22 03:24:38,715 | INFO    | 07_explain_shap:93 | --- rf_mfcc --------------------------------------------------
+2026-07-22 03:24:38,902 | INFO    | 07_explain_shap:108 |   TreeSHAP (exact) on 150 test segments
+2026-07-22 03:24:42,739 | INFO    | 07_explain_shap:122 |   explainer=TreeSHAP  exact=True  base value=0.5000
+2026-07-22 03:24:42,740 | INFO    | 07_explain_shap:127 |      1. mfcc3_mean                       |SHAP|=0.07342 (12.8% of total, consistency 0.61)
+2026-07-22 03:24:42,740 | INFO    | 07_explain_shap:127 |      2. mfcc3_max                        |SHAP|=0.03776 (6.6% of total, consistency 0.51)
+2026-07-22 03:24:42,741 | INFO    | 07_explain_shap:127 |      3. mfcc3_min                        |SHAP|=0.02555 (4.5% of total, consistency 0.66)
+2026-07-22 03:24:42,741 | INFO    | 07_explain_shap:127 |      4. mfcc7_mean                       |SHAP|=0.02474 (4.3% of total, consistency 0.55)
+2026-07-22 03:24:42,741 | INFO    | 07_explain_shap:127 |      5. mfcc6_mean                       |SHAP|=0.02427 (4.2% of total, consistency 0.57)
+2026-07-22 03:24:42,741 | INFO    | 07_explain_shap:127 |      6. dmfcc1_skew                      |SHAP|=0.02324 (4.0% of total, consistency 0.63)
+2026-07-22 03:24:42,741 | INFO    | 07_explain_shap:127 |      7. mfcc4_mean                       |SHAP|=0.01825 (3.2% of total, consistency 0.55)
+2026-07-22 03:24:42,742 | INFO    | 07_explain_shap:127 |      8. ddmfcc0_max                      |SHAP|=0.01661 (2.9% of total, consistency 0.63)
+2026-07-22 03:24:42,765 | INFO    | 07_explain_shap:138 |   frequency peak (approx): 36 Hz, centroid 212 Hz
+2026-07-22 03:24:44,350 | INFO    | 07_explain_shap:93 | --- rf_pwp --------------------------------------------------
+2026-07-22 03:24:44,500 | INFO    | 07_explain_shap:108 |   TreeSHAP (exact) on 150 test segments
+2026-07-22 03:24:48,651 | INFO    | 07_explain_shap:122 |   explainer=TreeSHAP  exact=True  base value=0.5000
+2026-07-22 03:24:48,652 | INFO    | 07_explain_shap:127 |      1. pwp_b0_25-51Hz_shannon_entropy   |SHAP|=0.08162 (14.7% of total, consistency 0.63)
+2026-07-22 03:24:48,652 | INFO    | 07_explain_shap:127 |      2. pwp_b9_291-326Hz_shannon_entropy |SHAP|=0.07297 (13.2% of total, consistency 0.53)
+2026-07-22 03:24:48,652 | INFO    | 07_explain_shap:127 |      3. pwp_b8_257-291Hz_shannon_entropy |SHAP|=0.03614 (6.5% of total, consistency 0.53)
+2026-07-22 03:24:48,652 | INFO    | 07_explain_shap:127 |      4. pwp_b2_77-105Hz_rel_energy       |SHAP|=0.02757 (5.0% of total, consistency 0.62)
+2026-07-22 03:24:48,653 | INFO    | 07_explain_shap:127 |      5. pwp_b0_25-51Hz_rel_energy        |SHAP|=0.02017 (3.6% of total, consistency 0.53)
+2026-07-22 03:24:48,653 | INFO    | 07_explain_shap:127 |      6. pwp_b9_291-326Hz_kurtosis        |SHAP|=0.01742 (3.1% of total, consistency 0.55)
+2026-07-22 03:24:48,653 | INFO    | 07_explain_shap:127 |      7. pwp_b3_105-133Hz_std             |SHAP|=0.01562 (2.8% of total, consistency 0.76)
+2026-07-22 03:24:48,653 | INFO    | 07_explain_shap:127 |      8. pwp_b3_105-133Hz_log_energy      |SHAP|=0.01553 (2.8% of total, consistency 0.77)
+2026-07-22 03:24:48,654 | INFO    | 07_explain_shap:142 |   frequency peak (exact): 38 Hz, centroid 179 Hz
+2026-07-22 03:24:48,654 | INFO    | 07_explain_shap:144 |   descriptor shares: {'entropy': 0.4333, 'energy': 0.3098, 'std': 0.1099, 'kurtosis': 0.0834, 'abs': 0.0529, 'skew': 0.0107}
+2026-07-22 03:24:50,243 | INFO    | 07_explain_shap:93 | --- svm_mfcc --------------------------------------------------
+2026-07-22 03:24:50,365 | INFO    | 07_explain_shap:112 |   KernelSHAP (approximate) on 150 test segments with 50 background points
+2026-07-22 03:43:05,444 | INFO    | 07_explain_shap:122 |   explainer=KernelSHAP  exact=False  base value=0.3340
+2026-07-22 03:43:05,445 | INFO    | 07_explain_shap:127 |      1. mfcc3_mean                       |SHAP|=0.05549 (8.8% of total, consistency 0.62)
+2026-07-22 03:43:05,445 | INFO    | 07_explain_shap:127 |      2. mfcc0_std                        |SHAP|=0.02899 (4.6% of total, consistency 0.61)
+2026-07-22 03:43:05,446 | INFO    | 07_explain_shap:127 |      3. mfcc0_mean                       |SHAP|=0.02419 (3.9% of total, consistency 0.33)
+2026-07-22 03:43:05,446 | INFO    | 07_explain_shap:127 |      4. mfcc3_min                        |SHAP|=0.02224 (3.5% of total, consistency 0.48)
+2026-07-22 03:43:05,446 | INFO    | 07_explain_shap:127 |      5. ddmfcc0_skew                     |SHAP|=0.02202 (3.5% of total, consistency 0.61)
+2026-07-22 03:43:05,446 | INFO    | 07_explain_shap:127 |      6. mfcc1_std                        |SHAP|=0.02103 (3.3% of total, consistency 0.39)
+2026-07-22 03:43:05,446 | INFO    | 07_explain_shap:127 |      7. mfcc3_skew                       |SHAP|=0.01963 (3.1% of total, consistency 0.41)
+2026-07-22 03:43:05,446 | INFO    | 07_explain_shap:127 |      8. mfcc2_mean                       |SHAP|=0.01856 (2.9% of total, consistency 0.46)
+2026-07-22 03:43:05,448 | INFO    | 07_explain_shap:138 |   frequency peak (approx): 36 Hz, centroid 212 Hz
+2026-07-22 03:43:06,798 | INFO    | 07_explain_shap:93 | --- svm_pwp --------------------------------------------------
+2026-07-22 03:43:06,897 | INFO    | 07_explain_shap:112 |   KernelSHAP (approximate) on 150 test segments with 50 background points
+2026-07-22 03:49:44,887 | INFO    | 07_explain_shap:122 |   explainer=KernelSHAP  exact=False  base value=0.3212
+2026-07-22 03:49:44,889 | INFO    | 07_explain_shap:127 |      1. pwp_b0_25-51Hz_shannon_entropy   |SHAP|=0.14023 (13.4% of total, consistency 0.59)
+2026-07-22 03:49:44,890 | INFO    | 07_explain_shap:127 |      2. pwp_b9_291-326Hz_shannon_entropy |SHAP|=0.06890 (6.6% of total, consistency 0.61)
+2026-07-22 03:49:44,890 | INFO    | 07_explain_shap:127 |      3. pwp_b1_51-77Hz_shannon_entropy   |SHAP|=0.06791 (6.5% of total, consistency 0.46)
+2026-07-22 03:49:44,890 | INFO    | 07_explain_shap:127 |      4. pwp_b0_25-51Hz_kurtosis          |SHAP|=0.05666 (5.4% of total, consistency 0.51)
+2026-07-22 03:49:44,891 | INFO    | 07_explain_shap:127 |      5. pwp_b8_257-291Hz_log_energy      |SHAP|=0.03830 (3.7% of total, consistency 0.46)
+2026-07-22 03:49:44,891 | INFO    | 07_explain_shap:127 |      6. pwp_b1_51-77Hz_log_energy        |SHAP|=0.03429 (3.3% of total, consistency 0.64)
+2026-07-22 03:49:44,891 | INFO    | 07_explain_shap:127 |      7. pwp_b1_51-77Hz_kurtosis          |SHAP|=0.03284 (3.1% of total, consistency 0.49)
+2026-07-22 03:49:44,891 | INFO    | 07_explain_shap:127 |      8. pwp_b10_326-362Hz_log_energy     |SHAP|=0.03279 (3.1% of total, consistency 0.67)
+2026-07-22 03:49:44,892 | INFO    | 07_explain_shap:142 |   frequency peak (exact): 38 Hz, centroid 166 Hz
+2026-07-22 03:49:44,893 | INFO    | 07_explain_shap:144 |   descriptor shares: {'entropy': 0.4321, 'energy': 0.2537, 'kurtosis': 0.159, 'std': 0.0752, 'abs': 0.0533, 'skew': 0.0267}
+2026-07-22 03:49:46,587 | INFO    | 07_explain_shap:205 | Cross-model frequency-profile agreement: r=0.572 (moderate)
+2026-07-22 03:49:46,587 | INFO    | 07_explain_shap:208 |   rf_mfcc_vs_rf_pwp: r=0.419
+2026-07-22 03:49:46,587 | INFO    | 07_explain_shap:208 |   rf_mfcc_vs_svm_mfcc: r=0.969
+2026-07-22 03:49:46,588 | INFO    | 07_explain_shap:208 |   rf_mfcc_vs_svm_pwp: r=0.543
+2026-07-22 03:49:46,588 | INFO    | 07_explain_shap:208 |   rf_pwp_vs_svm_mfcc: r=0.285
+2026-07-22 03:49:46,588 | INFO    | 07_explain_shap:208 |   rf_pwp_vs_svm_pwp: r=0.697
+2026-07-22 03:49:46,588 | INFO    | 07_explain_shap:208 |   svm_mfcc_vs_svm_pwp: r=0.521
+2026-07-22 03:49:47,432 | INFO    | 07_explain_shap:261 | Summary written to /workspace/apr-heart-sounds/reports/phase_07_explain_shap/summary.md

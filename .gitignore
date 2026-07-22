@@ -5,17 +5,17 @@ data/processed/
 *.wav
 *.hea
 
-# Generated artifacts. Everything here is reproducible from the code + config,
-# so committing it would only create merge conflicts and stale results.
-models/**/*.joblib
-models/**/*.pt
-models/**/*.json
-results/
-figures/
-reports/
-paper/figs/
-paper/tables/*.tex
-!paper/tables/.gitkeep
+# # Generated artifacts. Everything here is reproducible from the code + config,
+# # so committing it would only create merge conflicts and stale results.
+# models/**/*.joblib
+# models/**/*.pt
+# models/**/*.json
+# results/
+# figures/
+# reports/
+# paper/figs/
+# paper/tables/*.tex
+# !paper/tables/.gitkeep
 
 # LaTeX build products
 paper/*.aux

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Phase 04 - Train SVM and Random Forest on the MFCC and PWP feature sets.
 
 Hyperparameters are selected by grouped, stratified cross-validation on the
@@ -83,9 +82,10 @@ def main() -> int:
             logger.info(f"--- {tag} ---")
 
             with watch.section(f"gridsearch_{tag}"):
-                search, report = run_grid_search(
+                model, report = run_grid_search(          # was: search, report
                     model_name, X_train, y_train, groups_train, cfg,
                     seed=seed, verbose=1 if not args.quiet else 0,
+                    logger=logger,
                 )
 
             logger.info(f"  best params : {report['best_params']}")
@@ -100,7 +100,11 @@ def main() -> int:
                 summary.add_warning(warning)
 
             # ---- validation: segment and recording level -----------------
-            y_prob_val = predict_proba_safe(search.best_estimator_, X_val)
+            # every later `search.best_estimator_` becomes `model`
+            y_prob_val = predict_proba_safe(model, X_val)
+
+            
+
             segment_metrics = compute_metrics(y_val, (y_prob_val >= 0.5).astype(int),
                                               y_prob_val)
 
@@ -132,7 +136,7 @@ def main() -> int:
             all_reports[tag] = report
 
             model_path = models_dir / f"{tag}.joblib"
-            save_joblib(model_path, search.best_estimator_)
+            save_joblib(model_path, model)
             save_json(models_dir / f"{tag}_report.json", report)
             summary.add_artifact(model_path)
 

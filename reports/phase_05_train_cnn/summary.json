@@ -1,0 +1,110 @@
+{
+  "phase": "05_train_cnn",
+  "experiment": "baseline_full",
+  "status": "success",
+  "timestamp_start": "2026-07-22T01:09:11.303771+00:00",
+  "timestamp_end": "2026-07-22T01:10:17.974692+00:00",
+  "duration_seconds": 66.67,
+  "config_hash": "f915b259",
+  "seed": 42,
+  "environment": {
+    "python": "3.11.10",
+    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
+    "hostname": "c67198af10a8",
+    "user": "root",
+    "git_commit": "e70663b",
+    "git_dirty": true,
+    "packages": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "sklearn": "1.9.0",
+      "pandas": "3.0.3",
+      "librosa": "0.11.0",
+      "pywt": "1.8.0",
+      "torch": "2.4.1+cu124",
+      "shap": "0.51.0",
+      "matplotlib": "3.11.1",
+      "joblib": "1.5.3"
+    },
+    "gpu": {
+      "name": "NVIDIA RTX 4000 Ada Generation",
+      "count": 1,
+      "cuda": "12.4",
+      "total_memory_gb": 19.55
+    }
+  },
+  "splits_touched": [
+    "train",
+    "val"
+  ],
+  "inputs_loaded": [],
+  "artifacts_written": [
+    {
+      "path": "/workspace/apr-heart-sounds/models/cnn/cnn_logmel.pt",
+      "mb": 0.421
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/results/evaluation/cnn_training.json",
+      "mb": 0.01
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/figures/fig_training_curves.pdf",
+      "mb": 0.012
+    }
+  ],
+  "parameters": {
+    "epochs_configured": 60,
+    "epochs_run": 17,
+    "batch_size": 64,
+    "learning_rate": 0.001,
+    "augmentation": {
+      "enabled": true,
+      "time_shift": true,
+      "time_shift_max_frac": 0.2,
+      "gaussian_noise": true,
+      "noise_std": 0.01,
+      "spec_augment": false
+    },
+    "device": "cuda",
+    "amp": true
+  },
+  "key_findings": {
+    "n_parameters": 105778,
+    "best_epoch": 5,
+    "early_stopped": true,
+    "val_macc_segment": 0.8915,
+    "val_macc_recording": 0.8441,
+    "training_minutes": 1.0,
+    "gradcam_feature_map_shape": [
+      128,
+      2,
+      11
+    ]
+  },
+  "finding_notes": {
+    "gradcam_feature_map_shape": "Grad-CAM spatial resolution before upsampling"
+  },
+  "tables": {},
+  "assertions": [
+    {
+      "name": "cnn_beats_chance",
+      "result": "PASS",
+      "detail": "val recording MAcc = 0.8441"
+    },
+    {
+      "name": "train_val_gap_acceptable",
+      "result": "PASS",
+      "detail": "final gap = +0.0763"
+    }
+  ],
+  "claim_verdicts": {},
+  "warnings": [],
+  "notes": [
+    "Weights are restored from the best validation epoch, not the last. The test split has not been read in this phase."
+  ],
+  "timings_seconds": {
+    "training": 63.276,
+    "_total": 66.67
+  },
+  "next_phase": "06_evaluate_models"
+}

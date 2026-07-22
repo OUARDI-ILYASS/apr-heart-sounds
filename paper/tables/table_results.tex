@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\caption{Recording-level performance on the held-out test set. MAcc = (Se + Sp)/2 is the primary metric; 95\% bootstrap confidence intervals are resampled over recordings.}
+\label{tab:results}
+\begin{tabular}{lrrrrcrr}
+\toprule
+Model & Acc. & Se. & Sp. & MAcc & 95\textbackslash\{\}\% CI & F1 & AUC \\
+\midrule
+cnn logmel & 0.861 & 0.889 & 0.853 & 0.871 & [0.832, 0.907] & 0.741 & 0.947 \\
+svm mfcc & 0.796 & 0.978 & 0.744 & 0.861 & [0.832, 0.888] & 0.682 & 0.894 \\
+rf mfcc & 0.794 & 0.911 & 0.760 & 0.835 & [0.797, 0.871] & 0.664 & 0.894 \\
+svm pwp & 0.749 & 0.967 & 0.686 & 0.826 & [0.792, 0.855] & 0.633 & 0.877 \\
+rf pwp & 0.759 & 0.911 & 0.715 & 0.813 & [0.775, 0.849] & 0.628 & 0.859 \\
+\bottomrule
+\end{tabular}
+\end{table}

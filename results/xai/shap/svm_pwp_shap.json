@@ -1,0 +1,235 @@
+{
+  "model": "svm_pwp",
+  "domain": "pwp",
+  "explainer": "KernelSHAP",
+  "exact": false,
+  "base_value": 0.321154124599411,
+  "n_explained": 150,
+  "top_features": [
+    {
+      "rank": 1,
+      "feature": "pwp_b0_25-51Hz_shannon_entropy",
+      "mean_abs_shap": 0.140229,
+      "mean_shap": -0.029889,
+      "sign_consistency": 0.593,
+      "share_of_total": 0.1341
+    },
+    {
+      "rank": 2,
+      "feature": "pwp_b9_291-326Hz_shannon_entropy",
+      "mean_abs_shap": 0.068896,
+      "mean_shap": -0.019775,
+      "sign_consistency": 0.613,
+      "share_of_total": 0.0659
+    },
+    {
+      "rank": 3,
+      "feature": "pwp_b1_51-77Hz_shannon_entropy",
+      "mean_abs_shap": 0.067913,
+      "mean_shap": -0.000631,
+      "sign_consistency": 0.46,
+      "share_of_total": 0.065
+    },
+    {
+      "rank": 4,
+      "feature": "pwp_b0_25-51Hz_kurtosis",
+      "mean_abs_shap": 0.056664,
+      "mean_shap": 0.004132,
+      "sign_consistency": 0.507,
+      "share_of_total": 0.0542
+    },
+    {
+      "rank": 5,
+      "feature": "pwp_b8_257-291Hz_log_energy",
+      "mean_abs_shap": 0.038301,
+      "mean_shap": -0.002213,
+      "sign_consistency": 0.46,
+      "share_of_total": 0.0366
+    },
+    {
+      "rank": 6,
+      "feature": "pwp_b1_51-77Hz_log_energy",
+      "mean_abs_shap": 0.034288,
+      "mean_shap": 0.008189,
+      "sign_consistency": 0.64,
+      "share_of_total": 0.0328
+    },
+    {
+      "rank": 7,
+      "feature": "pwp_b1_51-77Hz_kurtosis",
+      "mean_abs_shap": 0.03284,
+      "mean_shap": -0.004522,
+      "sign_consistency": 0.493,
+      "share_of_total": 0.0314
+    },
+    {
+      "rank": 8,
+      "feature": "pwp_b10_326-362Hz_log_energy",
+      "mean_abs_shap": 0.03279,
+      "mean_shap": -0.014067,
+      "sign_consistency": 0.667,
+      "share_of_total": 0.0314
+    },
+    {
+      "rank": 9,
+      "feature": "pwp_b11_362-400Hz_shannon_entropy",
+      "mean_abs_shap": 0.03205,
+      "mean_shap": 0.001272,
+      "sign_consistency": 0.447,
+      "share_of_total": 0.0307
+    },
+    {
+      "rank": 10,
+      "feature": "pwp_b7_225-257Hz_log_energy",
+      "mean_abs_shap": 0.029634,
+      "mean_shap": -0.001137,
+      "sign_consistency": 0.48,
+      "share_of_total": 0.0283
+    },
+    {
+      "rank": 11,
+      "feature": "pwp_b6_193-225Hz_shannon_entropy",
+      "mean_abs_shap": 0.028021,
+      "mean_shap": -0.001657,
+      "sign_consistency": 0.42,
+      "share_of_total": 0.0268
+    },
+    {
+      "rank": 12,
+      "feature": "pwp_b3_105-133Hz_shannon_entropy",
+      "mean_abs_shap": 0.02705,
+      "mean_shap": -0.000578,
+      "sign_consistency": 0.4,
+      "share_of_total": 0.0259
+    },
+    {
+      "rank": 13,
+      "feature": "pwp_b9_291-326Hz_kurtosis",
+      "mean_abs_shap": 0.026003,
+      "mean_shap": 0.008061,
+      "sign_consistency": 0.647,
+      "share_of_total": 0.0249
+    },
+    {
+      "rank": 14,
+      "feature": "pwp_b3_105-133Hz_log_energy",
+      "mean_abs_shap": 0.025965,
+      "mean_shap": -0.008956,
+      "sign_consistency": 0.647,
+      "share_of_total": 0.0248
+    },
+    {
+      "rank": 15,
+      "feature": "pwp_b4_133-163Hz_shannon_entropy",
+      "mean_abs_shap": 0.019046,
+      "mean_shap": 0.005489,
+      "sign_consistency": 0.447,
+      "share_of_total": 0.0182
+    },
+    {
+      "rank": 16,
+      "feature": "pwp_b7_225-257Hz_shannon_entropy",
+      "mean_abs_shap": 0.017306,
+      "mean_shap": 0.000205,
+      "sign_consistency": 0.42,
+      "share_of_total": 0.0166
+    },
+    {
+      "rank": 17,
+      "feature": "pwp_b5_163-193Hz_shannon_entropy",
+      "mean_abs_shap": 0.017105,
+      "mean_shap": 2.7e-05,
+      "sign_consistency": 0.453,
+      "share_of_total": 0.0164
+    },
+    {
+      "rank": 18,
+      "feature": "pwp_b0_25-51Hz_std",
+      "mean_abs_shap": 0.014931,
+      "mean_shap": 0.003066,
+      "sign_consistency": 0.453,
+      "share_of_total": 0.0143
+    },
+    {
+      "rank": 19,
+      "feature": "pwp_b3_105-133Hz_std",
+      "mean_abs_shap": 0.014585,
+      "mean_shap": -0.003505,
+      "sign_consistency": 0.46,
+      "share_of_total": 0.014
+    },
+    {
+      "rank": 20,
+      "feature": "pwp_b3_105-133Hz_rel_energy",
+      "mean_abs_shap": 0.013458,
+      "mean_shap": 0.002082,
+      "sign_consistency": 0.44,
+      "share_of_total": 0.0129
+    }
+  ],
+  "feature_groups": [
+    {
+      "group": "pwp",
+      "total_abs_shap": 1.045417,
+      "share": 1.0,
+      "n_features": 84,
+      "mean_per_feature": 0.012445
+    }
+  ],
+  "frequency_profile": {
+    "band_frequencies_hz": [
+      37.81498170509218,
+      63.897976166591796,
+      90.90304813661042,
+      118.86279459832703,
+      147.81096489283232,
+      177.7825014569098,
+      208.81358200096577,
+      240.94166317801847,
+      274.2055257964605,
+      308.6453216311675,
+      344.30262188945767,
+      381.22046739040417
+    ],
+    "band_edges_hz": [
+      25.000000000000068,
+      50.62996341018429,
+      77.1659889229993,
+      104.64010735022154,
+      133.08548184643251,
+      162.53644793923212,
+      193.02855497458754,
+      224.598609027344,
+      257.284717328693,
+      291.12633426422803,
+      326.164308998107,
+      362.44093478080833,
+      400.0
+    ],
+    "attribution": [
+      0.22672246547411015,
+      0.15212964924606376,
+      0.039684788774501815,
+      0.0854793752554483,
+      0.05354159980175043,
+      0.037926524687589024,
+      0.048945772553933765,
+      0.060988882032490026,
+      0.07292636247221558,
+      0.10596330282639313,
+      0.05346947243002975,
+      0.06222180444547418
+    ],
+    "peak_frequency_hz": 37.81498170509218,
+    "centroid_hz": 166.46587516498562,
+    "per_descriptor_share": {
+      "entropy": 0.4321,
+      "energy": 0.2537,
+      "kurtosis": 0.159,
+      "std": 0.0752,
+      "abs": 0.0533,
+      "skew": 0.0267
+    },
+    "method": "exact band aggregation"
+  }
+}

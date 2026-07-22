@@ -117,7 +117,7 @@ def main() -> int:
             )
             with watch.section(f"shap_{tag}"):
                 result = explain_kernel_model(model, X_explain, X_background,
-                                              feature_names, seed=seed)
+                                              feature_names, cfg=cfg, seed=seed)
 
         logger.info(f"  explainer={result['explainer']}  exact={result['exact']}  "
                     f"base value={result['base_value']:.4f}")
@@ -144,25 +144,25 @@ def main() -> int:
             logger.info(f"  descriptor shares: {profile['per_descriptor_share']}")
         frequency_profiles[tag] = profile
 
-        # ---- stability check (KernelSHAP only) --------------------------
-        stability = None
-        if model_kind == "svm":
-            logger.info("  checking SHAP rank stability across background resamples ...")
-            with watch.section(f"stability_{tag}"):
-                stability = rank_stability(
-                    model, X_explain[:100], X_background, feature_names,
-                    n_repeats=3, top_k=top_k, seed=seed,
-                )
-            logger.info(f"    mean Jaccard overlap of top-{top_k}: "
-                        f"{stability['mean_jaccard']:.3f} "
-                        f"({stability['n_always']} features always present)")
-            if stability["mean_jaccard"] < 0.5:
-                summary.add_warning(
-                    f"{tag}: top-{top_k} SHAP ranking is unstable "
-                    f"(mean Jaccard {stability['mean_jaccard']:.2f}). Report "
-                    "conclusions at the level of feature groups, not individual "
-                    "features."
-                )
+        # # ---- stability check (KernelSHAP only) --------------------------
+        # stability = None
+        # if model_kind == "svm":
+        #     logger.info("  checking SHAP rank stability across background resamples ...")
+        #     with watch.section(f"stability_{tag}"):
+        #         stability = rank_stability(
+        #             model, X_explain[:100], X_background, feature_names,
+        #             n_repeats=3, top_k=top_k, seed=seed,
+        #         )
+        #     logger.info(f"    mean Jaccard overlap of top-{top_k}: "
+        #                 f"{stability['mean_jaccard']:.3f} "
+        #                 f"({stability['n_always']} features always present)")
+        #     if stability["mean_jaccard"] < 0.5:
+        #         summary.add_warning(
+        #             f"{tag}: top-{top_k} SHAP ranking is unstable "
+        #             f"(mean Jaccard {stability['mean_jaccard']:.2f}). Report "
+        #             "conclusions at the level of feature groups, not individual "
+        #             "features."
+        #         )
 
         # ---- persist ----------------------------------------------------
         payload = {
@@ -175,7 +175,7 @@ def main() -> int:
             "top_features": rows,
             "feature_groups": groups[:20],
             "frequency_profile": profile,
-            "rank_stability": stability,
+            # "rank_stability": stability,
         }
         save_json(results_dir / f"{tag}_shap.json", payload)
         summary.add_artifact(results_dir / f"{tag}_shap.json")

@@ -1,0 +1,32 @@
+2026-07-22 03:49:52,251 | INFO    | 08_explain_gradcam:56 | ==============================================================================
+2026-07-22 03:49:52,251 | INFO    | 08_explain_gradcam:57 |   PHASE 08_explain_gradcam: Grad-CAM explanations and saliency sanity checks  
+2026-07-22 03:49:52,251 | INFO    | 08_explain_gradcam:58 | ==============================================================================
+2026-07-22 03:49:52,252 | INFO    | 08_explain_gradcam:78 | Experiment : baseline_full
+2026-07-22 03:49:52,252 | INFO    | 08_explain_gradcam:79 | Config     : /workspace/apr-heart-sounds/configs/config.yaml  (hash bfdef2da)
+2026-07-22 03:49:52,299 | INFO    | 08_explain_gradcam:82 | Seed       : 42 (torch=True, cuda=True)
+2026-07-22 03:49:52,299 | INFO    | 08_explain_gradcam:86 | Shapes     : {'segment_samples': 6000, 'n_frames': 188, 'mfcc_dim': 234, 'logmel_shape': [32, 188], 'pwp_n_bands': 12, 'pwp_dim': 84, 'fft_bin_width_hz': 7.8125, 'usable_fft_bins_in_band': 49, 'wp_subband_width_hz': 15.625}
+2026-07-22 03:49:52,694 | INFO    | 08_explain_gradcam:76 | Loaded CNN from /workspace/apr-heart-sounds/models/cnn/cnn_logmel.pt (best epoch 5)
+2026-07-22 03:49:52,695 | INFO    | 08_explain_gradcam:78 | Grad-CAM feature map: (128, 2, 11) -> upsampled to the log-Mel grid
+2026-07-22 03:49:53,340 | INFO    | 08_explain_gradcam:83 | Segment-level test accuracy: 0.8556
+2026-07-22 03:49:53,587 | INFO    | 08_explain_gradcam:93 | Computing Grad-CAM for the test set ...
+2026-07-22 03:49:54,566 | INFO    | 08_explain_gradcam:100 | Grad-CAM maps: (2756, 32, 188)
+2026-07-22 03:49:54,566 | INFO    | 08_explain_gradcam:103 | Computing Grad-CAM++ as a robustness check ...
+2026-07-22 03:49:54,870 | INFO    | 08_explain_gradcam:115 | Grad-CAM vs Grad-CAM++ agreement: r=0.529
+2026-07-22 03:49:54,937 | INFO    | 08_explain_gradcam:123 |   true_positive: n=727
+2026-07-22 03:49:54,937 | INFO    | 08_explain_gradcam:123 |   true_negative: n=1631
+2026-07-22 03:49:54,938 | INFO    | 08_explain_gradcam:123 |   false_positive: n=372
+2026-07-22 03:49:54,938 | INFO    | 08_explain_gradcam:123 |   false_negative: n=26
+2026-07-22 03:49:55,885 | INFO    | 08_explain_gradcam:138 |   true_positive: frequency centroid 230 Hz, temporal concentration 0.004
+2026-07-22 03:49:55,886 | INFO    | 08_explain_gradcam:138 |   true_negative: frequency centroid 121 Hz, temporal concentration 0.003
+2026-07-22 03:49:55,886 | INFO    | 08_explain_gradcam:144 | Running the Adebayo model-randomisation sanity check ...
+2026-07-22 03:49:55,959 | INFO    | 08_explain_gradcam:149 |   correlation with randomly re-initialised model: -0.104
+2026-07-22 03:49:55,959 | INFO    | 08_explain_gradcam:151 |   Low correlation: Grad-CAM maps depend on learned weights, as required.
+2026-07-22 03:49:55,960 | INFO    | 08_explain_gradcam:167 | Checking sensitivity to the choice of target layer ...
+2026-07-22 03:49:56,102 | INFO    | 08_explain_gradcam:171 |   conv_block_1: temporal concentration 0.062, correlation with last layer None
+2026-07-22 03:49:56,103 | INFO    | 08_explain_gradcam:171 |   conv_block_2: temporal concentration 0.050, correlation with last layer 0.48983241714337056
+2026-07-22 03:49:56,103 | INFO    | 08_explain_gradcam:171 |   conv_block_3: temporal concentration 0.227, correlation with last layer 0.09202393617852042
+2026-07-22 03:49:56,103 | INFO    | 08_explain_gradcam:171 |   conv_block_4: temporal concentration 0.034, correlation with last layer 0.1347387771416498
+2026-07-22 03:49:56,103 | INFO    | 08_explain_gradcam:178 | Checking whether attribution merely tracks signal energy ...
+2026-07-22 03:49:57,048 | INFO    | 08_explain_gradcam:182 |   mean correlation with the RMS envelope: -0.024
+2026-07-22 03:49:57,048 | INFO    | 08_explain_gradcam:184 |   Attribution is largely independent of raw energy, supporting a phase-specific rather than loudness-driven interpretation.
+2026-07-22 03:49:59,622 | INFO    | 08_explain_gradcam:233 | Summary written to /workspace/apr-heart-sounds/reports/phase_08_explain_gradcam/summary.md

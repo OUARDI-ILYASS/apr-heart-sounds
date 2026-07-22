@@ -242,12 +242,6 @@ clustering:
 # CLASSICAL MODELS
 # -----------------------------------------------------------------------------
 classical:
-  # PROFESSOR Q: "Why StratifiedGroupKFold and not plain StratifiedKFold?"
-  # A: Because segments from the same recording are highly correlated (same
-  #    patient, same stethoscope, same murmur). If two segments of one
-  #    recording land in different CV folds, the model has effectively seen
-  #    the test example during training. Grouping by recording_id eliminates
-  #    this. The 'Stratified' part additionally preserves class balance.
   cv_folds: 5
   cv_strategy: "stratified_group_kfold"
   scoring: "balanced_accuracy"  # == MAcc = (Se+Sp)/2, the official CinC metric
@@ -255,23 +249,42 @@ classical:
 
   feature_sets: ["mfcc", "pwp"]  # log-Mel goes to the CNN, not to SVM/RF
 
+  # ---------------------------------------------------------------------------
+  # SEARCH ACCELERATION (see src/models/classical.py for the full rationale)
+  #   - Rank candidates on a few segments per recording (segments are
+  #     near-duplicates within a recording, so ranking does not need all of them).
+  #   - Then re-score the top-k on the FULL training set and choose there. The
+  #     subsample PRUNES; the full data DECIDES. This is required: a subsample
+  #     can mis-rank models, especially with gamma='scale', whose value depends
+  #     on the training-set variance.
+  #   - segments_per_recording: 0 disables subsampling (exhaustive full search;
+  #     use once to confirm the fast path selects the same hyperparameters).
+  # ---------------------------------------------------------------------------
+  search:
+    segments_per_recording: 4    # raised from 2: 2 was too thin and mis-ranked
+    refit_top_k: 3               # shortlist re-scored on full data
+
   svm:
     kernel: "rbf"
     class_weight: "balanced"    # Compensates the ~1:3 abnormal:normal ratio
-    probability: true           # Needed for ROC-AUC and probability averaging
+    probability: true           # Restored for the final refit; OFF during search
+    cache_size: 2000            # MB. libsvm kernel cache; 200 (default) thrashes.
+    max_iter: -1                # Guard against a non-converging corner candidate.
     grid:
       C: [0.1, 1.0, 10.0, 100.0]
-      gamma: ["scale", 0.001, 0.01, 0.1]
+      # Absolute gamma values only. 'scale' == 1/(n_features * X.var()) changes
+      # meaning when the training set is subsampled, which mis-ranked the search.
+      # These bracket the full-search winner (gamma=0.001).
+      gamma: [0.0005, 0.001, 0.005, 0.01]
 
   random_forest:
     class_weight: "balanced_subsample"
-    n_jobs: -1
+    n_jobs: -1                  # Forced to 1 inside the search; applies to refit.
     grid:
       n_estimators: [200, 500]
       max_depth: [null, 10, 20]
       min_samples_leaf: [1, 2, 5]
       max_features: ["sqrt", 0.3]
-
 # -----------------------------------------------------------------------------
 # CNN
 # -----------------------------------------------------------------------------
@@ -354,14 +367,17 @@ evaluation:
 # EXPLAINABILITY
 # -----------------------------------------------------------------------------
 xai:
+
+    
   shap:
     # TreeExplainer is exact and fast for forests. KernelSHAP is a
     # model-agnostic approximation and is expensive (O(n_background * n_samples)),
     # so we subsample aggressively for the SVM.
     tree_models: ["rf_mfcc", "rf_pwp"]
     kernel_models: ["svm_mfcc"]
-    background_size: 100
-    explain_subsample: 500
+    background_size: 50        # was 100 — linear in cost
+    explain_subsample: 150     # was 500 — linear in cost
+    nsamples: 512              # was "auto" (~2516) — linear in cost
     top_k_features: 20
     # Mapping cepstral coefficients back to frequency:
     # MFCCs are a DCT of the log-mel spectrum, so coefficient i is not tied to

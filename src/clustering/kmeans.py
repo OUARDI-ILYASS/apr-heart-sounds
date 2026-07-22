@@ -82,8 +82,8 @@ def elbow_point(k_values: List[int], inertias: List[float]) -> int:
         return int(k[0])
 
     # Normalise both axes so the "distance to the chord" is scale-free.
-    k_norm = (k - k.min()) / max(k.ptp(), 1e-12)
-    i_norm = (inertia - inertia.min()) / max(inertia.ptp(), 1e-12)
+    k_norm = (k - k.min()) / max(np.ptp(k), 1e-12)
+    i_norm = (inertia - inertia.min()) / max(np.ptp(inertia), 1e-12)
 
     start = np.array([k_norm[0], i_norm[0]])
     end = np.array([k_norm[-1], i_norm[-1]])

@@ -62,35 +62,81 @@ def explain_tree_model(model, X_explain: np.ndarray,
                     base_value=_scalar_base(explainer.expected_value))
 
 
+import numpy as np
+import shap
+from typing import Dict, List
+from joblib import Parallel, delayed, cpu_count
+import time
+import sys
+
 def explain_kernel_model(model, X_explain: np.ndarray, X_background: np.ndarray,
-                         feature_names: List[str], n_samples: str | int = "auto",
+                         feature_names: List[str], cfg: Dict, n_jobs: int = -1,
                          seed: int = 42) -> Dict[str, object]:
-    """KernelSHAP for the SVM.
-
-    ``X_background`` is the reference distribution against which contributions
-    are measured - conceptually, "what the model would predict knowing nothing".
-    We use a k-means summary of the training data rather than random rows: it
-    covers the feature space more evenly for the same number of reference
-    points, which materially reduces the variance of the estimate.
-    """
-    import shap
-
+    """KernelSHAP for the SVM with thread-safe parallelization."""
+    # Extract config values
+    shap_cfg = cfg.get("xai", {}).get("shap", {})
+    bg_size = int(shap_cfg.get("background_size", 50))
+    nsamples = int(shap_cfg.get("nsamples", 512))
+    
     background = np.asarray(X_background, dtype=np.float64)
-    if len(background) > 100:
-        background = shap.kmeans(background, 100)
+    if len(background) > bg_size:
+        background = shap.kmeans(background, bg_size)
 
     predict_fn = _make_predict_fn(model)
-    explainer = shap.KernelExplainer(predict_fn, background)
-    values = explainer.shap_values(
-        np.asarray(X_explain, dtype=np.float64),
-        nsamples=n_samples, silent=True,
+    X_explain_array = np.asarray(X_explain, dtype=np.float64)
+    
+    # 1. Resolve exact worker count
+    n_splits = cpu_count() if n_jobs == -1 else n_jobs
+    
+    # 2. Guard: Don't create more chunks than rows to explain
+    n_splits = min(n_splits, len(X_explain_array))
+    chunks = np.array_split(X_explain_array, n_splits)
+    
+    # Helper worker function to initialize the explainer independently per process
+     # Create an enumeration loop to give workers an identifiable ID
+    def _worker_explain(chunk, worker_id):
+        # Prevent logging noise if the chunk is completely empty
+        if len(chunk) == 0:
+            return np.array([])
+            
+        start_time = time.time()
+        print(f"[Worker {worker_id}] Starting SHAP evaluation on {len(chunk)} rows...", file=sys.stderr)
+        sys.stderr.flush() # Forces immediate printing in parallel environments
+        
+        local_explainer = shap.KernelExplainer(predict_fn, background)
+        
+        # Calculate values
+        res = local_explainer.shap_values(
+            chunk, 
+            nsamples=nsamples,
+            l1_reg="num_features(40)",
+            silent=True
+        )
+        
+        elapsed = time.time() - start_time
+        print(f"[Worker {worker_id}] Finished in {elapsed:.2f} seconds. (Avg: {elapsed/len(chunk):.2f}s per row)", file=sys.stderr)
+        sys.stderr.flush()
+        
+        return res
+
+    # 3. Parallelise using localized workers
+    # prefer="threads" can be used if predict_fn releases the GIL, 
+    # but "processes" (default) is safer for SVM predict_proba scaling.
+    raw_values = Parallel(n_jobs=n_jobs)(
+        delayed(_worker_explain)(c, idx) for idx, c in enumerate(chunks)
     )
+    
+    # Concatenate results along the sample axis
+    values = np.concatenate(raw_values, axis=0)
+    
     values = _select_positive_class(values)
 
-    return _package(values, X_explain, feature_names,
-                    explainer_type="KernelSHAP", exact=False,
-                    base_value=_scalar_base(explainer.expected_value))
+    # We instantiate a dummy/temporary explainer here just to extract expected_value
+    base_explainer = shap.KernelExplainer(predict_fn, background)
 
+    return _package(values, X_explain_array, feature_names,
+                    explainer_type="KernelSHAP", exact=False,
+                    base_value=_scalar_base(base_explainer.expected_value))
 
 def _unwrap_estimator(model):
     """Get the raw estimator out of an sklearn Pipeline."""
@@ -380,7 +426,7 @@ def rank_stability(model, X_explain: np.ndarray, X_background: np.ndarray,
     for _ in range(n_repeats):
         indices = rng.choice(len(background), min(100, len(background)), replace=False)
         result = explain_kernel_model(model, X_explain, background[indices],
-                                      feature_names, seed=seed)
+                                      feature_names, cfg = cfg, seed=seed)
         order = np.argsort(-result["mean_abs_shap"])[:top_k]
         top_sets.append({feature_names[i] for i in order})
 

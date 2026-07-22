@@ -1,0 +1,166 @@
+{
+  "phase": "00_download_data",
+  "experiment": "baseline_full",
+  "status": "success",
+  "timestamp_start": "2026-07-21T19:05:51.818657+00:00",
+  "timestamp_end": "2026-07-21T19:07:21.599367+00:00",
+  "duration_seconds": 89.78,
+  "config_hash": "8ae8dd4e",
+  "seed": 42,
+  "environment": {
+    "python": "3.11.10",
+    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
+    "hostname": "c67198af10a8",
+    "user": "root",
+    "git_commit": "e70663b",
+    "git_dirty": true,
+    "packages": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "sklearn": "1.9.0",
+      "pandas": "3.0.3",
+      "librosa": "0.11.0",
+      "pywt": "1.8.0",
+      "torch": "2.4.1+cu124",
+      "shap": "0.51.0",
+      "matplotlib": "3.11.1",
+      "joblib": "1.5.3"
+    },
+    "gpu": {
+      "name": "NVIDIA RTX 4000 Ada Generation",
+      "count": 1,
+      "cuda": "12.4",
+      "total_memory_gb": 19.55
+    }
+  },
+  "splits_touched": [],
+  "inputs_loaded": [],
+  "artifacts_written": [
+    {
+      "path": "/workspace/apr-heart-sounds/data/interim/raw_census.csv",
+      "mb": 0.216,
+      "n_rows": 2693
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/interim/raw_census_stats.json",
+      "mb": 0.002
+    }
+  ],
+  "parameters": {
+    "download_status": {
+      "training-c": "already_present",
+      "training-d": "already_present",
+      "training-a": "already_present",
+      "training-b": "already_present",
+      "training-f": "already_present",
+      "training-e": "already_present"
+    },
+    "subdatabases": [
+      "training-a",
+      "training-b",
+      "training-c",
+      "training-d",
+      "training-e",
+      "training-f"
+    ],
+    "raw_dir": "/workspace/apr-heart-sounds/data/raw/physionet2016"
+  },
+  "key_findings": {
+    "n_recordings": 2693,
+    "pct_abnormal": 22.58,
+    "imbalance_ratio": 3.43,
+    "duration_total_hours": 16.76,
+    "prevalence_spread_pp": 69.5
+  },
+  "finding_notes": {
+    "pct_abnormal": "Class imbalance drives every design decision downstream",
+    "prevalence_spread_pp": "Difference in abnormal rate between the most and least pathological sub-database. A large spread means site identity is predictive of the label, which is exactly the shortcut the stratified splits prevent."
+  },
+  "tables": {
+    "per_subdatabase": [
+      {
+        "subdb": "training-a",
+        "n": 409,
+        "n_abnormal": 292,
+        "mean_duration_s": 32.58705134474327,
+        "total_minutes": 222.1350666666667,
+        "n_normal": 117,
+        "pct_abnormal": 71.4
+      },
+      {
+        "subdb": "training-b",
+        "n": 490,
+        "n_abnormal": 104,
+        "mean_duration_s": 7.980061224489796,
+        "total_minutes": 65.1705,
+        "n_normal": 386,
+        "pct_abnormal": 21.2
+      },
+      {
+        "subdb": "training-c",
+        "n": 31,
+        "n_abnormal": 24,
+        "mean_duration_s": 49.43487096774194,
+        "total_minutes": 25.541349999999998,
+        "n_normal": 7,
+        "pct_abnormal": 77.4
+      },
+      {
+        "subdb": "training-d",
+        "n": 55,
+        "n_abnormal": 28,
+        "mean_duration_s": 15.147672727272726,
+        "total_minutes": 13.885366666666668,
+        "n_normal": 27,
+        "pct_abnormal": 50.9
+      },
+      {
+        "subdb": "training-e",
+        "n": 1594,
+        "n_abnormal": 126,
+        "mean_duration_s": 23.191784818067756,
+        "total_minutes": 616.1284166666667,
+        "n_normal": 1468,
+        "pct_abnormal": 7.9
+      },
+      {
+        "subdb": "training-f",
+        "n": 114,
+        "n_abnormal": 34,
+        "mean_duration_s": 33.11767543859649,
+        "total_minutes": 62.923583333333326,
+        "n_normal": 80,
+        "pct_abnormal": 29.8
+      }
+    ]
+  },
+  "assertions": [
+    {
+      "name": "all_subdatabases_present",
+      "result": "PASS",
+      "detail": "6 sub-databases found"
+    },
+    {
+      "name": "wav_header_counts_match",
+      "result": "PASS",
+      "detail": "every .wav has a matching .hea"
+    },
+    {
+      "name": "single_sample_rate",
+      "result": "PASS",
+      "detail": "sample rates present: [2000]"
+    }
+  ],
+  "claim_verdicts": {},
+  "warnings": [],
+  "notes": [
+    "Abnormal prevalence ranges over 70 percentage points across sub-databases. Splits are stratified jointly on (label, subdb) in phase 01, and per-site metrics are reported in phase 06 so any site shortcut would be visible."
+  ],
+  "timings_seconds": {
+    "download": 0.018,
+    "verify": 0.207,
+    "census": 89.17,
+    "_total": 89.78
+  },
+  "next_phase": "01_preprocess_audio"
+}

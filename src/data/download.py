@@ -32,6 +32,8 @@ import numpy as np
 import pandas as pd
 
 from ..utils.io import ensure_dir
+import wfdb
+
 
 
 def _sha256(path: Path, chunk: int = 1 << 20) -> str:
@@ -61,47 +63,55 @@ def download_file(url: str, dest: Path, force: bool = False) -> Path:
     return dest
 
 
+import subprocess
+import concurrent.futures
+from pathlib import Path
+from typing import List, Dict
+
 def download_dataset(raw_dir: str | Path, base_url: str,
                      subdatabases: List[str], force: bool = False) -> Dict[str, str]:
-    """Fetch and unpack the training sub-databases.
-
-    PhysioNet serves both a full zip and per-subdatabase zips. We use the
-    per-subdatabase route so a failure mid-way only costs one archive.
-
-    NOTE: if your machine is behind a proxy that blocks physionet.org, download
-    the archive manually and place it in ``data/raw/`` - this function will
-    detect an already-extracted directory and skip the fetch.
-    """
-    raw_dir = ensure_dir(raw_dir)
+    """Fetch the training sub-databases concurrently using system wget."""
+    raw_dir = Path(raw_dir)
+    raw_dir.mkdir(parents=True, exist_ok=True)
     status: Dict[str, str] = {}
 
-    for subdb in subdatabases:
+    def _download_subset(subdb: str) -> tuple[str, str]:
+        """Helper function to download a single subset."""
         target = raw_dir / subdb
         if target.exists() and any(target.glob("*.wav")) and not force:
-            status[subdb] = "already_present"
-            continue
+            return subdb, "already_present"
 
-        url = f"{base_url.rstrip('/')}/{subdb}.zip"
-        archive = raw_dir / f"{subdb}.zip"
+        url = f"{base_url.rstrip('/')}/{subdb}/"
+        print(f"Starting download: {subdb}...")
+        
         try:
-            download_file(url, archive, force=force)
-            with zipfile.ZipFile(archive) as zf:
-                zf.extractall(raw_dir)
-            archive.unlink(missing_ok=True)
-            status[subdb] = "downloaded"
-        except Exception as exc:  # network, 404, proxy, ...
-            status[subdb] = f"failed: {type(exc).__name__}: {exc}"
+            # Added '-q' to prevent concurrent progress bars from mangling the console
+            subprocess.run([
+                "wget", "-q",
+                "-r", "-N", "-c", "-np", "-nH",
+                "--cut-dirs=3", 
+                "-P", str(raw_dir), 
+                url
+            ], check=True)
+            return subdb, "downloaded"
+            
+        except subprocess.CalledProcessError as exc:
+            return subdb, f"failed: wget error {exc.returncode}"
+        except FileNotFoundError:
+            return subdb, "failed: wget is not installed or not in PATH"
 
-    # PhysioNet nests the folders one level deep in some mirrors; flatten it.
-    for subdb in subdatabases:
-        nested = raw_dir / subdb / subdb
-        if nested.exists():
-            for item in nested.iterdir():
-                shutil.move(str(item), str(raw_dir / subdb / item.name))
-            nested.rmdir()
+    # Execute downloads in parallel
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        # Submit all tasks to the thread pool
+        futures = {executor.submit(_download_subset, subdb): subdb for subdb in subdatabases}
+        
+        # Process results as they complete
+        for future in concurrent.futures.as_completed(futures):
+            subdb, stat = future.result()
+            status[subdb] = stat
+            print(f"[{stat.upper()}] {subdb}")
 
     return status
-
 
 def verify_dataset(raw_dir: str | Path, subdatabases: List[str],
                    expected_counts: Optional[Dict[str, int]] = None) -> Dict[str, Dict]:

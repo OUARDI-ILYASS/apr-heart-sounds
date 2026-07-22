@@ -1,0 +1,125 @@
+{
+  "phase": "08_explain_gradcam",
+  "experiment": "baseline_full",
+  "status": "success",
+  "timestamp_start": "2026-07-22T03:49:52.299778+00:00",
+  "timestamp_end": "2026-07-22T03:49:58.739722+00:00",
+  "duration_seconds": 6.44,
+  "config_hash": "bfdef2da",
+  "seed": 42,
+  "environment": {
+    "python": "3.11.10",
+    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
+    "hostname": "c67198af10a8",
+    "user": "root",
+    "git_commit": "e70663b",
+    "git_dirty": true,
+    "packages": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "sklearn": "1.9.0",
+      "pandas": "3.0.3",
+      "librosa": "0.11.0",
+      "pywt": "1.8.0",
+      "torch": "2.4.1+cu124",
+      "shap": "0.51.0",
+      "matplotlib": "3.11.1",
+      "joblib": "1.5.3"
+    },
+    "gpu": {
+      "name": "NVIDIA RTX 4000 Ada Generation",
+      "count": 1,
+      "cuda": "12.4",
+      "total_memory_gb": 19.55
+    }
+  },
+  "splits_touched": [
+    "test"
+  ],
+  "inputs_loaded": [],
+  "artifacts_written": [
+    {
+      "path": "/workspace/apr-heart-sounds/figures/fig_average_cams.pdf",
+      "mb": 0.203
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/results/xai/gradcam/gradcam_results.npz",
+      "shape": [
+        2756,
+        32,
+        188
+      ],
+      "dtype": "float64",
+      "n_elements": 16580096,
+      "mb": 126.5,
+      "min": 0.0,
+      "max": 0.01529947912080614,
+      "mean": 0.00016622340425531914,
+      "std": 0.0003896030422103841,
+      "n_nan": 0,
+      "n_inf": 0
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/results/xai/gradcam/gradcam_analysis.json",
+      "mb": 0.026
+    }
+  ],
+  "parameters": {
+    "target_layer": "conv_block_4",
+    "normalize": "unit_mass",
+    "upsample_mode": "bilinear"
+  },
+  "key_findings": {
+    "gradcam_vs_gradcampp_correlation": 0.5291,
+    "gradcam_energy_correlation": -0.0244
+  },
+  "finding_notes": {
+    "gradcam_vs_gradcampp_correlation": "High agreement means the conclusion is not an artefact of the specific CAM variant chosen",
+    "gradcam_energy_correlation": "Correlation between the temporal attribution profile and the signal envelope. High values would mean the CNN is an energy detector rather than a murmur detector."
+  },
+  "tables": {
+    "layer_sensitivity": [
+      {
+        "layer": "conv_block_1",
+        "mean_temporal_concentration": 0.06216247492013616,
+        "correlation_with_last": null
+      },
+      {
+        "layer": "conv_block_2",
+        "mean_temporal_concentration": 0.0496119917060512,
+        "correlation_with_last": 0.48983241714337056
+      },
+      {
+        "layer": "conv_block_3",
+        "mean_temporal_concentration": 0.2272780458444511,
+        "correlation_with_last": 0.09202393617852042
+      },
+      {
+        "layer": "conv_block_4",
+        "mean_temporal_concentration": 0.03435460510695339,
+        "correlation_with_last": 0.1347387771416498
+      }
+    ]
+  },
+  "assertions": [
+    {
+      "name": "gradcam_passes_randomization_check",
+      "result": "PASS",
+      "detail": "|r| with random model = 0.104 (threshold 0.30)"
+    }
+  ],
+  "claim_verdicts": {},
+  "warnings": [],
+  "notes": [
+    "Grad-CAM's native resolution here is 2 frequency x 11 time cells. We therefore make temporal claims only; frequency claims come from the PWP SHAP analysis in phase 07, where the band mapping is exact."
+  ],
+  "timings_seconds": {
+    "gradcam": 0.978,
+    "gradcampp": 0.228,
+    "sanity_randomization": 0.073,
+    "layer_sensitivity": 0.142,
+    "energy_confound": 0.944,
+    "_total": 6.439
+  },
+  "next_phase": "09_cycle_alignment"
+}

@@ -1,0 +1,83 @@
+{
+  "phase": "11_build_report_assets",
+  "experiment": "baseline_full",
+  "status": "success",
+  "timestamp_start": "2026-07-22T03:50:41.522258+00:00",
+  "timestamp_end": "2026-07-22T03:50:44.118579+00:00",
+  "duration_seconds": 2.6,
+  "config_hash": "bfdef2da",
+  "seed": 42,
+  "environment": {
+    "python": "3.11.10",
+    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
+    "hostname": "c67198af10a8",
+    "user": "root",
+    "git_commit": "e70663b",
+    "git_dirty": true,
+    "packages": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "sklearn": "1.9.0",
+      "pandas": "3.0.3",
+      "librosa": "0.11.0",
+      "pywt": "1.8.0",
+      "torch": "2.4.1+cu124",
+      "shap": "0.51.0",
+      "matplotlib": "3.11.1",
+      "joblib": "1.5.3"
+    },
+    "gpu": {
+      "name": "NVIDIA RTX 4000 Ada Generation",
+      "count": 1,
+      "cuda": "12.4",
+      "total_memory_gb": 19.55
+    }
+  },
+  "splits_touched": [],
+  "inputs_loaded": [],
+  "artifacts_written": [
+    {
+      "path": "/workspace/apr-heart-sounds/reports/PIPELINE_STATUS.md",
+      "mb": 0.003
+    }
+  ],
+  "parameters": {},
+  "key_findings": {
+    "phases_reading_test_split": [
+      "01_preprocess_audio",
+      "02_extract_features",
+      "06_evaluate_models",
+      "07_explain_shap",
+      "08_explain_gradcam",
+      "09_cycle_alignment"
+    ],
+    "n_latex_tables": 7,
+    "n_figures_copied": 77,
+    "claim_verdicts": {
+      "C1": "contradicted",
+      "C2": "supported",
+      "C3": "supported",
+      "C4": "weak",
+      "C5": "contradicted"
+    }
+  },
+  "finding_notes": {},
+  "tables": {},
+  "assertions": [
+    {
+      "name": "test_split_not_used_for_selection",
+      "result": "FAIL",
+      "detail": "Phases 03-05 (clustering, classical training, CNN training) must not appear in this list. Actual readers: ['01_preprocess_audio', '02_extract_features', '06_evaluate_models', '07_explain_shap', '08_explain_gradcam', '09_cycle_alignment']"
+    }
+  ],
+  "claim_verdicts": {},
+  "warnings": [],
+  "notes": [
+    "Claims ['C1', 'C4', 'C5'] are weak or contradicted. These must be stated as such in the paper. A contradicted claim reported honestly is a result; a contradicted claim quietly dropped is misconduct."
+  ],
+  "timings_seconds": {
+    "collect_summaries": 0.08,
+    "_total": 2.596
+  },
+  "next_phase": null
+}

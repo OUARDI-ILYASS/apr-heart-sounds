@@ -1,0 +1,394 @@
+{
+  "phase": "02_extract_features",
+  "experiment": "baseline_full",
+  "status": "success",
+  "timestamp_start": "2026-07-21T19:09:43.650460+00:00",
+  "timestamp_end": "2026-07-21T19:19:06.463887+00:00",
+  "duration_seconds": 562.81,
+  "config_hash": "8ae8dd4e",
+  "seed": 42,
+  "environment": {
+    "python": "3.11.10",
+    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
+    "hostname": "c67198af10a8",
+    "user": "root",
+    "git_commit": "e70663b",
+    "git_dirty": true,
+    "packages": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "sklearn": "1.9.0",
+      "pandas": "3.0.3",
+      "librosa": "0.11.0",
+      "pywt": "1.8.0",
+      "torch": "2.4.1+cu124",
+      "shap": "0.51.0",
+      "matplotlib": "3.11.1",
+      "joblib": "1.5.3"
+    },
+    "gpu": {
+      "name": "NVIDIA RTX 4000 Ada Generation",
+      "count": 1,
+      "cuda": "12.4",
+      "total_memory_gb": 19.55
+    }
+  },
+  "splits_touched": [
+    "train",
+    "val",
+    "test"
+  ],
+  "inputs_loaded": [
+    {
+      "path": "/workspace/apr-heart-sounds/data/interim/segment_index.csv",
+      "n_segments": 30935
+    }
+  ],
+  "artifacts_written": [
+    {
+      "path": "/workspace/apr-heart-sounds/models/scalers/mfcc_scaler.joblib",
+      "mb": 0.006
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/mfcc/features_train.npy",
+      "shape": [
+        25365,
+        234
+      ],
+      "dtype": "float32",
+      "n_elements": 5935410,
+      "mb": 22.64,
+      "min": -16.555816650390625,
+      "max": 47.33580780029297,
+      "mean": -1.9743791046522574e-09,
+      "std": 1.0,
+      "n_nan": 0,
+      "n_inf": 0
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/mfcc/features_val.npy",
+      "shape": [
+        2814,
+        234
+      ],
+      "dtype": "float32",
+      "n_elements": 658476,
+      "mb": 2.51,
+      "min": -10.50202465057373,
+      "max": 22.803325653076172,
+      "mean": -0.003074357518926263,
+      "std": 0.9807087779045105,
+      "n_nan": 0,
+      "n_inf": 0
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/mfcc/features_test.npy",
+      "shape": [
+        2756,
+        234
+      ],
+      "dtype": "float32",
+      "n_elements": 644904,
+      "mb": 2.46,
+      "min": -16.649471282958984,
+      "max": 51.65195083618164,
+      "mean": 0.006698715500533581,
+      "std": 1.0328024625778198,
+      "n_nan": 0,
+      "n_inf": 0
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/mfcc/feature_names.json",
+      "mb": 0.004,
+      "n_names": 234
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/models/scalers/logmel_norm.json",
+      "mb": 0.001
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/logmel/features_train.npy",
+      "shape": [
+        25365,
+        32,
+        188
+      ],
+      "dtype": "float32",
+      "n_elements": 152595840,
+      "mb": 582.11,
+      "min": -7.087920188903809,
+      "max": 5.236964225769043,
+      "mean": 3.276629190196445e-09,
+      "std": 1.0,
+      "n_nan": 0,
+      "n_inf": 0
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/logmel/features_val.npy",
+      "shape": [
+        2814,
+        32,
+        188
+      ],
+      "dtype": "float32",
+      "n_elements": 16929024,
+      "mb": 64.58,
+      "min": -7.087920188903809,
+      "max": 5.284834384918213,
+      "mean": -0.018216976895928383,
+      "std": 0.9664196372032166,
+      "n_nan": 0,
+      "n_inf": 0
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/logmel/features_test.npy",
+      "shape": [
+        2756,
+        32,
+        188
+      ],
+      "dtype": "float32",
+      "n_elements": 16580096,
+      "mb": 63.25,
+      "min": -7.087920188903809,
+      "max": 4.663783550262451,
+      "mean": -0.03653987497091293,
+      "std": 0.9918477535247803,
+      "n_nan": 0,
+      "n_inf": 0
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/logmel/feature_names.json",
+      "mb": 0.126,
+      "n_names": 6016
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/models/scalers/pwp_scaler.joblib",
+      "mb": 0.002
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/pwp/features_train.npy",
+      "shape": [
+        25365,
+        84
+      ],
+      "dtype": "float32",
+      "n_elements": 2130660,
+      "mb": 8.13,
+      "min": -28.458881378173828,
+      "max": 24.724472045898438,
+      "mean": -7.333408547083309e-09,
+      "std": 1.0,
+      "n_nan": 0,
+      "n_inf": 0
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/pwp/features_val.npy",
+      "shape": [
+        2814,
+        84
+      ],
+      "dtype": "float32",
+      "n_elements": 236376,
+      "mb": 0.9,
+      "min": -6.569333553314209,
+      "max": 53.25297164916992,
+      "mean": -0.012296829372644424,
+      "std": 0.9737155437469482,
+      "n_nan": 0,
+      "n_inf": 0
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/pwp/features_test.npy",
+      "shape": [
+        2756,
+        84
+      ],
+      "dtype": "float32",
+      "n_elements": 231504,
+      "mb": 0.88,
+      "min": -11.547063827514648,
+      "max": 14.84399127960205,
+      "mean": -0.015907874330878258,
+      "std": 0.9784525632858276,
+      "n_nan": 0,
+      "n_inf": 0
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/pwp/feature_names.json",
+      "mb": 0.002,
+      "n_names": 84
+    }
+  ],
+  "parameters": {
+    "mfcc_config": {
+      "domain": "mfcc",
+      "sr": 2000.0,
+      "output_shape": [
+        234
+      ],
+      "n_features": 234,
+      "n_fft": 256,
+      "hop_length": 32,
+      "n_mels": 32,
+      "n_mfcc": 13,
+      "fmin": 25.0,
+      "fmax": 400.0,
+      "use_delta": true,
+      "use_delta2": true,
+      "aggregations": [
+        "mean",
+        "std",
+        "min",
+        "max",
+        "skew",
+        "kurtosis"
+      ],
+      "n_streams": 3,
+      "window_ms": 128.0,
+      "hop_ms": 16.0
+    },
+    "logmel_config": {
+      "domain": "logmel",
+      "sr": 2000.0,
+      "output_shape": [
+        32,
+        188
+      ],
+      "n_features": 6016,
+      "scale": "mel",
+      "n_fft": 256,
+      "hop_length": 32,
+      "n_mels": 32,
+      "n_frames": 188,
+      "fmin": 25.0,
+      "fmax": 400.0,
+      "window_ms": 128.0,
+      "hop_ms": 16.0,
+      "freq_resolution_hz": 7.81
+    },
+    "pwp_config": {
+      "domain": "pwp",
+      "sr": 2000.0,
+      "output_shape": [
+        84
+      ],
+      "n_features": 84,
+      "wavelet": "db4",
+      "level": 6,
+      "node_order": "freq",
+      "n_nodes_total": 64,
+      "n_nodes_kept": 25,
+      "node_width_hz": 15.625,
+      "n_perceptual_bands": 12,
+      "perceptual_grouping": true,
+      "band_edges_hz": [
+        25.0,
+        50.6,
+        77.2,
+        104.6,
+        133.1,
+        162.5,
+        193.0,
+        224.6,
+        257.3,
+        291.1,
+        326.2,
+        362.4,
+        400.0
+      ],
+      "descriptors": [
+        "log_energy",
+        "rel_energy",
+        "shannon_entropy",
+        "std",
+        "skew",
+        "kurtosis",
+        "max_abs"
+      ],
+      "nodes_per_band": [
+        2,
+        2,
+        2,
+        2,
+        1,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
+        3
+      ]
+    }
+  },
+  "key_findings": {
+    "mfcc_scaler_report": {
+      "n_features": 234,
+      "n_near_constant": 0,
+      "near_constant_features": [],
+      "scale_min": 0.025787638612285745,
+      "scale_max": 49.51787495024726
+    },
+    "mfcc_dim": 234,
+    "mfcc_window_ms": 128.0,
+    "logmel_n_degenerate_bands": 0,
+    "logmel_dim": 6016,
+    "logmel_shape": [
+      32,
+      188
+    ],
+    "logmel_freq_resolution_hz": 7.81,
+    "pwp_scaler_report": {
+      "n_features": 84,
+      "n_near_constant": 0,
+      "near_constant_features": [],
+      "scale_min": 0.004399021608900277,
+      "scale_max": 16.987531413890377
+    },
+    "pwp_dim": 84
+  },
+  "finding_notes": {
+    "logmel_n_degenerate_bands": "Mel bands with (near) zero training variance",
+    "logmel_shape": "CNN input (n_mels, n_frames)"
+  },
+  "tables": {},
+  "assertions": [
+    {
+      "name": "mfcc_features_non_degenerate",
+      "result": "PASS",
+      "detail": "train feature std = 1.000000"
+    },
+    {
+      "name": "logmel_features_non_degenerate",
+      "result": "PASS",
+      "detail": "train feature std = 1.000000"
+    },
+    {
+      "name": "pwp_all_bands_populated",
+      "result": "PASS",
+      "detail": "nodes per band: [2, 2, 2, 2, 1, 2, 2, 2, 3, 2, 2, 3]"
+    },
+    {
+      "name": "pwp_features_non_degenerate",
+      "result": "PASS",
+      "detail": "train feature std = 1.000000"
+    }
+  ],
+  "claim_verdicts": {},
+  "warnings": [],
+  "notes": [],
+  "timings_seconds": {
+    "mfcc_train": 141.329,
+    "mfcc_val": 16.01,
+    "mfcc_test": 15.465,
+    "logmel_train": 14.943,
+    "logmel_val": 1.683,
+    "logmel_test": 1.631,
+    "pwp_train": 299.436,
+    "pwp_val": 33.474,
+    "pwp_test": 32.885,
+    "_total": 562.812
+  },
+  "next_phase": "03_cluster_features"
+}

@@ -1,0 +1,41 @@
+2026-07-21 19:30:45,538 | INFO    | 03_cluster_features:56 | ==============================================================================
+2026-07-21 19:30:45,539 | INFO    | 03_cluster_features:57 | PHASE 03_cluster_features: K-means clustering and feature-space visualisation 
+2026-07-21 19:30:45,539 | INFO    | 03_cluster_features:58 | ==============================================================================
+2026-07-21 19:30:45,539 | INFO    | 03_cluster_features:74 | Experiment : baseline_full
+2026-07-21 19:30:45,540 | INFO    | 03_cluster_features:75 | Config     : /workspace/apr-heart-sounds/configs/config.yaml  (hash 8ae8dd4e)
+2026-07-21 19:30:47,209 | INFO    | 03_cluster_features:78 | Seed       : 42 (torch=True, cuda=True)
+2026-07-21 19:30:47,210 | INFO    | 03_cluster_features:82 | Shapes     : {'segment_samples': 6000, 'n_frames': 188, 'mfcc_dim': 234, 'logmel_shape': [32, 188], 'pwp_n_bands': 12, 'pwp_dim': 84, 'fft_bin_width_hz': 7.8125, 'usable_fft_bins_in_band': 49, 'wp_subband_width_hz': 15.625}
+2026-07-21 19:30:47,450 | INFO    | 03_cluster_features:55 | Clustering on 25365 training segments (26.7% abnormal)
+2026-07-21 19:30:47,453 | INFO    | 03_cluster_features:70 | --- mfcc --------------------------------------------------
+2026-07-21 19:31:18,288 | INFO    | 03_cluster_features:103 |   k=2: silhouette=0.387 DB=1.506 ARI(class)=0.006 ARI(site)=0.189
+2026-07-21 19:31:18,293 | INFO    | 03_cluster_features:103 |   k=3: silhouette=0.051 DB=3.550 ARI(class)=0.238 ARI(site)=0.443
+2026-07-21 19:31:18,293 | INFO    | 03_cluster_features:103 |   k=4: silhouette=0.050 DB=2.828 ARI(class)=0.229 ARI(site)=0.428
+2026-07-21 19:31:18,293 | INFO    | 03_cluster_features:103 |   k=5: silhouette=0.028 DB=3.479 ARI(class)=0.118 ARI(site)=0.266
+2026-07-21 19:31:18,293 | INFO    | 03_cluster_features:103 |   k=6: silhouette=0.035 DB=3.477 ARI(class)=0.159 ARI(site)=0.329
+2026-07-21 19:31:18,294 | INFO    | 03_cluster_features:103 |   k=7: silhouette=0.024 DB=4.110 ARI(class)=0.076 ARI(site)=0.185
+2026-07-21 19:31:18,294 | INFO    | 03_cluster_features:103 |   k=8: silhouette=0.023 DB=3.961 ARI(class)=0.071 ARI(site)=0.176
+2026-07-21 19:31:18,294 | INFO    | 03_cluster_features:112 |   k=2 reading: Silhouette 0.387 indicates reasonably separated clusters. ARI vs diagnosis 0.006 is near chance: the unsupervised partition does not recover the Normal/Abnormal split. Crucially, alignment with recording site (ARI 0.189) exceeds alignment with diagnosis, so the dominant variance in this feature space is acquisition condition rather than pathology.
+2026-07-21 19:31:29,382 | INFO    | 03_cluster_features:125 |   PC1+PC2 explain 19.9% of variance; 51 components needed for 95%
+2026-07-21 19:31:30,819 | INFO    | 03_cluster_features:70 | --- logmel --------------------------------------------------
+2026-07-21 19:31:32,278 | INFO    | 03_cluster_features:78 |   flattened (25365, 32, 188) -> (25365, 6016)
+2026-07-21 19:31:44,422 | INFO    | 03_cluster_features:83 |   PCA-reduced to (25365, 50) (Euclidean distance in 6000-D is dominated by noise)
+2026-07-21 19:32:04,487 | INFO    | 03_cluster_features:103 |   k=2: silhouette=0.192 DB=1.716 ARI(class)=0.025 ARI(site)=0.042
+2026-07-21 19:32:04,502 | INFO    | 03_cluster_features:103 |   k=3: silhouette=0.166 DB=1.814 ARI(class)=0.028 ARI(site)=0.068
+2026-07-21 19:32:04,502 | INFO    | 03_cluster_features:103 |   k=4: silhouette=0.102 DB=2.165 ARI(class)=0.012 ARI(site)=0.039
+2026-07-21 19:32:04,502 | INFO    | 03_cluster_features:103 |   k=5: silhouette=0.080 DB=2.488 ARI(class)=0.012 ARI(site)=0.041
+2026-07-21 19:32:04,502 | INFO    | 03_cluster_features:103 |   k=6: silhouette=0.063 DB=2.638 ARI(class)=0.012 ARI(site)=0.034
+2026-07-21 19:32:04,503 | INFO    | 03_cluster_features:103 |   k=7: silhouette=0.045 DB=2.725 ARI(class)=0.004 ARI(site)=0.025
+2026-07-21 19:32:04,503 | INFO    | 03_cluster_features:103 |   k=8: silhouette=0.047 DB=2.566 ARI(class)=0.005 ARI(site)=0.025
+2026-07-21 19:32:04,503 | INFO    | 03_cluster_features:112 |   k=2 reading: Silhouette 0.192 indicates weak cluster structure. ARI vs diagnosis 0.025 is near chance: the unsupervised partition does not recover the Normal/Abnormal split.
+2026-07-21 19:32:13,119 | INFO    | 03_cluster_features:125 |   PC1+PC2 explain 44.8% of variance; 37 components needed for 95%
+2026-07-21 19:32:14,772 | INFO    | 03_cluster_features:70 | --- pwp --------------------------------------------------
+2026-07-21 19:32:37,424 | INFO    | 03_cluster_features:103 |   k=2: silhouette=0.364 DB=1.332 ARI(class)=-0.008 ARI(site)=0.140
+2026-07-21 19:32:37,425 | INFO    | 03_cluster_features:103 |   k=3: silhouette=0.158 DB=1.923 ARI(class)=0.010 ARI(site)=0.095
+2026-07-21 19:32:37,426 | INFO    | 03_cluster_features:103 |   k=4: silhouette=0.124 DB=1.942 ARI(class)=0.025 ARI(site)=0.099
+2026-07-21 19:32:37,426 | INFO    | 03_cluster_features:103 |   k=5: silhouette=0.115 DB=2.063 ARI(class)=0.023 ARI(site)=0.091
+2026-07-21 19:32:37,426 | INFO    | 03_cluster_features:103 |   k=6: silhouette=0.106 DB=1.965 ARI(class)=0.037 ARI(site)=0.106
+2026-07-21 19:32:37,426 | INFO    | 03_cluster_features:103 |   k=7: silhouette=0.084 DB=1.992 ARI(class)=0.028 ARI(site)=0.095
+2026-07-21 19:32:37,426 | INFO    | 03_cluster_features:103 |   k=8: silhouette=0.089 DB=2.088 ARI(class)=0.030 ARI(site)=0.095
+2026-07-21 19:32:37,426 | INFO    | 03_cluster_features:112 |   k=2 reading: Silhouette 0.364 indicates reasonably separated clusters. ARI vs diagnosis -0.008 is near chance: the unsupervised partition does not recover the Normal/Abnormal split. Crucially, alignment with recording site (ARI 0.140) exceeds alignment with diagnosis, so the dominant variance in this feature space is acquisition condition rather than pathology.
+2026-07-21 19:32:46,261 | INFO    | 03_cluster_features:125 |   PC1+PC2 explain 46.1% of variance; 32 components needed for 95%
+2026-07-21 19:32:50,755 | INFO    | 03_cluster_features:208 | Summary written to /workspace/apr-heart-sounds/reports/phase_03_cluster_features/summary.md

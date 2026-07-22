@@ -1,0 +1,154 @@
+{
+  "phase": "09_cycle_alignment",
+  "experiment": "baseline_full",
+  "status": "success",
+  "timestamp_start": "2026-07-22T03:50:03.817130+00:00",
+  "timestamp_end": "2026-07-22T03:50:37.630969+00:00",
+  "duration_seconds": 33.81,
+  "config_hash": "bfdef2da",
+  "seed": 42,
+  "environment": {
+    "python": "3.11.10",
+    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
+    "hostname": "c67198af10a8",
+    "user": "root",
+    "git_commit": "e70663b",
+    "git_dirty": true,
+    "packages": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "sklearn": "1.9.0",
+      "pandas": "3.0.3",
+      "librosa": "0.11.0",
+      "pywt": "1.8.0",
+      "torch": "2.4.1+cu124",
+      "shap": "0.51.0",
+      "matplotlib": "3.11.1",
+      "joblib": "1.5.3"
+    },
+    "gpu": {
+      "name": "NVIDIA RTX 4000 Ada Generation",
+      "count": 1,
+      "cuda": "12.4",
+      "total_memory_gb": 19.55
+    }
+  },
+  "splits_touched": [
+    "test"
+  ],
+  "inputs_loaded": [],
+  "artifacts_written": [
+    {
+      "path": "/workspace/apr-heart-sounds/results/segmentation/test_segmentation.json",
+      "mb": 0.064
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/results/xai/alignment.json",
+      "mb": 0.003
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/figures/fig_alignment_cnn.pdf",
+      "mb": 0.013
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/figures/fig_alignment_comparison.pdf",
+      "mb": 0.01
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/figures/fig_gradcam_example.pdf",
+      "mb": 0.049
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/figures/supplementary/fig_segmentation_example.pdf",
+      "mb": 0.036
+    }
+  ],
+  "parameters": {},
+  "key_findings": {
+    "segmenter_usable_fraction": 0.6615,
+    "segmenter_mean_confidence": 0.5567,
+    "mean_heart_rate_bpm": 81.4,
+    "tp_minus_fp_enrichment": 0.0862,
+    "cnn_enrichment_systole": 0.9356,
+    "alignment_inclusion_rate": 0.6607,
+    "frac_segments_significant": 0.275,
+    "alignment_effect_size_d": 0.0212
+  },
+  "finding_notes": {
+    "segmenter_usable_fraction": "Fraction of test windows the segmenter could label confidently. Everything below the threshold is EXCLUDED from the alignment analysis, and this number is the honest denominator.",
+    "tp_minus_fp_enrichment": "Positive values mean the model's systolic focus is stronger when it is right than when it is wrong - evidence that attention tracks real evidence rather than being a fixed habit of the architecture."
+  },
+  "tables": {
+    "alignment_by_outcome": [
+      {
+        "category": "true_positive",
+        "n": 392,
+        "mean_enrichment_systole": 0.9472,
+        "mean_mass_systole": 0.2275,
+        "frac_enriched_systole": 0.4005
+      },
+      {
+        "category": "true_negative",
+        "n": 1194,
+        "mean_enrichment_systole": 0.9495,
+        "mean_mass_systole": 0.2198,
+        "frac_enriched_systole": 0.4564
+      },
+      {
+        "category": "false_positive",
+        "n": 215,
+        "mean_enrichment_systole": 0.8609,
+        "mean_mass_systole": 0.2195,
+        "frac_enriched_systole": 0.3209
+      },
+      {
+        "category": "false_negative",
+        "n": 20,
+        "mean_enrichment_systole": 0.6827,
+        "mean_mass_systole": 0.1612,
+        "frac_enriched_systole": 0.2
+      }
+    ],
+    "alignment_summary": [
+      {
+        "model": "cnn_logmel_gradcam",
+        "n_segments": 1821,
+        "inclusion_rate": 0.6607,
+        "mass_S1": 0.1864,
+        "E_S1": 0.953,
+        "mass_systole": 0.2208,
+        "E_systole": 0.936,
+        "mass_S2": 0.1583,
+        "E_S2": 0.766,
+        "mass_diastole": 0.4346,
+        "E_diastole": 1.092
+      }
+    ]
+  },
+  "assertions": [
+    {
+      "name": "heart_rate_physiologically_plausible",
+      "result": "PASS",
+      "detail": "mean detected heart rate = 81.4 bpm"
+    }
+  ],
+  "claim_verdicts": {
+    "C5": {
+      "statement": "CNN attribution concentrates in systole beyond what uniform temporal attention would produce.",
+      "verdict": "contradicted",
+      "evidence": "mean enrichment E_systole = 0.936 (1.0 = no preference); 28% of segments significant against the shuffled null; Cohen's d = 0.021",
+      "detail": "A contradicted verdict here is publishable and honest: it would mean that although the CNN classifies well, its evidence is not localised to the phase where murmurs occur, and the model should not be described as clinically interpretable."
+    }
+  },
+  "warnings": [],
+  "notes": [
+    "The enrichment statistic is a ratio of attribution mass to time budget, so 1.0 is the exact value produced by uniform temporal attention. This framing is what makes the number interpretable: 'X% of attention was in systole' is meaningless until compared against the fraction of time systole occupies."
+  ],
+  "timings_seconds": {
+    "segmentation": 15.538,
+    "alignment_cnn": 5.408,
+    "significance": 1.746,
+    "_total": 33.813
+  },
+  "next_phase": "10_run_ablations"
+}

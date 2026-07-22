@@ -1,0 +1,35 @@
+2026-07-22 01:09:11,163 | INFO    | 05_train_cnn:56 | ==============================================================================
+2026-07-22 01:09:11,163 | INFO    | 05_train_cnn:57 |                   PHASE 05_train_cnn: Train the log-Mel CNN                   
+2026-07-22 01:09:11,163 | INFO    | 05_train_cnn:58 | ==============================================================================
+2026-07-22 01:09:11,164 | INFO    | 05_train_cnn:78 | Experiment : baseline_full
+2026-07-22 01:09:11,164 | INFO    | 05_train_cnn:79 | Config     : /workspace/apr-heart-sounds/configs/config.yaml  (hash f915b259)
+2026-07-22 01:09:11,303 | INFO    | 05_train_cnn:82 | Seed       : 42 (torch=True, cuda=True)
+2026-07-22 01:09:11,303 | INFO    | 05_train_cnn:86 | Shapes     : {'segment_samples': 6000, 'n_frames': 188, 'mfcc_dim': 234, 'logmel_shape': [32, 188], 'pwp_n_bands': 12, 'pwp_dim': 84, 'fft_bin_width_hz': 7.8125, 'usable_fft_bins_in_band': 49, 'wp_subband_width_hz': 15.625}
+2026-07-22 01:09:12,911 | INFO    | 05_train_cnn:77 | Train: (25365, 32, 188)  (26.7% abnormal)
+2026-07-22 01:09:12,912 | INFO    | 05_train_cnn:78 | Val  : (2814, 32, 188)  (25.3% abnormal)
+2026-07-22 01:09:12,912 | INFO    | 05_train_cnn:81 | Device: cuda
+2026-07-22 01:09:12,918 | INFO    | 05_train_cnn:92 | Model: 105,778 parameters (97,392 conv / 8,386 head)
+2026-07-22 01:09:12,919 | INFO    | 05_train_cnn:95 | Last conv feature map: [128, 2, 11] (this is the Grad-CAM resolution)
+2026-07-22 01:09:12,920 | INFO    | 05_train_cnn:103 | Class weights: [0.5337275862693787, 1.4662724733352661]
+2026-07-22 01:09:18,919 | INFO    | 05_train_cnn:326 | epoch   1/60 | train loss 0.3484 macc 0.8485 | val loss 0.2398 macc 0.8665 se 0.872 sp 0.861 | lr 1.00e-03 | 5.2s
+2026-07-22 01:09:22,547 | INFO    | 05_train_cnn:326 | epoch   2/60 | train loss 0.2821 macc 0.8790 | val loss 0.2268 macc 0.8787 se 0.910 sp 0.847 | lr 1.00e-03 | 3.6s
+2026-07-22 01:09:26,107 | INFO    | 05_train_cnn:326 | epoch   3/60 | train loss 0.2619 macc 0.8863 | val loss 0.2215 macc 0.8903 se 0.975 sp 0.806 | lr 1.00e-03 | 3.6s
+2026-07-22 01:09:29,619 | INFO    | 05_train_cnn:326 | epoch   4/60 | train loss 0.2500 macc 0.8898 | val loss 0.2294 macc 0.8715 se 0.872 sp 0.871 | lr 1.00e-03 | 3.5s
+2026-07-22 01:09:33,121 | INFO    | 05_train_cnn:326 | epoch   5/60 | train loss 0.2368 macc 0.8949 | val loss 0.2117 macc 0.8915 se 0.971 sp 0.812 | lr 1.00e-03 | 3.5s
+2026-07-22 01:09:36,651 | INFO    | 05_train_cnn:326 | epoch   6/60 | train loss 0.2251 macc 0.9005 | val loss 0.2218 macc 0.8858 se 0.914 sp 0.857 | lr 1.00e-03 | 3.5s
+2026-07-22 01:09:40,270 | INFO    | 05_train_cnn:326 | epoch   7/60 | train loss 0.2186 macc 0.9028 | val loss 0.2530 macc 0.8745 se 0.935 sp 0.813 | lr 1.00e-03 | 3.6s
+2026-07-22 01:09:43,881 | INFO    | 05_train_cnn:326 | epoch   8/60 | train loss 0.2120 macc 0.9061 | val loss 0.2086 macc 0.8739 se 0.861 sp 0.887 | lr 1.00e-03 | 3.6s
+2026-07-22 01:09:47,566 | INFO    | 05_train_cnn:326 | epoch   9/60 | train loss 0.2018 macc 0.9125 | val loss 0.2231 macc 0.8908 se 0.945 sp 0.836 | lr 1.00e-03 | 3.7s
+2026-07-22 01:09:51,238 | INFO    | 05_train_cnn:326 | epoch  10/60 | train loss 0.1899 macc 0.9142 | val loss 0.2102 macc 0.8847 se 0.877 sp 0.893 | lr 1.00e-03 | 3.7s
+2026-07-22 01:09:54,637 | INFO    | 05_train_cnn:326 | epoch  11/60 | train loss 0.1868 macc 0.9178 | val loss 0.2833 macc 0.8328 se 0.729 sp 0.936 | lr 1.00e-03 | 3.4s
+2026-07-22 01:09:58,122 | INFO    | 05_train_cnn:326 | epoch  12/60 | train loss 0.1631 macc 0.9286 | val loss 0.2443 macc 0.8777 se 0.870 sp 0.886 | lr 5.00e-04 | 3.5s
+2026-07-22 01:10:01,807 | INFO    | 05_train_cnn:326 | epoch  13/60 | train loss 0.1563 macc 0.9319 | val loss 0.2265 macc 0.8763 se 0.858 sp 0.894 | lr 5.00e-04 | 3.7s
+2026-07-22 01:10:05,467 | INFO    | 05_train_cnn:326 | epoch  14/60 | train loss 0.1497 macc 0.9342 | val loss 0.2439 macc 0.8840 se 0.910 sp 0.858 | lr 5.00e-04 | 3.7s
+2026-07-22 01:10:09,203 | INFO    | 05_train_cnn:326 | epoch  15/60 | train loss 0.1439 macc 0.9400 | val loss 0.2163 macc 0.8814 se 0.881 sp 0.882 | lr 5.00e-04 | 3.7s
+2026-07-22 01:10:12,856 | INFO    | 05_train_cnn:326 | epoch  16/60 | train loss 0.1398 macc 0.9409 | val loss 0.2271 macc 0.8642 se 0.808 sp 0.921 | lr 5.00e-04 | 3.6s
+2026-07-22 01:10:16,114 | INFO    | 05_train_cnn:326 | epoch  17/60 | train loss 0.1314 macc 0.9448 | val loss 0.2383 macc 0.8685 se 0.830 sp 0.907 | lr 5.00e-04 | 3.3s
+2026-07-22 01:10:16,116 | INFO    | 05_train_cnn:341 | Early stopping at epoch 17; best val_macc=0.8915 at epoch 5
+2026-07-22 01:10:16,196 | INFO    | 05_train_cnn:111 | Best epoch 5 — val MAcc 0.8915
+2026-07-22 01:10:17,149 | INFO    | 05_train_cnn:125 | val MAcc (recording) : 0.8441
+2026-07-22 01:10:17,150 | INFO    | 05_train_cnn:126 | tuned threshold      : 0.66 -> val MAcc 0.8830
+2026-07-22 01:10:18,971 | INFO    | 05_train_cnn:185 | Summary written to /workspace/apr-heart-sounds/reports/phase_05_train_cnn/summary.md

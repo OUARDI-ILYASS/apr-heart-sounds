@@ -1,0 +1,97 @@
+{
+  "cnn_logmel_gradcam": {
+    "n_total": 2756,
+    "n_included": 1821,
+    "n_excluded_low_confidence": 933,
+    "n_excluded_invalid": 2,
+    "inclusion_rate": 0.6607,
+    "mean_mass_S1": 0.1863699591724309,
+    "mean_time_S1": 0.19226956268999779,
+    "mean_enrichment_S1": 0.9531706182638782,
+    "median_enrichment_S1": 0.9769616014771745,
+    "frac_enriched_S1": 0.46512904997254256,
+    "mean_mass_systole": 0.22078051915602628,
+    "mean_time_systole": 0.23398267390512117,
+    "mean_enrichment_systole": 0.9356257441786333,
+    "median_enrichment_systole": 0.9429775307738577,
+    "frac_enriched_systole": 0.4255903349807798,
+    "mean_mass_S2": 0.15827543820555862,
+    "mean_time_S2": 0.1874838060383321,
+    "mean_enrichment_S2": 0.7660840237096318,
+    "median_enrichment_S2": 0.8951082907149424,
+    "frac_enriched_S2": 0.37671609006040635,
+    "mean_mass_diastole": 0.4345740834659842,
+    "mean_time_diastole": 0.38626395736654895,
+    "mean_enrichment_diastole": 1.0916806438110627,
+    "median_enrichment_diastole": 1.0383512092662501,
+    "frac_enriched_diastole": 0.5639758374519495
+  },
+  "per_segment_count": 1821,
+  "significance": {
+    "state": "systole",
+    "n_segments_tested": 200,
+    "n_permutations_per_segment": 200,
+    "mean_observed_mass": 0.23641716598978021,
+    "mean_null_mass": 0.23390726432676343,
+    "mean_p_value": 0.5129850746268657,
+    "median_p_value": 0.5621890547263682,
+    "frac_significant_at_0.05": 0.275,
+    "effect_size_cohens_d": 0.021237158151036065,
+    "population_conclusion": "Attribution mass exceeds the null in a substantial minority of segments. The alignment claim is weakly supported and should be stated as a tendency, not a property."
+  },
+  "stratified": {
+    "true_positive": {
+      "n": 392,
+      "mean_enrichment_systole": 0.947166290049422,
+      "mean_mass_systole": 0.22753074383224023,
+      "frac_enriched_systole": 0.4005102040816326
+    },
+    "true_negative": {
+      "n": 1194,
+      "mean_enrichment_systole": 0.9495241081883561,
+      "mean_mass_systole": 0.21979191627288633,
+      "frac_enriched_systole": 0.4564489112227806
+    },
+    "false_positive": {
+      "n": 215,
+      "mean_enrichment_systole": 0.8609263998078156,
+      "mean_mass_systole": 0.21950673100825208,
+      "frac_enriched_systole": 0.3209302325581395
+    },
+    "false_negative": {
+      "n": 20,
+      "mean_enrichment_systole": 0.6827166657170403,
+      "mean_mass_systole": 0.1611889302142587,
+      "frac_enriched_systole": 0.2
+    }
+  },
+  "table": [
+    {
+      "model": "cnn_logmel_gradcam",
+      "n_segments": 1821,
+      "inclusion_rate": 0.6607,
+      "mass_S1": 0.1864,
+      "E_S1": 0.953,
+      "mass_systole": 0.2208,
+      "E_systole": 0.936,
+      "mass_S2": 0.1583,
+      "E_S2": 0.766,
+      "mass_diastole": 0.4346,
+      "E_diastole": 1.092
+    }
+  ],
+  "segmenter_quality": {
+    "n_segments": 2756,
+    "n_usable": 1823,
+    "usable_fraction": 0.6614658925979681,
+    "mean_confidence": 0.5567349390865729,
+    "median_confidence": 0.5629063145453475,
+    "mean_heart_rate_bpm": 81.36789625690031,
+    "heart_rate_range": [
+      40.01333777925975,
+      179.91004497751123
+    ],
+    "n_errors": 0
+  },
+  "primary_state": "systole"
+}

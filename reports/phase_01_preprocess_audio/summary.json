@@ -1,0 +1,184 @@
+{
+  "phase": "01_preprocess_audio",
+  "experiment": "baseline_full",
+  "status": "success",
+  "timestamp_start": "2026-07-21T19:07:28.070968+00:00",
+  "timestamp_end": "2026-07-21T19:09:38.055602+00:00",
+  "duration_seconds": 129.98,
+  "config_hash": "8ae8dd4e",
+  "seed": 42,
+  "environment": {
+    "python": "3.11.10",
+    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
+    "hostname": "c67198af10a8",
+    "user": "root",
+    "git_commit": "e70663b",
+    "git_dirty": true,
+    "packages": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "sklearn": "1.9.0",
+      "pandas": "3.0.3",
+      "librosa": "0.11.0",
+      "pywt": "1.8.0",
+      "torch": "2.4.1+cu124",
+      "shap": "0.51.0",
+      "matplotlib": "3.11.1",
+      "joblib": "1.5.3"
+    },
+    "gpu": {
+      "name": "NVIDIA RTX 4000 Ada Generation",
+      "count": 1,
+      "cuda": "12.4",
+      "total_memory_gb": 19.55
+    }
+  },
+  "splits_touched": [
+    "train",
+    "val",
+    "test"
+  ],
+  "inputs_loaded": [
+    {
+      "path": "/workspace/apr-heart-sounds/data/interim/raw_census.csv",
+      "n_recordings": 2693
+    }
+  ],
+  "artifacts_written": [
+    {
+      "path": "/workspace/apr-heart-sounds/data/interim/splits.json",
+      "mb": 0.035
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/interim/segments_train.npy",
+      "shape": [
+        25365,
+        6000
+      ],
+      "dtype": "float32",
+      "n_elements": 152190000,
+      "mb": 580.56,
+      "min": -20.44691276550293,
+      "max": 21.909006118774414,
+      "mean": 7.516191544709727e-06,
+      "std": 0.9994699358940125,
+      "n_nan": 0,
+      "n_inf": 0
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/interim/segments_val.npy",
+      "shape": [
+        2814,
+        6000
+      ],
+      "dtype": "float32",
+      "n_elements": 16884000,
+      "mb": 64.41,
+      "min": -22.46292495727539,
+      "max": 22.620346069335938,
+      "mean": 2.285374648636207e-05,
+      "std": 0.9999256730079651,
+      "n_nan": 0,
+      "n_inf": 0
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/interim/segments_test.npy",
+      "shape": [
+        2756,
+        6000
+      ],
+      "dtype": "float32",
+      "n_elements": 16536000,
+      "mb": 63.08,
+      "min": -20.408754348754883,
+      "max": 20.30219078063965,
+      "mean": -2.3507012883783318e-05,
+      "std": 1.0016090869903564,
+      "n_nan": 0,
+      "n_inf": 0
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/interim/segment_index.csv",
+      "mb": 1.305,
+      "n_rows": 30935
+    }
+  ],
+  "parameters": {
+    "target_sr": 2000,
+    "bandpass": [
+      25.0,
+      400.0
+    ],
+    "segment_seconds": 3.0,
+    "train_hop_seconds": 1.5,
+    "eval_hop_seconds": 3.0,
+    "normalize": "zscore"
+  },
+  "key_findings": {
+    "max_class_deviation_pp": 0.189,
+    "max_site_deviation_pp": 0.262,
+    "n_segments_total": 30935,
+    "n_segments_train": 25365,
+    "pct_abnormal_segments_train": 26.69,
+    "n_segments_val": 2814,
+    "pct_abnormal_segments_val": 25.34,
+    "n_segments_test": 2756,
+    "pct_abnormal_segments_test": 27.32,
+    "n_recordings_excluded": 0,
+    "exclusion_breakdown": {
+      "load_error": 0,
+      "quality": 0,
+      "no_segments": 0
+    },
+    "mean_spikes_removed": 0.48
+  },
+  "finding_notes": {
+    "max_class_deviation_pp": "Largest gap between a split's abnormal rate and the global rate",
+    "mean_spikes_removed": "Mean friction transients suppressed per recording"
+  },
+  "tables": {
+    "split_composition": [
+      {
+        "split": "train",
+        "n_recordings": 1886,
+        "n_segments": 25365,
+        "pct_abnormal": 26.69
+      },
+      {
+        "split": "val",
+        "n_recordings": 405,
+        "n_segments": 2814,
+        "pct_abnormal": 25.34
+      },
+      {
+        "split": "test",
+        "n_recordings": 402,
+        "n_segments": 2756,
+        "pct_abnormal": 27.32
+      }
+    ]
+  },
+  "assertions": [
+    {
+      "name": "no_patient_leakage",
+      "result": "PASS",
+      "detail": "train=1886, val=405, test=402, 0 recording IDs shared between any pair of splits"
+    },
+    {
+      "name": "stratification_within_2pp",
+      "result": "PASS",
+      "detail": "max class deviation 0.19 pp"
+    }
+  ],
+  "claim_verdicts": {},
+  "warnings": [],
+  "notes": [],
+  "timings_seconds": {
+    "splits": 0.17,
+    "process_train": 88.122,
+    "process_val": 19.007,
+    "process_test": 18.623,
+    "_total": 129.984
+  },
+  "next_phase": "02_extract_features"
+}

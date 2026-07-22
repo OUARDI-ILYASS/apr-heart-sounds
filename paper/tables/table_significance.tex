@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\caption{Pairwise McNemar tests on recording-level predictions. Discordant counts are (A correct / B correct).}
+\label{tab:significance}
+\begin{tabular}{lccc}
+\toprule
+Comparison & Discordant & \$p\$ & Sig. \\
+\midrule
+cnn logmel vs rf mfcc & 34/7 & 0.000 & \checkmark \\
+cnn logmel vs rf pwp & 55/14 & 0.000 & \checkmark \\
+cnn logmel vs svm mfcc & 38/12 & 0.000 & \checkmark \\
+cnn logmel vs svm pwp & 57/12 & 0.000 & \checkmark \\
+rf mfcc vs rf pwp & 25/11 & 0.030 & \checkmark \\
+rf mfcc vs svm mfcc & 12/13 & 1.000 & -- \\
+rf mfcc vs svm pwp & 29/11 & 0.007 & \checkmark \\
+rf pwp vs svm mfcc & 8/23 & 0.012 & \checkmark \\
+rf pwp vs svm pwp & 13/9 & 0.523 & -- \\
+svm mfcc vs svm pwp & 23/4 & 0.001 & \checkmark \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}\footnotesize Significance is assessed after Holm-Bonferroni correction across the family of comparisons.\end{flushleft}
+\end{table}

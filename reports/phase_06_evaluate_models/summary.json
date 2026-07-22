@@ -1,0 +1,405 @@
+{
+  "phase": "06_evaluate_models",
+  "experiment": "baseline_full",
+  "status": "success",
+  "timestamp_start": "2026-07-22T01:11:03.311043+00:00",
+  "timestamp_end": "2026-07-22T01:11:22.433600+00:00",
+  "duration_seconds": 19.12,
+  "config_hash": "f915b259",
+  "seed": 42,
+  "environment": {
+    "python": "3.11.10",
+    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
+    "hostname": "c67198af10a8",
+    "user": "root",
+    "git_commit": "e70663b",
+    "git_dirty": true,
+    "packages": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "sklearn": "1.9.0",
+      "pandas": "3.0.3",
+      "librosa": "0.11.0",
+      "pywt": "1.8.0",
+      "torch": "2.4.1+cu124",
+      "shap": "0.51.0",
+      "matplotlib": "3.11.1",
+      "joblib": "1.5.3"
+    },
+    "gpu": {
+      "name": "NVIDIA RTX 4000 Ada Generation",
+      "count": 1,
+      "cuda": "12.4",
+      "total_memory_gb": 19.55
+    }
+  },
+  "splits_touched": [
+    "test"
+  ],
+  "inputs_loaded": [
+    {
+      "path": "/workspace/apr-heart-sounds/models/classical/rf_mfcc.joblib"
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/models/classical/rf_pwp.joblib"
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/models/classical/svm_mfcc.joblib"
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/models/classical/svm_pwp.joblib"
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/models/cnn/cnn_logmel.pt"
+    }
+  ],
+  "artifacts_written": [
+    {
+      "path": "/workspace/apr-heart-sounds/figures/fig_confusion_matrices.pdf",
+      "mb": 0.015
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/figures/fig_roc_curves.pdf",
+      "mb": 0.019
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/figures/fig_pr_curves.pdf",
+      "mb": 0.016
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/figures/fig_model_comparison.pdf",
+      "mb": 0.011
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/figures/fig_per_site_macc.pdf",
+      "mb": 0.013
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/figures/fig_calibration.pdf",
+      "mb": 0.016
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/results/evaluation/test_results.json",
+      "mb": 0.052
+    }
+  ],
+  "parameters": {},
+  "key_findings": {
+    "majority_class_accuracy": 0.7761,
+    "site_macc_spread": 0.3682,
+    "rf_mfcc_ece": 0.14,
+    "rf_pwp_ece": 0.1463,
+    "svm_mfcc_ece": 0.061,
+    "svm_pwp_ece": 0.0661,
+    "cnn_logmel_ece": 0.1262,
+    "rf_mfcc_test_macc": 0.8354,
+    "rf_pwp_test_macc": 0.8129,
+    "svm_mfcc_test_macc": 0.8607,
+    "svm_pwp_test_macc": 0.8263,
+    "cnn_logmel_test_macc": 0.8707,
+    "best_model": "cnn_logmel",
+    "best_test_macc": 0.8707,
+    "n_significant_comparisons": 7
+  },
+  "finding_notes": {
+    "majority_class_accuracy": "What a model that always predicts Normal achieves. Any reported accuracy must be read against this number, which is why MAcc is our primary metric.",
+    "site_macc_spread": "Range of MAcc across sub-databases for the best model. A large spread suggests the model exploits site-specific cues rather than pathology."
+  },
+  "tables": {
+    "trivial_baselines": [
+      {
+        "baseline": "always_normal",
+        "accuracy": 0.7761,
+        "sensitivity": 0.0,
+        "specificity": 1.0,
+        "macc": 0.5
+      },
+      {
+        "baseline": "always_abnormal",
+        "accuracy": 0.2239,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "macc": 0.5
+      },
+      {
+        "baseline": "random_stratified",
+        "accuracy": 0.6095,
+        "sensitivity": 0.2333,
+        "specificity": 0.7179,
+        "macc": 0.4756
+      }
+    ],
+    "per_subdatabase": [
+      {
+        "group": "training-a",
+        "n": 61,
+        "prevalence": 0.721,
+        "macc": 0.6718,
+        "sensitivity": 0.9318,
+        "specificity": 0.4118,
+        "accuracy": 0.7869
+      },
+      {
+        "group": "training-b",
+        "n": 73,
+        "prevalence": 0.205,
+        "macc": 0.6253,
+        "sensitivity": 0.7333,
+        "specificity": 0.5172,
+        "accuracy": 0.5616
+      },
+      {
+        "group": "training-c",
+        "n": 4,
+        "note": "insufficient data or single class"
+      },
+      {
+        "group": "training-d",
+        "n": 8,
+        "prevalence": 0.5,
+        "macc": 0.625,
+        "sensitivity": 1.0,
+        "specificity": 0.25,
+        "accuracy": 0.625
+      },
+      {
+        "group": "training-e",
+        "n": 239,
+        "prevalence": 0.079,
+        "macc": 0.9932,
+        "sensitivity": 1.0,
+        "specificity": 0.9864,
+        "accuracy": 0.9874
+      },
+      {
+        "group": "training-f",
+        "n": 17,
+        "prevalence": 0.294,
+        "macc": 0.6583,
+        "sensitivity": 0.4,
+        "specificity": 0.9167,
+        "accuracy": 0.7647
+      }
+    ],
+    "literature_comparison": [
+      {
+        "system": "This work (best)",
+        "macc": 0.8707,
+        "sensitivity": 0.8889,
+        "specificity": 0.8526,
+        "test_set": "our held-out split of the public training data",
+        "comparable": true
+      },
+      {
+        "system": "Potes et al. 2016 (CinC winner)",
+        "macc": 0.86,
+        "sensitivity": 0.942,
+        "specificity": 0.778,
+        "test_set": "official CinC 2016 hidden test set",
+        "comparable": false
+      },
+      {
+        "system": "Rubin et al. 2016 (CNN)",
+        "macc": 0.839,
+        "sensitivity": 0.727,
+        "specificity": 0.951,
+        "test_set": "official CinC 2016 hidden test set",
+        "comparable": false
+      },
+      {
+        "system": "Zabihi et al. 2016 (ensemble)",
+        "macc": 0.859,
+        "sensitivity": 0.869,
+        "specificity": 0.849,
+        "test_set": "official CinC 2016 hidden test set",
+        "comparable": false
+      }
+    ],
+    "test_results_recording_level": [
+      {
+        "model": "cnn_logmel",
+        "accuracy": 0.8607,
+        "sensitivity": 0.8889,
+        "specificity": 0.8526,
+        "macc": 0.8707,
+        "f1": 0.7407,
+        "roc_auc": 0.947,
+        "macc_ci": "[0.832, 0.907]",
+        "n": 402
+      },
+      {
+        "model": "svm_mfcc",
+        "accuracy": 0.796,
+        "sensitivity": 0.9778,
+        "specificity": 0.7436,
+        "macc": 0.8607,
+        "f1": 0.6822,
+        "roc_auc": 0.8941,
+        "macc_ci": "[0.832, 0.888]",
+        "n": 402
+      },
+      {
+        "model": "rf_mfcc",
+        "accuracy": 0.7935,
+        "sensitivity": 0.9111,
+        "specificity": 0.7596,
+        "macc": 0.8354,
+        "f1": 0.664,
+        "roc_auc": 0.8944,
+        "macc_ci": "[0.797, 0.871]",
+        "n": 402
+      },
+      {
+        "model": "svm_pwp",
+        "accuracy": 0.7488,
+        "sensitivity": 0.9667,
+        "specificity": 0.6859,
+        "macc": 0.8263,
+        "f1": 0.6327,
+        "roc_auc": 0.8767,
+        "macc_ci": "[0.792, 0.855]",
+        "n": 402
+      },
+      {
+        "model": "rf_pwp",
+        "accuracy": 0.7587,
+        "sensitivity": 0.9111,
+        "specificity": 0.7147,
+        "macc": 0.8129,
+        "f1": 0.6284,
+        "roc_auc": 0.8593,
+        "macc_ci": "[0.775, 0.849]",
+        "n": 402
+      }
+    ],
+    "pairwise_mcnemar": [
+      {
+        "comparison": "cnn_logmel vs rf_mfcc",
+        "a_only_correct": 34,
+        "b_only_correct": 7,
+        "statistic": 16.488,
+        "p_value": 0.0,
+        "significant": true,
+        "test": "chi2_with_continuity_correction"
+      },
+      {
+        "comparison": "cnn_logmel vs rf_pwp",
+        "a_only_correct": 55,
+        "b_only_correct": 14,
+        "statistic": 23.188,
+        "p_value": 0.0,
+        "significant": true,
+        "test": "chi2_with_continuity_correction"
+      },
+      {
+        "comparison": "cnn_logmel vs svm_pwp",
+        "a_only_correct": 57,
+        "b_only_correct": 12,
+        "statistic": 28.058,
+        "p_value": 0.0,
+        "significant": true,
+        "test": "chi2_with_continuity_correction"
+      },
+      {
+        "comparison": "cnn_logmel vs svm_mfcc",
+        "a_only_correct": 38,
+        "b_only_correct": 12,
+        "statistic": 12.5,
+        "p_value": 0.0004,
+        "significant": true,
+        "test": "chi2_with_continuity_correction"
+      },
+      {
+        "comparison": "svm_mfcc vs svm_pwp",
+        "a_only_correct": 23,
+        "b_only_correct": 4,
+        "statistic": 12.0,
+        "p_value": 0.0005,
+        "significant": true,
+        "test": "chi2_with_continuity_correction"
+      },
+      {
+        "comparison": "rf_mfcc vs svm_pwp",
+        "a_only_correct": 29,
+        "b_only_correct": 11,
+        "statistic": 7.225,
+        "p_value": 0.0072,
+        "significant": true,
+        "test": "chi2_with_continuity_correction"
+      },
+      {
+        "comparison": "rf_pwp vs svm_mfcc",
+        "a_only_correct": 8,
+        "b_only_correct": 23,
+        "statistic": 6.323,
+        "p_value": 0.0119,
+        "significant": true,
+        "test": "chi2_with_continuity_correction"
+      },
+      {
+        "comparison": "rf_mfcc vs rf_pwp",
+        "a_only_correct": 25,
+        "b_only_correct": 11,
+        "statistic": 4.694,
+        "p_value": 0.0303,
+        "significant": true,
+        "test": "chi2_with_continuity_correction"
+      },
+      {
+        "comparison": "rf_pwp vs svm_pwp",
+        "a_only_correct": 13,
+        "b_only_correct": 9,
+        "statistic": 9.0,
+        "p_value": 0.5235,
+        "significant": false,
+        "test": "exact_binomial"
+      },
+      {
+        "comparison": "rf_mfcc vs svm_mfcc",
+        "a_only_correct": 12,
+        "b_only_correct": 13,
+        "statistic": 0.0,
+        "p_value": 1.0,
+        "significant": false,
+        "test": "chi2_with_continuity_correction"
+      }
+    ]
+  },
+  "assertions": [
+    {
+      "name": "no_gross_site_shortcut",
+      "result": "FAIL",
+      "detail": "per-site MAcc spread = 0.368"
+    }
+  ],
+  "claim_verdicts": {
+    "C2": {
+      "statement": "The log-Mel CNN outperforms the best classical feature/model pairing.",
+      "verdict": "supported",
+      "evidence": "CNN MAcc 0.8707 vs classical 0.8607 (delta +0.0100, McNemar p=0.0000)",
+      "detail": "If the difference is not significant, the honest conclusion is that the compact CNN and a well-tuned classical model are statistically indistinguishable on this dataset - which is itself worth reporting, since the classical model is far cheaper to train and to explain."
+    },
+    "C3": {
+      "statement": "All models substantially exceed the majority-class baseline on MAcc.",
+      "verdict": "supported",
+      "evidence": "best MAcc 0.8707 vs 0.500 for the always-Normal baseline",
+      "detail": ""
+    }
+  },
+  "warnings": [
+    "Per-site MAcc varies by 0.368. Report this prominently: it indicates the model does not transfer uniformly across acquisition conditions, and the pooled metric hides that."
+  ],
+  "notes": [
+    "This is the first phase to read the test split. All model and threshold selection happened in phases 04-05 on training and validation data, as recorded in the splits_touched field of those phases' summaries.",
+    "The literature rows in the comparison table were obtained on the official PhysioNet/CinC 2016 hidden test set, which was never publicly released. Our numbers come from a held-out split of the public training data. The two are therefore NOT directly comparable, and the table carries a 'comparable' column saying so."
+  ],
+  "timings_seconds": {
+    "predict_rf_mfcc": 0.14,
+    "predict_rf_pwp": 0.09,
+    "predict_svm_mfcc": 6.11,
+    "predict_svm_pwp": 2.143,
+    "predict_cnn": 0.673,
+    "_total": 19.122
+  },
+  "next_phase": "07_explain_shap"
+}

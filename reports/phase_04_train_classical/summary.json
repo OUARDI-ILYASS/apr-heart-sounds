@@ -1,0 +1,160 @@
+{
+  "phase": "04_train_classical",
+  "experiment": "baseline_full",
+  "status": "success",
+  "timestamp_start": "2026-07-22T00:10:14.863018+00:00",
+  "timestamp_end": "2026-07-22T01:09:05.853028+00:00",
+  "duration_seconds": 3530.99,
+  "config_hash": "f915b259",
+  "seed": 42,
+  "environment": {
+    "python": "3.11.10",
+    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
+    "hostname": "c67198af10a8",
+    "user": "root",
+    "git_commit": "e70663b",
+    "git_dirty": true,
+    "packages": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "sklearn": "1.9.0",
+      "pandas": "3.0.3",
+      "librosa": "0.11.0",
+      "pywt": "1.8.0",
+      "torch": "2.4.1+cu124",
+      "shap": "0.51.0",
+      "matplotlib": "3.11.1",
+      "joblib": "1.5.3"
+    },
+    "gpu": {
+      "name": "NVIDIA RTX 4000 Ada Generation",
+      "count": 1,
+      "cuda": "12.4",
+      "total_memory_gb": 19.55
+    }
+  },
+  "splits_touched": [
+    "train",
+    "val"
+  ],
+  "inputs_loaded": [
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/mfcc/features_train.npy",
+      "shape": [
+        25365,
+        234
+      ]
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/pwp/features_train.npy",
+      "shape": [
+        25365,
+        84
+      ]
+    }
+  ],
+  "artifacts_written": [
+    {
+      "path": "/workspace/apr-heart-sounds/models/classical/svm_mfcc.joblib",
+      "mb": 10.201
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/models/classical/rf_mfcc.joblib",
+      "mb": 4.174
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/models/classical/svm_pwp.joblib",
+      "mb": 4.127
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/models/classical/rf_pwp.joblib",
+      "mb": 4.669
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/results/evaluation/classical_cv.json",
+      "mb": 0.032
+    }
+  ],
+  "parameters": {},
+  "key_findings": {
+    "svm_mfcc_cv_macc": 0.8512,
+    "svm_mfcc_val_macc_recording": 0.806,
+    "svm_mfcc_threshold": 0.23,
+    "rf_mfcc_cv_macc": 0.8421,
+    "rf_mfcc_val_macc_recording": 0.8335,
+    "rf_mfcc_threshold": 0.53,
+    "svm_pwp_cv_macc": 0.8211,
+    "svm_pwp_val_macc_recording": 0.7481,
+    "svm_pwp_threshold": 0.2,
+    "rf_pwp_cv_macc": 0.7935,
+    "rf_pwp_val_macc_recording": 0.8102,
+    "rf_pwp_threshold": 0.44,
+    "best_classical_model": "rf_mfcc"
+  },
+  "finding_notes": {},
+  "tables": {
+    "classical_validation": [
+      {
+        "model": "rf_mfcc",
+        "features": "mfcc",
+        "n_features": 234,
+        "cv_macc": 0.8421,
+        "cv_std": 0.0131,
+        "val_macc_recording": 0.8335,
+        "val_sensitivity": 0.913,
+        "val_specificity": 0.754,
+        "overfit_gap": 0.1655
+      },
+      {
+        "model": "rf_pwp",
+        "features": "pwp",
+        "n_features": 84,
+        "cv_macc": 0.7935,
+        "cv_std": 0.0168,
+        "val_macc_recording": 0.8102,
+        "val_sensitivity": 0.8696,
+        "val_specificity": 0.7508,
+        "overfit_gap": 0.2341
+      },
+      {
+        "model": "svm_mfcc",
+        "features": "mfcc",
+        "n_features": 234,
+        "cv_macc": 0.8512,
+        "cv_std": 0.0126,
+        "val_macc_recording": 0.806,
+        "val_sensitivity": 0.7174,
+        "val_specificity": 0.8946,
+        "overfit_gap": 0.093
+      },
+      {
+        "model": "svm_pwp",
+        "features": "pwp",
+        "n_features": 84,
+        "cv_macc": 0.8211,
+        "cv_std": 0.0111,
+        "val_macc_recording": 0.7481,
+        "val_sensitivity": 0.6304,
+        "val_specificity": 0.8658,
+        "overfit_gap": 0.0846
+      }
+    ]
+  },
+  "assertions": [],
+  "claim_verdicts": {},
+  "warnings": [
+    "rf: train-CV gap is 0.165 (train 0.949 vs CV 0.842). The model is memorising the training folds; consider stronger regularisation (lower C for SVM, higher min_samples_leaf for RF).",
+    "rf: train-CV gap is 0.234 (train 0.950 vs CV 0.793). The model is memorising the training folds; consider stronger regularisation (lower C for SVM, higher min_samples_leaf for RF)."
+  ],
+  "notes": [
+    "All numbers in this phase are cross-validation or validation scores. The test split has not been read. Hyperparameter and threshold choices are now frozen."
+  ],
+  "timings_seconds": {
+    "gridsearch_svm_mfcc": 608.185,
+    "gridsearch_rf_mfcc": 1745.836,
+    "gridsearch_svm_pwp": 299.953,
+    "gridsearch_rf_pwp": 866.55,
+    "_total": 3530.989
+  },
+  "next_phase": "05_train_cnn"
+}

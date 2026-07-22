@@ -1,0 +1,149 @@
+{
+  "phase": "03_cluster_features",
+  "experiment": "baseline_full",
+  "status": "success",
+  "timestamp_start": "2026-07-21T19:30:47.210487+00:00",
+  "timestamp_end": "2026-07-21T19:32:49.517291+00:00",
+  "duration_seconds": 122.31,
+  "config_hash": "8ae8dd4e",
+  "seed": 42,
+  "environment": {
+    "python": "3.11.10",
+    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
+    "hostname": "c67198af10a8",
+    "user": "root",
+    "git_commit": "e70663b",
+    "git_dirty": true,
+    "packages": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "sklearn": "1.9.0",
+      "pandas": "3.0.3",
+      "librosa": "0.11.0",
+      "pywt": "1.8.0",
+      "torch": "2.4.1+cu124",
+      "shap": "0.51.0",
+      "matplotlib": "3.11.1",
+      "joblib": "1.5.3"
+    },
+    "gpu": {
+      "name": "NVIDIA RTX 4000 Ada Generation",
+      "count": 1,
+      "cuda": "12.4",
+      "total_memory_gb": 19.55
+    }
+  },
+  "splits_touched": [
+    "train"
+  ],
+  "inputs_loaded": [
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/mfcc/features_train.npy",
+      "shape": [
+        25365,
+        234
+      ]
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/logmel/features_train.npy",
+      "shape": [
+        25365,
+        32,
+        188
+      ]
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/pwp/features_train.npy",
+      "shape": [
+        25365,
+        84
+      ]
+    }
+  ],
+  "artifacts_written": [
+    {
+      "path": "/workspace/apr-heart-sounds/results/clustering/mfcc_clustering.json",
+      "mb": 0.007
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/results/clustering/logmel_clustering.json",
+      "mb": 0.007
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/results/clustering/pwp_clustering.json",
+      "mb": 0.007
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/figures/fig_feature_projections.pdf",
+      "mb": 1.179
+    }
+  ],
+  "parameters": {},
+  "key_findings": {
+    "mfcc_silhouette_k2": 0.3867,
+    "mfcc_ari_class_k2": 0.0061,
+    "mfcc_ari_site_k2": 0.1885,
+    "mfcc_pca_95pct_components": 51,
+    "logmel_silhouette_k2": 0.1915,
+    "logmel_ari_class_k2": 0.0249,
+    "logmel_ari_site_k2": 0.0418,
+    "logmel_pca_95pct_components": 37,
+    "pwp_silhouette_k2": 0.364,
+    "pwp_ari_class_k2": -0.0084,
+    "pwp_ari_site_k2": 0.1402,
+    "pwp_pca_95pct_components": 32
+  },
+  "finding_notes": {},
+  "tables": {
+    "clustering_k2_summary": [
+      {
+        "domain": "mfcc",
+        "silhouette": 0.3867,
+        "ari_vs_class": 0.0061,
+        "ari_vs_site": 0.1885,
+        "elbow_k": 4,
+        "pca_95pct": 51
+      },
+      {
+        "domain": "logmel",
+        "silhouette": 0.1915,
+        "ari_vs_class": 0.0249,
+        "ari_vs_site": 0.0418,
+        "elbow_k": 4,
+        "pca_95pct": 37
+      },
+      {
+        "domain": "pwp",
+        "silhouette": 0.364,
+        "ari_vs_class": -0.0084,
+        "ari_vs_site": 0.1402,
+        "elbow_k": 4,
+        "pca_95pct": 32
+      }
+    ]
+  },
+  "assertions": [],
+  "claim_verdicts": {
+    "C1": {
+      "statement": "The Normal/Abnormal distinction is recoverable by unsupervised clustering of the feature spaces.",
+      "verdict": "contradicted",
+      "evidence": "best ARI vs diagnosis at k=2 is 0.025, close to chance; ARI vs recording site reaches 0.189",
+      "detail": "A contradicted verdict is a useful result: it establishes that the class boundary is a thin supervised direction rather than the dominant structure, which is what makes the supervised comparison in phases 04-06 non-trivial."
+    }
+  },
+  "warnings": [],
+  "notes": [
+    "log-Mel maps were flattened and PCA-reduced to 50 dimensions before k-means, because k-means in 6016-dimensional space suffers from distance concentration."
+  ],
+  "timings_seconds": {
+    "mfcc_kmeans": 30.754,
+    "mfcc_projection": 8.657,
+    "logmel_pca_reduce": 12.143,
+    "logmel_kmeans": 19.983,
+    "logmel_projection": 6.604,
+    "pwp_kmeans": 22.548,
+    "pwp_projection": 6.845,
+    "_total": 122.306
+  },
+  "next_phase": "04_train_classical"
+}
