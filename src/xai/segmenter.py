@@ -4,27 +4,6 @@ What this is, precisely: an envelope-based S1/systole/S2/diastole labeller.
 What this is NOT: the Springer et al. (2016) logistic-regression HSMM, which is
 the reference segmenter for PhysioNet 2016 and is distributed as MATLAB code.
 
-PROFESSOR Q: "Why not use the real Springer segmenter?"
-A: Three reasons, and we state all of them in the paper rather than hiding the
-   substitution. (1) It is MATLAB; a faithful Python port is a project in
-   itself and would dominate the workload. (2) It is *supervised* - it needs
-   the ECG-derived state labels that only exist for a subset of the database.
-   (3) Most importantly, we do not need its accuracy. The segmenter here never
-   touches training. It is used exclusively at evaluation time to answer one
-   question: "what fraction of the model's attribution mass falls inside
-   systole?" A noisier segmenter adds variance to that estimate and therefore
-   makes our claim *harder* to support, not easier. It cannot manufacture a
-   positive result.
-
-PROFESSOR Q: "How do you know when the segmenter has failed?"
-A: Every segmentation carries a confidence score built from three checks: the
-   autocorrelation peak strength (is there a periodic cycle at all?), the
-   regularity of detected cycle lengths, and whether the systole/diastole ratio
-   is physiologically plausible. Segments below the configured threshold are
-   *excluded* from the alignment analysis and the exclusion count is reported.
-   An alignment score computed on 60% of segments with a stated exclusion rate
-   is honest; one computed on 100% with a broken segmenter is not.
-
 Algorithm
 ---------
 1. Shannon-energy envelope, low-pass smoothed.

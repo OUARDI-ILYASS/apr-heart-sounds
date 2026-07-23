@@ -13,17 +13,6 @@ Three properties are enforced and then *asserted*:
 3. **Sub-database stratification.** Each split has the same site mix. Without
    this, the test set can end up dominated by one clinic, and you are measuring
    cross-site transfer while believing you are measuring pathology detection.
-
-PROFESSOR Q: "The PhysioNet challenge had its own hidden test set. Why not
-              use the official split?"
-A: The official test set was never publicly released - it stayed on the
-   challenge server. What is public is the six training sub-databases. So the
-   honest options are (a) invent our own split, or (b) hold out an entire
-   sub-database. We do (a) for the main results because it keeps the site
-   distribution matched, and we additionally report a leave-one-subdatabase-out
-   result as a cross-site stress test. We are explicit in the paper that our
-   numbers are therefore *not* directly comparable to published challenge
-   scores, and we say so next to the reference numbers in Table 1.
 """
 
 from __future__ import annotations

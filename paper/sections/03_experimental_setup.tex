@@ -1,0 +1,74 @@
+\section{Experimental Setup}
+\label{sec:setup}
+
+\subsection{Dataset}
+
+We use the public training portion of the PhysioNet/CinC 2016
+corpus~\cite{liu2016open,goldberger2000physiobank}: 3240 mono recordings,
+\SI{20.2}{\hour} in total, sampled at \SI{2}{\kilo\hertz}, with durations from
+about \SI{5}{\second} to \SI{120}{\second}. Labels are per recording, and
+\SI{20.5}{\percent} of recordings are abnormal, an imbalance ratio of
+\num{3.87}:1. The corpus is divided into six sub-databases, \texttt{training-a}
+through \texttt{training-f}, each collected by a different group at a different
+site with different equipment. Abnormal prevalence differs across them by
+\SI{68.9}{pp}, which is the single most important property of this corpus for
+the present study.
+
+The official challenge test set was never publicly released; it remained on the
+challenge server. All results below therefore come from a self-defined split of
+the public training data, and published challenge scores are context rather
+than a like-for-like comparison. We restate this wherever those numbers appear.
+
+\subsection{Splits}
+
+Splits are made at the \emph{recording} level, never at the window level, and
+stratified jointly on label and sub-database. Recording-level splitting prevents
+windows of the same patient --- sharing a stethoscope, a noise floor and a
+murmur --- from appearing in more than one partition; this is the most
+consequential guard in the whole protocol. Joint stratification keeps both the
+class balance and the site mix constant, so that the test partition cannot end
+up dominated by one clinic. The realised deviation is at most \SI{0.07}{pp} in
+class balance and \SI{0.24}{pp} in site composition.
+
+Windowing yields \num{30695} training, \num{3329} validation and \num{3362} test
+windows, the latter drawn from 484 recordings of which \SI{20.5}{\percent} are
+abnormal. No recording was excluded for quality or loading failure.
+
+\subsection{Parameters}
+
+Features use a 256-point Hann window with hop 32 (\SI{16}{\milli\second}), 32
+mel bands over 25--\SI{400}{\hertz}. MFCC uses 13 coefficients with $\Delta$ and
+$\Delta^2$ (width 5) and six aggregation statistics, giving 234 dimensions;
+log-Mel windows are $32\times188$; PWP uses a level-6 db4 tree grouped into 12
+perceptual bands with 7 descriptors each, giving 84 dimensions. All classical
+features are standardised with statistics fitted on the training split only. No
+degenerate all-zero mel band and no near-constant feature was produced.
+
+Classical hyperparameters were chosen by five-fold stratified group cross
+validation on the training split, grouping by recording and scoring balanced
+accuracy. The selected SVM uses $C = 10$, $\gamma = \num{5e-4}$, with
+cross-validated MAcc $0.874 \pm 0.008$. The CNN was trained for at most 60
+epochs with Adam at $10^{-3}$, batch size 64, dropout \num{0.3}, plateau
+scheduling and early stopping on validation MAcc; it stopped after 20 epochs
+with its best epoch at 8 and validation MAcc \num{0.915}. Model selection,
+hyperparameter search and decision thresholds used training and validation data
+only; the test partition was read once, after selection was frozen.
+
+\subsection{Metrics and statistics}
+
+The primary metric is the official challenge metric, modified accuracy
+$\MAcc = (\mathrm{Se} + \mathrm{Sp})/2$, which is identical to balanced
+accuracy. Plain accuracy is reported but is not an appropriate headline: with
+roughly \SI{80}{\percent} normal recordings, a model that always predicts
+\emph{normal} scores \num{0.795} accuracy at \num{0.500} MAcc. Trivial baselines
+appear in Table~\ref{tab:baselines} so that the reader need not do this
+arithmetic. Sensitivity, specificity, precision, F1, ROC-AUC and the Matthews
+correlation coefficient are also reported.
+
+Confidence intervals are obtained by bootstrap over \emph{recordings}, which is
+the correct unit of independence; resampling windows would treat the several
+windows of one recording as independent observations and would produce intervals
+far too narrow. Pairwise model comparison uses McNemar's
+test~\cite{dietterich1998approximate}, because all models are evaluated on the
+same recordings and the samples are therefore paired, with Holm--Bonferroni
+correction across the family of ten comparisons.

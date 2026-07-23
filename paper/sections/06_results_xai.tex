@@ -1,0 +1,152 @@
+\section{Results III: Explainability as a Test}
+\label{sec:xai}
+
+The standard practice of displaying a few heat maps and asserting that a model
+``focuses on clinically relevant regions'' is unfalsifiable as stated. This
+section states a prediction in advance and then tests it. We use SHAP for the
+classical models --- the exact tree estimator for random forests, the
+model-agnostic kernel estimator for the SVM~\cite{lundberg2017unified,lundberg2020local}
+--- and Grad-CAM at the last convolutional block for the
+CNN~\cite{selvaraju2017grad}.
+
+\subsection{Sanity checks first}
+
+Attribution maps mean nothing until they are shown to depend on the trained
+weights~\cite{adebayo2018sanity}, so the checks are reported before the
+findings. Recomputing Grad-CAM from a randomly re-initialised copy of the
+network gives maps that correlate with the trained model's at only \num{0.051}
+on average over 100 windows, so the maps reflect learned structure rather than
+architecture. Correlating the temporal attribution profile with the signal
+envelope gives \num{0.068} over 499 windows, with no window above \num{0.5}:
+attribution is not simply tracking loudness, which matters because S1 and S2 are
+the loud events and a loudness-driven map would confound any phase-specific
+claim. Both checks pass.
+
+A third check is less reassuring. Grad-CAM and Grad-CAM++~\cite{chattopadhay2018grad}
+maps correlate at only \num{0.392}. Our temporal conclusions are therefore
+specific to the Grad-CAM configuration and should not be assumed to hold for
+other attribution variants.
+
+\subsection{Where in frequency?}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_frequency_attribution}
+\caption{SHAP attribution mapped to frequency for the four classical
+feature/model pairings. PWP features map onto bands exactly; the MFCC profile is
+obtained by redistributing attribution through the magnitude of the DCT basis
+and is approximate.}
+\label{fig:freqattr}
+\end{figure}
+
+PWP features belong to exactly one frequency band by construction, so their
+attribution maps onto frequency exactly. MFCC features do not: a cepstral
+coefficient is a weighted sum over all mel bands, so attribution must be
+redistributed through the magnitude of the DCT basis. That projection is
+sign-agnostic and therefore approximate, and where the two disagree the PWP
+result is the trustworthy one.
+
+All four classical pairings peak at the low edge of the band,
+\SI{25}{\hertz}, and Fig.~\ref{fig:freqattr} shows the profiles. Cross-domain
+agreement is weak, however: the mean pairwise correlation between the four
+profiles is \num{0.514}, and this average conceals a wide range. The two MFCC
+models agree almost perfectly with each other (\num{0.961}), but RF--PWP and
+SVM--MFCC agree at only \num{0.280}. The high number is largely a statement
+about the shared representation rather than about a shared physiological
+finding: models built on the same features attribute similarly, models built on
+different features do not. We therefore state agreement across feature domains
+as weak.
+
+Individually, the leading PWP features are interpretable. The top two by mean
+absolute SHAP value are the Shannon entropy of band 0 (25--\SI{51}{\hertz},
+\SI{9.5}{\percent} of total attribution) and of band 9
+(291--\SI{326}{\hertz}, \SI{7.9}{\percent}), followed by relative energy in
+77--\SI{105}{\hertz}. Spectral entropy in a low band and in a high band is a
+plausible murmur descriptor --- murmurs are noise-like where S1 and S2 are
+tonal. But sign consistency is only \num{0.57} and \num{0.55} respectively,
+meaning these features push toward ``abnormal'' barely more often than toward
+``normal''. On that basis we describe them as the features the model relies on
+most, not as evidence of a murmur detector. For the MFCC models the leading
+features are $\mathrm{MFCC}_3$ mean and $\mathrm{MFCC}_0$ statistics; the
+prominence of the zeroth coefficient and its derivative, which describe overall
+energy and its variation, is not encouraging given Section~\ref{sec:persite}.
+
+\subsection{Where in the cardiac cycle?}
+
+\input{tables/table_alignment}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_alignment_cnn}
+\caption{Distribution of per-window systolic enrichment $E_\text{systole}$ for
+the CNN. The dashed line at $E=1$ is what uniform temporal attention produces.
+The distribution is shifted slightly right of it.}
+\label{fig:alignment}
+\end{figure}
+
+Each window is labelled into S1, systole, S2 and diastole by an envelope-based
+segmenter that operates independently of the model. Given a unit-mass
+attribution map, the enrichment for state $s$ is
+\begin{equation}
+E_s = \frac{\text{fraction of attribution mass inside } s}
+           {\text{fraction of time occupied by } s},
+\end{equation}
+so that $E_s = 1$ is exactly what uniform temporal attention produces, $E_s > 1$
+is a genuine preference and $E_s < 1$ is avoidance. The normalisation is the
+whole point: a statement such as ``\SI{25}{\percent} of the attention fell in
+systole'' is uninterpretable until one knows that systole occupies
+\SI{23}{\percent} of the window. Because most clinically important adult murmurs
+are systolic, a model that has learned pathology should show
+$E_\text{systole} > 1$ --- a prediction made before the measurement.
+
+The prediction is confirmed in sign and is very weak in magnitude.
+Table~\ref{tab:alignment} gives $E_\text{systole} = \num{1.056}$, above the
+uniform null but by about \SI{6}{\percent}. Against a permutation null, in which
+the attribution profile is shuffled in time so that its sparsity and dynamic
+range are preserved while any relation to the cardiac cycle is destroyed, only
+\SI{33}{\percent} of the 200 tested windows reach significance at
+$\alpha = 0.05$, the mean $p$-value is \num{0.43}, and the effect size is
+Cohen's $d = \num{0.131}$. Fig.~\ref{fig:alignment} shows the corresponding
+distribution: shifted right of $E = 1$, but overlapping it heavily. We state
+this as a tendency, not a property of the model.
+
+Three honesty conditions attach to these numbers. First, the segmenter is a
+simplified envelope-based labeller, not the reference hidden semi-Markov
+model~\cite{springer2016logistic}. It is used only at evaluation time and never
+during training, so a noisier segmenter adds variance and makes the test
+\emph{harder} to pass; it cannot manufacture a positive result. Second,
+low-confidence windows are excluded, and the honest denominator for every figure
+above is the \SI{66.5}{\percent} inclusion rate (2235 of 3362 windows, mean
+segmenter confidence \num{0.559}, mean estimated heart rate \SI{82}{bpm}).
+Third, Grad-CAM's last convolutional feature map is only a few cells across in
+each dimension; the frequency axis is too coarse to support spectral claims, so
+no frequency conclusion is drawn from Grad-CAM. All frequency evidence comes
+from PWP SHAP.
+
+\subsection{The check that fails}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_gradcam_example}
+\caption{Grad-CAM on a correctly classified abnormal window, with the segmenter
+state track below. Maps such as this one motivate the enrichment test; on their
+own they cannot support it.}
+\label{fig:gradcam}
+\end{figure}
+
+If systolic enrichment reflected murmur detection, it should be stronger when
+the model is right than when it is wrong. Stratifying by outcome, it is not.
+Mean $E_\text{systole}$ is \num{1.085} on true positives but \num{1.115} on
+false positives and \num{1.157} on false negatives ($n = 26$, so that last figure
+is a tendency at best). The difference between true and false positives is
+$\num{-0.030}$: the model's systolic focus is, if anything, marginally
+\emph{stronger} when it raises a false alarm.
+
+This is the clearest negative result in the project, and it constrains what the
+rest of the section can claim. The attribution maps are not artifacts --- the
+sanity checks establish that --- and they do lean toward systole. But that lean
+does not distinguish correct from incorrect decisions, so it cannot be used as
+evidence that the model has learned murmur detection. Fig.~\ref{fig:gradcam}
+shows a representative correctly classified abnormal window; visual inspection
+of such maps is what suggested the hypothesis, and the quantitative test is what
+prevents us from concluding it.

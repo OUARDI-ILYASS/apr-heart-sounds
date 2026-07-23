@@ -64,14 +64,6 @@ def ensure_parent(path: str | Path) -> Path:
 # --------------------------------------------------------------------------- #
 def save_npy(path: str | Path, array: np.ndarray, check_finite: bool = True) -> Path:
     """Save an array, refusing to persist NaN/Inf unless explicitly allowed.
-
-    PROFESSOR Q: "How do you handle NaNs from feature extraction?"
-    A: We refuse to write them. A NaN in a feature file propagates silently -
-       sklearn raises much later with an unrelated message, and PyTorch just
-       produces NaN loss. Failing at the point of creation makes the cause
-       obvious. Feature extractors sanitise known-degenerate cases (log of
-       zero energy, kurtosis of a constant signal) explicitly rather than
-       relying on this net.
     """
     path = ensure_parent(path)
     array = np.asarray(array)

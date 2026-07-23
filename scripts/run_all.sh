@@ -25,7 +25,6 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --from)            START_FROM="$2"; shift 2 ;;
     --skip-download)   SKIP_DOWNLOAD="--skip-download"; shift ;;
-    --skip-ablations)  SKIP_ABLATIONS="true"; shift ;;
     --config)          CONFIG="$2"; shift 2 ;;
     *) echo "Unknown option: $1"; exit 1 ;;
   esac
@@ -42,8 +41,7 @@ PHASES=(
   "07:07_explain_shap.py:SHAP explanations"
   "08:08_explain_gradcam.py:Grad-CAM and sanity checks"
   "09:09_cycle_alignment.py:Cardiac-cycle alignment"
-  "10:10_run_ablations.py:Ablation study"
-  "11:11_build_report_assets.py:Report assets"
+  "10:10_build_report_assets.py:Report assets"
 )
 
 echo "=============================================================="
@@ -59,10 +57,6 @@ for entry in "${PHASES[@]}"; do
 
   if [[ "$id" < "$START_FROM" ]]; then
     echo "  [skip] phase $id — $description"
-    continue
-  fi
-  if [[ "$id" == "10" && "$SKIP_ABLATIONS" == "true" ]]; then
-    echo "  [skip] phase 10 — ablations (--skip-ablations)"
     continue
   fi
 

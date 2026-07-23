@@ -11,35 +11,6 @@ summing the channels with those weights.
 
 In our case the resulting map lives on a (2 frequency x 11 time) grid, which we
 upsample back to (32 x 188) - the log-Mel input resolution.
-
-PROFESSOR Q: "Why ReLU at the end?"
-A: Because we want the evidence *for* the class, not against it. Negative
-   values in the weighted sum are regions whose activation pushes the score
-   down; including them would blur "where the murmur is" with "where the
-   absence of a murmur is". The ReLU is what makes the map class-discriminative
-   rather than just class-sensitive.
-
-PROFESSOR Q: "Grad-CAM on a 2x11 grid is very coarse. Is that a problem?"
-A: It is a real limitation and we quantify it rather than hide it. On the
-   frequency axis, 2 cells over 32 mel bands is too coarse to localise a murmur
-   spectrally, so we deliberately make no frequency claims from Grad-CAM - the
-   frequency-domain evidence comes from PWP SHAP, where the mapping to Hz is
-   exact. On the time axis, 11 cells over 3 seconds is ~273 ms per cell, which
-   is comparable to the duration of systole itself (~300 ms). That is coarse
-   but sufficient to distinguish "attends during systole" from "attends during
-   diastole", which is the only temporal claim we make. We also report
-   Grad-CAM++ and a Guided-Grad-CAM variant as robustness checks, and phase 08
-   verifies the three agree.
-
-PROFESSOR Q: "Isn't Grad-CAM known to be unreliable?"
-A: There is a real literature on saliency-map failure modes - Adebayo et al.'s
-   sanity checks showed that some methods produce plausible maps even from a
-   randomly initialised network. We run exactly that test: ``sanity_check_
-   randomization`` recomputes the maps from a re-initialised model and reports
-   the correlation with the trained model's maps. A high correlation would mean
-   our maps are an artefact of architecture rather than of learning, and would
-   invalidate the XAI claim. That check is part of phase 08, not an optional
-   extra.
 """
 
 from __future__ import annotations

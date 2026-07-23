@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Phase 02 - Extract MFCC, log-Mel and PWP features from every segment.
 
 Three feature domains, one loop. Scalers are fitted on TRAIN ONLY and saved so

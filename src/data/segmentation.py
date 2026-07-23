@@ -1,13 +1,4 @@
 """Fixed-window segmentation of preprocessed recordings.
-
-PROFESSOR Q: "Why fixed windows rather than segmenting into cardiac cycles?"
-A: Two reasons, one practical and one methodological.
-   Practical: cycle-based segmentation requires a segmenter, and a segmenter
-   that fails on noisy recordings would silently bias which recordings survive.
-   Methodological: our XAI claim is that the CNN discovers the systolic window
-   *without being told where it is*. If we had already cut the signal at cycle
-   boundaries, that discovery would be built into the input representation and
-   the claim would be circular. Fixed windows keep the cardiac timing latent.
 """
 
 from __future__ import annotations

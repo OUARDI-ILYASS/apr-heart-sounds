@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+
 """Phase 01 - Preprocess audio, build splits, and segment into fixed windows.
 
 Chain per recording: resample -> bandpass -> spike removal -> normalise ->

@@ -94,14 +94,6 @@ def error_analysis(recording_ids: np.ndarray, y_true: np.ndarray,
 def calibration_curve(y_true: np.ndarray, y_prob: np.ndarray,
                       n_bins: int = 10) -> Dict[str, List[float]]:
     """Reliability diagram data plus the Expected Calibration Error.
-
-    PROFESSOR Q: "Are your probabilities meaningful?"
-    A: We measure it rather than assume it. ECE is the average gap between
-       predicted confidence and observed accuracy. Random Forest probabilities
-       are notoriously under-confident (they are vote fractions), and a CNN
-       trained with a weighted loss is systematically shifted. If ECE is large
-       we say so, because a poorly calibrated probability makes the
-       mean-probability aggregation rule shakier than the majority vote.
     """
     y_true = np.asarray(y_true).astype(int)
     y_prob = np.asarray(y_prob, dtype=np.float64)

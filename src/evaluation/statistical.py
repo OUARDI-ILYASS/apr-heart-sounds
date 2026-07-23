@@ -1,21 +1,4 @@
 """Statistical tests: is the difference between two models real?
-
-PROFESSOR Q: "Model A got 0.84 MAcc and model B got 0.82. Is A better?"
-A: Not necessarily, and the whole point of this module is to answer that
-   properly rather than by eyeballing decimals. With a test set of ~470
-   recordings, a 2-point MAcc difference is well inside sampling noise. We
-   report (a) bootstrap confidence intervals for each model's metric and (b)
-   McNemar's test on the paired predictions. If the CIs overlap heavily and
-   McNemar's p is large, the honest conclusion is that the models are
-   statistically indistinguishable - which is itself a finding worth stating,
-   especially when the simpler model is 100x cheaper to train.
-
-PROFESSOR Q: "Why McNemar and not a t-test on accuracy?"
-A: Because the two models are evaluated on the *same* recordings, so the
-   samples are paired, not independent. McNemar's test uses exactly the right
-   information: the two discordant cells (A right & B wrong, A wrong & B right)
-   and ignores the cases where both agree, which carry no evidence about a
-   difference.
 """
 
 from __future__ import annotations
@@ -156,13 +139,6 @@ def permutation_test(values_a: np.ndarray, values_b: np.ndarray,
 def holm_bonferroni(p_values: Dict[str, float], alpha: float = 0.05
                     ) -> Dict[str, Dict[str, object]]:
     """Holm-Bonferroni correction for a family of tests.
-
-    PROFESSOR Q: "You ran several pairwise comparisons. Did you correct for
-                  multiple testing?"
-    A: Yes, with Holm-Bonferroni, which is uniformly more powerful than plain
-       Bonferroni while controlling the same family-wise error rate. With six
-       pairwise model comparisons an uncorrected 0.05 threshold gives roughly a
-       26% chance of at least one spurious 'significant' result.
     """
     items = sorted(p_values.items(), key=lambda kv: kv[1])
     n = len(items)

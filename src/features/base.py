@@ -54,13 +54,6 @@ def aggregate_over_time(matrix: np.ndarray, aggregations: Sequence[str],
     then all aggregations of coefficient 1, and so on. This keeps related
     features adjacent, which makes SHAP summary plots readable and makes it
     trivial to slice out "everything about coefficient k".
-
-    PROFESSOR Q: "Why summarise instead of feeding the sequence to the model?"
-    A: Because SVM and Random Forest require a fixed-length vector - they have
-       no notion of a time axis. The aggregation is exactly where the classical
-       branch loses temporal structure, and that loss is precisely what the CNN
-       branch is designed to avoid. The contrast between the two is one of the
-       findings of the study, not an accident of implementation.
     """
     unknown = [a for a in aggregations if a not in AGGREGATION_FUNCTIONS]
     if unknown:

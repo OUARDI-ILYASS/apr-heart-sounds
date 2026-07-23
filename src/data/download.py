@@ -5,18 +5,6 @@ The dataset is distributed as one directory per sub-database, each containing
 row per recording: ``<recording_id>,<label>`` where ``-1`` is Normal and ``1``
 is Abnormal.
 
-PROFESSOR Q: "Why are there six sub-databases and does it matter?"
-A: Each sub-database (training-a .. training-f) was collected by a different
-   research group, at a different site, with different stethoscopes and in
-   different acoustic environments. Class balance also varies wildly between
-   them: training-a is roughly 70% abnormal, training-e is roughly 95% normal.
-   This matters enormously. If you split randomly without stratifying on
-   sub-database, the model can learn to recognise the *recording device* and
-   infer the label from it, because device correlates with site and site
-   correlates with prevalence. That is a shortcut, not a diagnosis. We
-   stratify splits jointly on (label, sub-database) to prevent it, and we
-   report per-sub-database performance so the shortcut would be visible if it
-   existed.
 """
 
 from __future__ import annotations

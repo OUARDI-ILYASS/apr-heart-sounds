@@ -4,14 +4,7 @@ Rather than a heavyweight schema library, this module encodes the handful of
 constraints that are actually specific to this pipeline and that would
 otherwise fail silently or many minutes into a run.
 
-PROFESSOR Q: "What happens if I set n_mels larger than the number of usable
-              FFT bins?"
-A: `validate_config` refuses to run. This is not a hypothetical: at sr=2000
-   with n_fft=256 there are only ~48 FFT bins between 25 and 400 Hz, so asking
-   for 64 mel filters silently produces empty (all-zero) filters. librosa emits
-   a warning that is easy to miss, and the resulting feature vector contains
-   structural zeros that quietly degrade every downstream model. We turn that
-   warning into a hard error with an explanatory message.
+
 """
 
 from __future__ import annotations

@@ -1,0 +1,55 @@
+\section{Results I: What Is in the Feature Space Before Supervision?}
+\label{sec:clustering}
+
+\input{tables/table_clustering}
+
+$k$-means is used here as a diagnostic rather than as a decorative preliminary.
+It answers a question the classifiers cannot: is the normal/abnormal distinction
+geometrically present in each feature space \emph{before any label is used}? We
+sweep $k \in \{2,\dots,8\}$ on the training split, and measure agreement of the
+partition against two references --- the diagnosis and the recording site ---
+so that a null result against the diagnosis is still informative.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_feature_projections}
+\caption{PCA and t-SNE projections of the three feature spaces, one row per
+feature domain, coloured by diagnosis. No projection separates the two classes;
+the first two principal components explain only \SI{18.6}{\percent} of the
+variance in the MFCC space.}
+\label{fig:projections}
+\end{figure}
+
+Table~\ref{tab:clustering} reports the $k=2$ result. The adjusted Rand index
+against the diagnosis is \num{0.018} for MFCC, \num{0.028} for log-Mel and
+\num{0.002} for PWP: all three are close to chance. Against the recording site
+the same partitions score \num{0.201}, \num{0.043} and \num{0.159}. For MFCC and
+PWP the site agreement exceeds the class agreement by an order of magnitude. The
+same pattern holds at other $k$: for MFCC at $k=3$, ARI reaches \num{0.271}
+against the diagnosis but \num{0.420} against the site.
+
+Fig.~\ref{fig:projections} shows the corresponding PCA and t-SNE projections,
+in which no domain visibly separates the two classes. We stress that the
+site/diagnosis asymmetry is established by the index values above and not by
+these plots: the projections are coloured by diagnosis only, and in any case
+t-SNE cluster sizes and inter-cluster distances are not quantitatively
+meaningful, so a projection is at best corroborating evidence for a partition
+statistic. The comparison of ARI against two references is the actual
+measurement.
+
+Two observations follow. First, the expectation we started from --- that the
+diagnosis would be recoverable without labels --- is contradicted. Second, and
+more usefully, the null result is not uninformative, because the site comparison
+identifies what the dominant variance actually encodes. The class boundary in
+these spaces is a thin supervised direction inside a geometry organised
+primarily by how and where the recording was made. This is the first of three
+independent indications pointing the same way, and it is the reason we treat the
+aggregate metric of Section~\ref{sec:classification} with caution rather than
+reporting it as a headline.
+
+The moderate silhouette values (\num{0.396} for MFCC, \num{0.388} for PWP) should
+not be read as evidence of good clustering: at $k=2$ the MFCC partition is
+extremely unbalanced (\num{29089} versus \num{1606} windows), and a silhouette
+computed on one large and one small compact cluster is easy to obtain. Davies--Bouldin
+and Calinski--Harabasz degrade sharply for $k \geq 3$ in every domain, which is
+consistent with there being no strong natural partition at any $k$ we tested.

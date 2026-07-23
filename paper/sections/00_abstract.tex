@@ -1,11 +1,17 @@
-% 00_abstract.tex — PLACEHOLDER
-%
-% Deliberately empty. This section is written AFTER the experiments have run,
-% against the numbers in results/ and reports/PIPELINE_STATUS.md, so that no
-% claim in the paper is written before the evidence for it exists.
-%
-% Inputs to use when writing:
-%   reports/PIPELINE_STATUS.md          claim verdicts (C1..C5) and the audit trail
-%   reports/phase_*/summary.md          per-phase findings and assertions
-%   paper/tables/*.tex                  auto-generated, \input{} them directly
-%   paper/figs/*.pdf                    auto-copied by scripts/11_build_report_assets.py
+\begin{abstract}
+Automatic screening of phonocardiogram (PCG) recordings could extend cardiac
+auscultation to settings without expert cardiology, but on the PhysioNet/CinC
+2016 corpus a high aggregate score is easy to obtain and hard to trust, because
+the recording site is itself strongly predictive of the diagnosis. This project
+compares three feature representations (MFCC, log-Mel spectrogram, perceptual
+wavelet packet) and three classifiers (SVM, random forest, small CNN) under one
+recording-level protocol, and pairs each performance claim with a diagnostic
+that could refute it: unsupervised $k$-means structure, a per-site breakdown,
+and a falsifiable test of whether attributions concentrate in systole. The best
+model reaches a modified accuracy of $0.866$, comparable to published entries,
+but $k$-means recovers the acquisition site far better than the diagnosis, and
+per-site modified accuracy ranges from $0.99$ down to $0.48$. Attribution is
+only weakly systole-enriched, and no more so for correct than for incorrect
+predictions. We conclude that the aggregate metric overstates what the models
+have learned.
+\end{abstract}

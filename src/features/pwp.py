@@ -18,28 +18,6 @@ Pipeline per segment::
       -> one fixed-length vector
 
 Default dimensionality: 12 perceptual bands x 7 descriptors = **84**.
-
-PROFESSOR Q: "What makes this *perceptual* rather than just a wavelet packet?"
-A: The grouping step. A plain WP decomposition to level L gives 2^L uniform
-   subbands - a linear frequency partition. We merge those uniform nodes into
-   bands whose edges follow a perceptual (mel) spacing, so the resulting
-   partition is narrow at low frequency and wide at high frequency, mirroring
-   auditory frequency resolution. That is the same idea as the perceptual
-   wavelet packet transform in the PCG literature, implemented by grouping
-   rather than by pruning the decomposition tree, which keeps the node-to-band
-   mapping fixed and therefore keeps feature indices comparable across
-   segments - a property SHAP needs.
-
-PROFESSOR Q: "What is the frequency ordering problem?"
-A: A wavelet packet tree does not produce nodes in frequency order. At each
-   decomposition step the high-pass branch reverses the frequency axis of its
-   children, so the "natural" (Paley) ordering of terminal nodes is a bit-
-   reversed permutation of frequency ordering. pywt returns natural order by
-   default. If you index nodes assuming they are frequency-ordered - as almost
-   every naive implementation does - the frequency axis of every subsequent
-   analysis is silently scrambled, and nothing crashes. We request
-   ``order='freq'`` explicitly and the config validator refuses any other
-   value.
 """
 
 from __future__ import annotations

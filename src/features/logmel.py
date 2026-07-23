@@ -6,23 +6,6 @@ the comparison between them is one of the study's findings.
 
 Output shape at default settings: ``(32 mel bands, 188 frames)`` for a 3 s
 segment at 2 kHz with ``hop_length=32``.
-
-PROFESSOR Q: "Why 32 bands x 188 frames rather than a square image?"
-A: Because we are not making an image, we are making a physical measurement.
-   The frequency axis is capped at 32 by the FFT resolution available in the
-   25-400 Hz band (see ``src/config/schema.py``). The time axis is deliberately
-   fine - 16 ms per frame - because the explainability analysis needs to
-   localise attribution inside a ~300 ms systolic window. Resizing to a square
-   would either throw away temporal precision or fabricate frequency
-   resolution that the physics does not support.
-
-PROFESSOR Q: "Is a mel filterbank appropriate below 400 Hz?"
-A: Barely, and we test it. The mel scale is approximately linear below 1 kHz,
-   so this filterbank is very nearly a linear-frequency filterbank. Ablation A2
-   swaps in an explicitly linear bank; if performance is unchanged, that is
-   evidence that the perceptual warping contributes nothing at these
-   frequencies - which is a legitimate negative result worth reporting rather
-   than a failure.
 """
 
 from __future__ import annotations

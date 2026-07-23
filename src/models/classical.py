@@ -35,11 +35,6 @@ necessary, and both are handled here:
    shortlist is re-scored on the FULL training set and the winner chosen there.
    This keeps most of the speed-up while provably matching the full-data choice
    whenever the shortlist contains it. See `run_grid_search`.
-
-PROFESSOR Q: "Did the fast search pick the same model as an exhaustive one?"
-A: Yes, and it is checkable: `classical.search.segments_per_recording: 0` runs
-   the search at full size. With refit-top-k enabled the selected (C, gamma)
-   matches. The subsample is trusted only to prune, never to decide.
 """
 
 from __future__ import annotations
@@ -111,16 +106,6 @@ def get_param_grid(model_name: str, cfg: Dict) -> Dict[str, List]:
 def build_pipeline(model_name: str, cfg: Dict, seed: int = 42,
                    for_search: bool = False):
     """Scaler + estimator as a single Pipeline.
-
-    PROFESSOR Q: "Why wrap the scaler in the Pipeline for CV when phase 02
-                  already scaled the features?"
-    A: Inside CV the scaler must be refitted on each training fold. Relying only
-       on the phase-02 scaler would share statistics computed over the fold
-       being validated - a small but real leak. The Pipeline handles it
-       correctly by construction. The phase-02 scaler still applies to test data.
-
-    ``for_search=True`` returns a cheaper configuration used only while ranking
-    hyperparameters. It never touches the model that gets saved.
     """
     from sklearn.pipeline import Pipeline
     from sklearn.preprocessing import StandardScaler
@@ -152,14 +137,6 @@ def build_pipeline(model_name: str, cfg: Dict, seed: int = 42,
 # --------------------------------------------------------------------------- #
 def make_cv(cfg: Dict, seed: int = 42):
     """Cross-validation splitter that respects recording groups.
-
-    PROFESSOR Q: "Why StratifiedGroupKFold?"
-    A: The unit of observation is a 3-second segment, but the unit of
-       independence is a recording. A recording contributes 5-20 segments that
-       share a patient, a stethoscope and a murmur. Scattering them across folds
-       lets the model validate on segments whose siblings it trained on, and CV
-       scores become optimistic by a wide margin. Grouping by recording_id
-       removes this; the 'Stratified' part preserves class balance at 3:1.
     """
     from sklearn.model_selection import StratifiedGroupKFold, StratifiedKFold
 

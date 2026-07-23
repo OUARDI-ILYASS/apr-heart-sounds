@@ -1,0 +1,27 @@
+\section{Conclusion}
+
+This project implemented a heart sound classification pipeline on the public
+portion of PhysioNet/CinC 2016 and compared three feature representations across
+three classifier families under a single recording-level protocol. The best
+configuration, an RBF SVM on MFCC statistics, reaches a modified accuracy of
+\num{0.866} on our held-out split, and the log-Mel CNN is statistically
+indistinguishable from it on that metric while making significantly fewer total
+recording-level errors.
+
+The more useful findings are the ones that came from testing those numbers
+rather than reporting them. $k$-means on the unsupervised feature spaces
+recovers the recording site better than the diagnosis; per-site modified
+accuracy spans \num{0.509}, from near-perfect on the largest sub-database to
+below chance level on two others; and the CNN's attribution, though verifiably
+dependent on learned weights and mildly enriched in systole
+($E_\text{systole} = \num{1.056}$), is not more systole-enriched on correct
+predictions than on incorrect ones. Two of the three expectations we set out
+with were contradicted and one was only weakly supported.
+
+We therefore conclude that on this corpus the aggregate metric overstates what
+the models have learned, and that the diagnostics --- not the leaderboard
+position --- are where the informative content of such a study lies. The natural
+continuation is to make site an explicit variable: predict the sub-database
+directly from the features to quantify the shortcut, and evaluate under
+leave-one-site-out rather than stratified splitting, which measures the
+generalisation that a screening application would actually require.

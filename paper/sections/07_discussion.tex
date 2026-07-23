@@ -1,0 +1,43 @@
+\section{Discussion and Limitations}
+
+Three diagnostics were applied to a system whose aggregate score,
+MAcc \num{0.866}, sits comfortably within the published range for this corpus.
+All three point the same way. Unsupervised clustering recovers the acquisition
+site far better than the diagnosis in two of three feature spaces. Per-site
+performance ranges from \num{0.986} to \num{0.477}, with the pooled figure
+carried by the single largest and easiest sub-database. And the model's
+attribution, while genuinely dependent on learned weights and mildly
+systole-preferring, is no more systole-preferring on correct decisions than on
+incorrect ones.
+
+None of these establishes a mechanism individually. Together they make it
+difficult to maintain that a MAcc near \num{0.87} on this split demonstrates
+learned cardiac acoustics, and easy to maintain that acquisition condition is
+doing substantial work. We state that as an inference, and we name the
+experiment that would settle it: training a classifier to predict the
+sub-database from the same features, and measuring how much of the label
+information survives after site is controlled for. We did not run it.
+
+Several further limitations should be stated plainly rather than waited for.
+The evaluation rests on one split of one corpus; recording-level splitting and
+joint stratification protect against the most common leakage, but a single split
+cannot separate representation effects from split-specific variance, and
+repeated splits or nested cross-validation would give a firmer footing. Both
+random forests overfit their training folds, and neither classical model is well
+calibrated. The MFCC-to-frequency projection used in
+Section~\ref{sec:xai} is sign-agnostic and approximate, and it disagrees with
+the exact PWP mapping. Grad-CAM and Grad-CAM++ agree at only \num{0.392}, so
+the temporal result is specific to one attribution variant. The segmenter
+labels only \SI{66.5}{\percent} of test windows with sufficient confidence, and
+nothing is known about whether the excluded third differs systematically ---
+if low-confidence windows are the noisy ones, they may also be the ones where
+site cues matter most. Finally, the two smallest sub-databases contribute
+8 and 17 test recordings, and their figures carry essentially no statistical
+weight.
+
+We also note what did work. All five models substantially exceed trivial
+baselines, and the ranking of feature domains is stable and interpretable: MFCC
+outperforms PWP under both classifier families, and the log-Mel CNN attains the
+best ranking quality (AUC \num{0.961}) despite an operating point that gives it
+no MAcc advantage. The comparison the study was designed to make is therefore
+answered, even though the answer is not the one anticipated.

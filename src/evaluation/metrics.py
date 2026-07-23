@@ -14,12 +14,6 @@ The metric hierarchy for this task, in order of what actually matters:
 5. **Accuracy** - reported for completeness and because the course asks for it,
    but flagged wherever it is misleading.
 
-PROFESSOR Q: "Why is accuracy misleading here?"
-A: Because roughly 78% of the recordings are Normal. A model that outputs
-   "Normal" unconditionally scores 78% accuracy, 0% sensitivity and 0.50 MAcc.
-   Accuracy alone would rate that model as good. Ablation A3 demonstrates
-   exactly this failure mode on purpose, so the paper can show the gap rather
-   than assert it.
 """
 
 from __future__ import annotations

@@ -611,3 +611,133 @@ Volunteering these makes you look in command of the work rather than defensive.
 - For every figure: does the caption state what the reader should conclude, and
   what they should *not* conclude from it?
 - Is any negative result missing from the paper that appears in the summaries?
+
+
+
+
+
+
+
+
+
+
+
+PROFESSOR Q: "What is unsupervised clustering *for* in a supervised project?"
+A: It answers a question the classifiers cannot: is the Normal/Abnormal
+   distinction *geometrically present* in each feature space, before any label
+   is used? If k=2 k-means recovers clusters that align with the diagnosis
+   (high ARI/NMI), the representation itself separates the classes and a
+   classifier is mostly reading off existing structure. If it does not - which
+   is what we expect here - then the class boundary is a thin, supervised
+   direction inside a space whose dominant variance is something else
+   (recording site, noise level, heart rate). That is a genuinely useful
+   negative result: it tells you the classifier is doing real work rather than
+   thresholding an obvious cluster, and it sets expectations for how much a
+   purely unsupervised approach could ever achieve on this task.
+
+PROFESSOR Q: "Why should I not read a low ARI as failure?"
+A: Because k-means optimises within-cluster variance, and the dominant
+   variance in PCG features is not pathology - it is acquisition. We test that
+   interpretation directly by also measuring cluster alignment with
+   sub-database (site). If clusters align better with site than with diagnosis,
+   we have identified *what* the feature space is actually organised by, which
+   is a stronger statement than "clustering did not work".
+
+
+
+
+PROFESSOR Q: "Why show both PCA and t-SNE?"
+A: They answer different questions and each is misleading on its own.
+   PCA is a *linear*, distance-preserving-in-the-large projection: it tells you
+   how much of the total variance lives in a couple of directions, and its axes
+   are interpretable (you can ask which features load on PC1). t-SNE is
+   *non-linear* and optimises local neighbourhood preservation: it reveals
+   manifold structure PCA would flatten, but its global geometry is not
+   meaningful - inter-cluster distances and cluster sizes in a t-SNE plot mean
+   essentially nothing, and the layout changes with perplexity. Showing PCA
+   alone risks concluding "no structure" when the structure is non-linear;
+   showing t-SNE alone risks over-reading artefacts of the embedding.
+
+PROFESSOR Q: "Did you fit t-SNE on all the data?"
+A: t-SNE is transductive - it has no ``transform`` method, so it must be fitted
+   on exactly the points being plotted. That is fine for a *visualisation*, but
+   it means t-SNE coordinates can never be used as features for a classifier;
+   doing so would embed test points using test-point neighbourhoods. PCA, being
+   a linear map, is fitted on train and applied to the rest.
+
+
+
+PROFESSOR Q: "What happens if I set n_mels larger than the number of usable
+              FFT bins?"
+A: `validate_config` refuses to run. This is not a hypothetical: at sr=2000
+   with n_fft=256 there are only ~48 FFT bins between 25 and 400 Hz, so asking
+   for 64 mel filters silently produces empty (all-zero) filters. librosa emits
+   a warning that is easy to miss, and the resulting feature vector contains
+   structural zeros that quietly degrade every downstream model. We turn that
+   warning into a hard error with an explanatory message.
+
+
+
+PROFESSOR Q: "Why are there six sub-databases and does it matter?"
+A: Each sub-database (training-a .. training-f) was collected by a different
+   research group, at a different site, with different stethoscopes and in
+   different acoustic environments. Class balance also varies wildly between
+   them: training-a is roughly 70% abnormal, training-e is roughly 95% normal.
+   This matters enormously. If you split randomly without stratifying on
+   sub-database, the model can learn to recognise the *recording device* and
+   infer the label from it, because device correlates with site and site
+   correlates with prevalence. That is a shortcut, not a diagnosis. We
+   stratify splits jointly on (label, sub-database) to prevent it, and we
+   report per-sub-database performance so the shortcut would be visible if it
+   existed.
+
+
+
+preprocessing
+
+
+PROFESSOR Q: "Why zero-phase filtering?"
+A: A causal IIR filter introduces a frequency-dependent group delay. Our entire
+   explainability argument rests on *when* in the cardiac cycle the model
+   attends. If the filter shifted 200 Hz murmur energy by a few milliseconds
+   relative to the 40 Hz S1 fundamental, the attribution maps would be
+   comparing evidence that had been silently misaligned in time. filtfilt runs
+   the filter forwards then backwards, cancelling the phase response exactly
+   (at the cost of doubling the effective filter order, which we account for).
+
+
+
+
+PROFESSOR Q: "Doesn't zeroing a span destroy information?"
+A: The removed spans are typically 10-50 ms of clipped, non-cardiac
+   transient - the diaphragm being brushed. Leaving them in is worse: they
+   are the loudest events in the recording, so they dominate every
+   energy-based descriptor and the per-recording normalisation constant.
+   We count removals and report them, so the cost is visible rather than
+   hidden.
+
+
+
+
+PROFESSOR Q: "Why normalise per recording and not globally?"
+A: Recording gain in this dataset is a site artefact, not a physiological
+   variable. Different clinics used different digital stethoscopes with
+   different preamp gains. A global normalisation would preserve those
+   gain differences, and since gain correlates with site, and site
+   correlates with class prevalence, the model could exploit loudness as a
+   proxy for the label. Per-recording normalisation removes that channel
+   entirely. The cost is that we discard absolute intensity - but murmur
+   *grade* is judged relative to S1/S2 in the same recording anyway, so
+   the clinically meaningful information is relative, not absolute.
+
+
+
+
+PROFESSOR Q: "Why fixed windows rather than segmenting into cardiac cycles?"
+A: Two reasons, one practical and one methodological.
+   Practical: cycle-based segmentation requires a segmenter, and a segmenter
+   that fails on noisy recordings would silently bias which recordings survive.
+   Methodological: our XAI claim is that the CNN discovers the systolic window
+   *without being told where it is*. If we had already cut the signal at cycle
+   boundaries, that discovery would be built into the input representation and
+   the claim would be circular. Fixed windows keep the cardiac timing latent.

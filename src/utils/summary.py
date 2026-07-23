@@ -12,12 +12,6 @@ Three things live in a summary and each has a purpose:
   methodological promises into artifacts you can point at.
 * **claim_verdicts** - each experimental claim C1..C5 marked supported / weak /
   contradicted, with the evidence that decided it.
-
-PROFESSOR Q: "How do you know your test set was never used for model selection?"
-A: Because the phase summaries record which split each phase touched.
-   Phases 04 and 05 record only train/val; phase 06 is the first and only
-   phase that records a test-split read. The audit trail is in the artifacts,
-   not in a verbal claim.
 """
 
 from __future__ import annotations

@@ -1,0 +1,113 @@
+\section{Method}
+
+\input{figs/fig_pipeline}
+
+Fig.~\ref{fig:pipeline} shows the pipeline. Its distinguishing property is not
+any single block but the fact that the three feature domains are computed from
+\emph{identical} windows and evaluated under a single recording-level protocol,
+so that any difference between them is attributable to the representation and
+not to the experimental setup. The remainder of this section describes each
+stage and the reasoning behind the choices that are not self-evident.
+
+\subsection{Preprocessing}
+
+Recordings are resampled to \SI{2}{\kilo\hertz} and band-pass filtered to
+25--\SI{400}{\hertz} with a fourth-order Butterworth design. Below
+\SI{25}{\hertz} the signal is respiration, movement and baseline drift; above
+\SI{400}{\hertz} there is essentially no cardiac acoustic energy. The band
+covers S1 ($\approx$25--\SI{45}{\hertz}), S2 ($\approx$55--\SI{75}{\hertz}) and
+murmur energy.
+
+Filtering is applied forward and backward, so that it is zero-phase. This
+matters specifically for the analysis in Section~\ref{sec:xai}: a causal filter
+has frequency-dependent group delay, which would shift high-frequency murmur
+energy relative to the low-frequency S1 fundamental, and the alignment test is
+precisely a claim about \emph{when} evidence occurs.
+
+Friction transients from the stethoscope diaphragm are suppressed by the spike
+removal procedure of Schmidt et al.~\cite{schmidt2010segmentation}; these are
+the loudest events in many recordings and would otherwise dominate every
+energy-based descriptor. Finally each recording is $z$-normalised. Gain is a
+site artifact --- different clinics used different preamplifiers --- and since
+gain correlates with site and site correlates with prevalence, preserving
+absolute level would hand the model a shortcut.
+
+\subsection{Windowing}
+
+Windows are \SI{3}{\second} long and fixed. At 60--100\,bpm a cardiac cycle
+lasts 0.6--\SI{1.0}{\second}, so a \SI{3}{\second} window always contains at
+least three complete cycles and is robust to the phase at which it happens to
+start. Training uses \SI{50}{\percent} overlap as augmentation; validation and
+test use non-overlapping windows, so that evaluation samples remain
+statistically independent and confidence intervals are not artificially
+narrowed.
+
+Windows are deliberately \emph{not} cut at cardiac-cycle boundaries. Doing so
+would build the location of systole into the input representation and would
+make the alignment claim of Section~\ref{sec:xai} circular.
+
+\subsection{Three feature representations}
+
+The three representations were chosen to differ in kind rather than in
+parameter setting.
+
+\textbf{MFCC.} Thirteen cepstral coefficients from a mel filterbank, with first
+and second time derivatives, each trajectory summarised over the window by six
+statistics (mean, standard deviation, minimum, maximum, skewness, kurtosis),
+giving 234 dimensions. This is the standard baseline in the CinC 2016
+literature~\cite{davis1980comparison,rubin2016classifying}, so it anchors
+comparability, and the cepstrum is a decorrelated description of spectral
+shape, which is broadly what separates murmur from no-murmur.
+
+\textbf{Log-Mel spectrogram.} The same filterbank output retained as a
+two-dimensional time--frequency map and used as CNN input. This is the only
+representation that preserves the time axis; the statistical pooling used for
+the classical branch discards it. The contrast between the two is one of the
+comparisons the study is designed to make.
+
+\textbf{Perceptual wavelet packet (PWP).} A Daubechies-4 wavelet packet
+decomposition~\cite{daubechies1988orthonormal} whose uniform subbands are merged
+into perceptually spaced bands, each described by log energy, relative energy,
+Shannon entropy, standard deviation, skewness, kurtosis and peak amplitude,
+following the construction of Safara et al.~\cite{safara2013multi}. MFCC and
+log-Mel are both STFT-based and assume local stationarity within each window,
+which fits poorly a signal whose informative events are 10--\SI{50}{\milli\second}
+transients; the packet transform tiles the time--frequency plane
+adaptively~\cite{mallat2008wavelet,coifman1992entropy}. A further property
+matters in Section~\ref{sec:xai}: PWP features map onto frequency bands exactly,
+with no transform in between.
+
+Two resolution constraints shaped these parameters and are worth stating because
+they otherwise look arbitrary. First, the number of mel bands is limited by FFT
+resolution: at \SI{2}{\kilo\hertz} with a 256-point FFT the bin width is
+\SI{7.81}{\hertz}, so only about 48 usable bins fall inside 25--\SI{400}{\hertz},
+and requesting more filters than that produces empty, all-zero filters that
+inject structural zeros into every feature vector. Second, wavelet packet nodes
+are not returned in frequency order: the packet tree reverses the frequency axis
+in the high-pass branch at each level, so the natural ordering is a bit-reversed
+permutation of frequency order, and indexing it as though it were
+frequency-ordered silently scrambles the spectral axis without raising an error.
+Nodes are reordered explicitly before grouping.
+
+\subsection{Classifiers}
+
+Three families with different inductive biases are compared: an RBF-kernel SVM
+(global, distance-based, maximum-margin); a random forest (local, axis-aligned,
+ensemble, and additionally admitting an exact SHAP
+computation~\cite{lundberg2020local}); and a small two-dimensional CNN on
+log-Mel input, comprising four Conv--BN--ReLU--MaxPool blocks, global average
+pooling and a small fully connected head, on the order of $10^5$ parameters. The
+network is kept deliberately small because the dataset is small; a large
+pretrained network would memorise it and would obscure the feature-domain
+comparison that is the point of the study.
+
+Class imbalance is handled by inverse-frequency weighting in all three families.
+Augmentation uses circular time shift --- the phase at which a window starts is
+arbitrary, so the label must be invariant to it --- and additive Gaussian noise.
+Frequency masking is deliberately avoided: masking a band could delete the
+murmur itself, converting an abnormal example into a mislabelled normal one.
+
+Window scores are aggregated to a recording decision by averaging predicted
+probabilities, because a clinician diagnoses a patient rather than a
+three-second excerpt. Majority voting was also computed and gave results within
+\num{0.004} MAcc of probability averaging.

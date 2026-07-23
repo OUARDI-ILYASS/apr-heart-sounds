@@ -1,17 +1,4 @@
 """Feature scaling - fit on TRAIN only, applied unchanged to val and test.
-
-PROFESSOR Q: "Where do you fit the scaler and why does it matter?"
-A: On the training partition only. Fitting a StandardScaler on the full dataset
-   leaks the mean and variance of the test set into training. It sounds
-   harmless - it is only two numbers per feature - but it is still information
-   the model should not have, it is the single most common subtle leak in
-   applied ML papers, and reviewers look for it. Our loader physically cannot
-   do it wrong: `fit_scaler` takes only the training matrix, and `apply_scaler`
-   takes a fitted object.
-
-For the CNN, the same logic applies but per mel band: we compute the mean and
-standard deviation of each of the 32 log-Mel bands over the training segments
-and standardise every split with those statistics.
 """
 
 from __future__ import annotations

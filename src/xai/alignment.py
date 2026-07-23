@@ -39,17 +39,6 @@ from a story told after the fact.
     *different* segment. Controls for the possibility that both the map and the
     state sequence are periodic at similar rates and would correlate by
     coincidence.
-
-PROFESSOR Q: "Couldn't the model just be attending to loud parts, which happen
-              to be S1 and S2?"
-A: That is exactly the confound this design is built to catch, which is why we
-   score all four states separately and not just "sounds versus silence". S1
-   and S2 are the loud events; systole and diastole are the quiet intervals
-   between them. An energy-following model would show high enrichment in S1/S2
-   and near-zero in systole. A murmur-detecting model shows the opposite. We
-   also report the correlation between the attribution map and the signal
-   envelope directly (``energy_confound_check``), so the reader does not have
-   to take our word for it.
 """
 
 from __future__ import annotations

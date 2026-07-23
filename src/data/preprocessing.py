@@ -9,15 +9,6 @@ The order of operations matters and is not arbitrary:
   low-frequency baseline wander.
 * Normalise last so the amplitude statistics reflect the signal we actually
   feed the model, not the raw recording.
-
-PROFESSOR Q: "Why zero-phase filtering?"
-A: A causal IIR filter introduces a frequency-dependent group delay. Our entire
-   explainability argument rests on *when* in the cardiac cycle the model
-   attends. If the filter shifted 200 Hz murmur energy by a few milliseconds
-   relative to the 40 Hz S1 fundamental, the attribution maps would be
-   comparing evidence that had been silently misaligned in time. filtfilt runs
-   the filter forwards then backwards, cancelling the phase response exactly
-   (at the cost of doubling the effective filter order, which we account for).
 """
 
 from __future__ import annotations
@@ -91,13 +82,6 @@ def remove_spikes(x: np.ndarray, sr: float, window_ms: float = 500.0,
 
     Returns the cleaned signal and the number of spikes removed.
 
-    PROFESSOR Q: "Doesn't zeroing a span destroy information?"
-    A: The removed spans are typically 10-50 ms of clipped, non-cardiac
-       transient - the diaphragm being brushed. Leaving them in is worse: they
-       are the loudest events in the recording, so they dominate every
-       energy-based descriptor and the per-recording normalisation constant.
-       We count removals and report them, so the cost is visible rather than
-       hidden.
     """
     x = x.astype(np.float32, copy=True)
     window = max(1, int(round(window_ms * sr / 1000.0)))
@@ -136,16 +120,6 @@ def normalize_signal(x: np.ndarray, method: str = "zscore",
                      eps: float = 1e-8) -> np.ndarray:
     """Per-recording amplitude normalisation.
 
-    PROFESSOR Q: "Why normalise per recording and not globally?"
-    A: Recording gain in this dataset is a site artefact, not a physiological
-       variable. Different clinics used different digital stethoscopes with
-       different preamp gains. A global normalisation would preserve those
-       gain differences, and since gain correlates with site, and site
-       correlates with class prevalence, the model could exploit loudness as a
-       proxy for the label. Per-recording normalisation removes that channel
-       entirely. The cost is that we discard absolute intensity - but murmur
-       *grade* is judged relative to S1/S2 in the same recording anyway, so
-       the clinically meaningful information is relative, not absolute.
     """
     x = np.asarray(x, dtype=np.float32)
     if method == "none":

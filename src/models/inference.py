@@ -1,22 +1,4 @@
 """Segment-level prediction and aggregation to recording level.
-
-PROFESSOR Q: "Your models classify 3-second windows, but the label is per
-              recording. How do you get from one to the other?"
-A: Two aggregation rules, both reported:
-
-   * **Majority vote** - each segment votes for a class; ties break to
-     abnormal, because in a screening setting a missed pathology costs more
-     than a false alarm. This is what a clinician-facing system would do if it
-     only had hard decisions.
-   * **Mean probability** - average the positive-class probability across the
-     recording's segments, then threshold at 0.5. This is our primary rule
-     because it preserves confidence information: three segments at p=0.45
-     (consistent, mild evidence) should not be treated the same as three
-     segments at p=0.05.
-
-   We report both so the choice is visible rather than buried, and so a
-   difference between them - which would indicate a few very confident
-   segments driving the decision - is detectable.
 """
 
 from __future__ import annotations
@@ -147,12 +129,6 @@ def segment_agreement(recording_ids: np.ndarray, y_pred: np.ndarray
 def find_best_threshold(y_true: np.ndarray, y_prob: np.ndarray,
                         metric: str = "macc") -> Tuple[float, float]:
     """Choose a decision threshold on VALIDATION data.
-
-    PROFESSOR Q: "Did you tune the threshold on the test set?"
-    A: No. This helper is called only with validation probabilities in phase 05,
-       and the resulting threshold is frozen before phase 06 opens the test
-       split. Tuning a threshold on test data is one of the easiest ways to
-       inflate a reported MAcc by several points without noticing.
     """
     thresholds = np.linspace(0.05, 0.95, 91)
     best_threshold, best_score = 0.5, -np.inf

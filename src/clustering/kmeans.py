@@ -1,27 +1,4 @@
-"""K-means clustering of the feature spaces (course requirement).
-
-PROFESSOR Q: "What is unsupervised clustering *for* in a supervised project?"
-A: It answers a question the classifiers cannot: is the Normal/Abnormal
-   distinction *geometrically present* in each feature space, before any label
-   is used? If k=2 k-means recovers clusters that align with the diagnosis
-   (high ARI/NMI), the representation itself separates the classes and a
-   classifier is mostly reading off existing structure. If it does not - which
-   is what we expect here - then the class boundary is a thin, supervised
-   direction inside a space whose dominant variance is something else
-   (recording site, noise level, heart rate). That is a genuinely useful
-   negative result: it tells you the classifier is doing real work rather than
-   thresholding an obvious cluster, and it sets expectations for how much a
-   purely unsupervised approach could ever achieve on this task.
-
-PROFESSOR Q: "Why should I not read a low ARI as failure?"
-A: Because k-means optimises within-cluster variance, and the dominant
-   variance in PCG features is not pathology - it is acquisition. We test that
-   interpretation directly by also measuring cluster alignment with
-   sub-database (site). If clusters align better with site than with diagnosis,
-   we have identified *what* the feature space is actually organised by, which
-   is a stronger statement than "clustering did not work".
-"""
-
+"""K-means clustering of the feature spaces."""
 from __future__ import annotations
 
 from typing import Dict, List, Optional

@@ -1,12 +1,4 @@
 """Global seed control.
-
-PROFESSOR Q: "Are your results reproducible?"
-A: Bit-for-bit on the same machine for everything except the CNN, where we
-   expose `deterministic=True` to force cuDNN into deterministic algorithms.
-   That flag costs roughly 10-20% throughput, so it defaults to False for
-   development and should be turned on for the final reported run. t-SNE and
-   k-means are seeded through the same function. We record the seed in every
-   phase summary, so any number in the paper can be regenerated.
 """
 
 from __future__ import annotations

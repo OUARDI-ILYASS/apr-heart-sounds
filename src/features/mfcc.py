@@ -8,26 +8,6 @@ Pipeline per segment::
          -> one fixed-length vector
 
 Default dimensionality: 13 coefficients x 3 streams x 6 statistics = **234**.
-
-PROFESSOR Q: "MFCCs were designed for speech. Why use them on heart sounds?"
-A: Two honest answers. First, they are the standard baseline in the CinC 2016
-   literature (Potes et al., Rubin et al. both use them), so including them is
-   what makes our results comparable to published work. Second, the cepstrum
-   is really just a decorrelated, compressed description of spectral *shape* -
-   and murmur versus no-murmur is largely a question of spectral shape
-   (a murmur adds broadband noise-like energy where a normal cycle has near
-   silence). The mel warping is the part that transfers poorly, and we address
-   that head-on: at 25-400 Hz the mel scale is nearly linear, so in practice
-   the "mel" contributes almost nothing here. Ablation A2 tests exactly this.
-
-PROFESSOR Q: "Why does the DCT matter?"
-A: It decorrelates the log-mel energies. Adjacent mel bands are highly
-   correlated because the filters overlap; a diagonal-covariance model (or a
-   distance-based model like an RBF SVM) works much better on decorrelated
-   inputs. The price is interpretability: after the DCT, coefficient *i* is no
-   longer tied to a frequency, which is exactly the problem
-   ``src/xai/shap_explainer.py`` has to solve when mapping SHAP values back to
-   frequency bands.
 """
 
 from __future__ import annotations

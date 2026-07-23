@@ -10,13 +10,6 @@ The config is the contract of the whole pipeline. Three properties matter:
                                onto the base config, which guarantees that an
                                ablation differs from the full model in exactly
                                the fields it declares and nothing else.
-
-PROFESSOR Q: "How do you know an ablation only changed one thing?"
-A: Because ablation configs are *partial* files. `deep_merge` copies the base
-   config and only replaces the leaf keys present in the override. We also log
-   `config_diff` in every phase summary, which lists the exact dotted key paths
-   that differ from the base - so the claim is verifiable from the artifacts,
-   not from trust.
 """
 
 from __future__ import annotations

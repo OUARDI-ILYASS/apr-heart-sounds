@@ -1,16 +1,4 @@
 """CNN training: dataset, augmentation, loop, early stopping, checkpointing.
-
-Design decisions that matter and that an examiner is likely to probe:
-
-* **Selection metric is validation MAcc, not validation accuracy.** With ~78%
-  normal segments, accuracy rewards a degenerate all-normal predictor. MAcc
-  (= balanced accuracy = (Se+Sp)/2) does not.
-* **Class-weighted loss.** Weights are inverse class frequency computed on the
-  training split only.
-* **Early stopping with checkpoint restore.** We keep the weights from the best
-  validation epoch, not the last epoch.
-* **Test data is never touched here.** The trainer only ever sees train and
-  val. Phase 06 is the first phase that opens the test split.
 """
 
 from __future__ import annotations

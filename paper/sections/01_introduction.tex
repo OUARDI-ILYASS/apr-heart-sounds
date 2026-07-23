@@ -1,13 +1,57 @@
-% 01_introduction.tex — PLACEHOLDER
-%
-% Deliberately empty. This section is written AFTER the experiments have run,
-% against the numbers in results/ and reports/PIPELINE_STATUS.md, so that no
-% claim in the paper is written before the evidence for it exists.
-%
-% Inputs to use when writing:
-%   reports/PIPELINE_STATUS.md          claim verdicts (C1..C5) and the audit trail
-%   reports/phase_*/summary.md          per-phase findings and assertions
-%   paper/tables/*.tex                  auto-generated, \input{} them directly
-%   paper/figs/*.pdf                    auto-copied by scripts/11_build_report_assets.py
-
 \section{Introduction}
+
+Cardiac auscultation is the oldest and cheapest cardiac screening tool in
+clinical use, but interpreting heart sounds by ear is difficult and depends
+heavily on the listener's training~\cite{chizner2008cardiac,leatham1975auscultation}.
+The two dominant events, the first and second heart sounds (S1 and S2), are
+short transients carrying most of their energy below \SI{100}{\hertz}; murmurs
+are noise-like signals occupying the intervals between them and extending to
+several hundred hertz~\cite{abbas2009phonocardiography}. Automatic analysis of
+the phonocardiogram (PCG) is attractive wherever expert cardiology is scarce:
+primary-care triage, telemedicine, and low-cost digital stethoscopes. The task
+addressed here is the binary one posed by the PhysioNet/Computing in Cardiology
+(CinC) 2016 Challenge --- label a recording \emph{normal} or \emph{abnormal},
+where abnormal denotes a confirmed cardiac pathology rather than merely an
+audible murmur~\cite{liu2016open,clifford2016classification}.
+
+Work on this corpus is well developed. The winning entry combined a
+feature-based classifier ensemble with a convolutional network on band-limited
+cardiac cycles~\cite{potes2016ensemble}; a purely convolutional system on MFCC
+heat maps followed~\cite{rubin2016classifying}, as did feature ensembles that
+avoid segmentation altogether~\cite{zabihi2016heart}. Wavelet-packet
+descriptions of the PCG form a separate line~\cite{safara2013multi,coifman1992entropy},
+motivated by the fact that the informative events are transients of tens of
+milliseconds, for which the local-stationarity assumption behind the short-time
+Fourier transform fits poorly~\cite{mallat2008wavelet}. Reported modified
+accuracies cluster around \num{0.84}--\num{0.86}.
+
+Less developed is the question of \emph{what} such a system learns. The public
+portion of CinC 2016 comprises six sub-databases collected by different groups
+with different equipment, and abnormal prevalence varies across them by roughly
+\SI{69}{pp}. Site identity is therefore strongly predictive of the label, and a
+model that recognises the recording device or the room can score well without
+learning anything about cardiac acoustics --- the failure mode documented for
+radiographic COVID-19 detectors~\cite{degrave2021ai}. Here it is not
+hypothetical; it is the dominant structure in the data.
+
+This project therefore treats the aggregate metric as a claim to be tested. We
+implement one recording-level pipeline and use it to compare three
+representations that differ in kind --- cepstral (MFCC), spectral (log-Mel) and
+perceptual wavelet packet (PWP) --- across three classifier families. Each
+performance claim is paired with a diagnostic that could refute it. $k$-means
+asks whether the diagnosis is geometrically present in each feature space
+\emph{before any label is used}, with cluster agreement measured against both
+the diagnosis and the recording site so that a null result is still informative.
+Performance is broken down per sub-database, since a single bright site exposes
+a shortcut. And the explainability analysis is framed as a falsifiable
+prediction: because most clinically important adult murmurs are systolic, a
+detector that has learned pathology should place more attribution mass in
+systole than uniform temporal attention would, which can be tested against an
+analytic and a permutation null.
+
+The scope is narrow. We propose no new architecture and make no claim beyond the
+split we evaluate; the official challenge test set was never released, so all
+comparison with published entries is contextual. The contribution is the
+controlled comparison and the diagnostics --- and two of the three expectations
+we began with were contradicted by the evidence. They are reported here in the
+same voice as the results that held.

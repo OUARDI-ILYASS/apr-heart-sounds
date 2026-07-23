@@ -11,23 +11,6 @@ Block 3: (batch, 64,  4, 23)
 Block 4: (batch,128,  2, 11)   <- Grad-CAM target
 GAP    : (batch,128)
 FC     : (batch, 64) -> (batch, 2)
-
-PROFESSOR Q: "0.2M parameters for 3000 recordings still sounds like a lot."
-A: The relevant count is segments, not recordings: with 3 s windows at 50%
-   overlap the training set is on the order of 20-30 thousand examples, so the
-   ratio is roughly 10 examples per parameter. That is still not generous,
-   which is why we use batch normalisation, dropout, weighted sampling,
-   augmentation and early stopping on validation MAcc. The train-validation
-   curves are saved in phase 05 precisely so this question can be answered with
-   evidence rather than assertion.
-
-PROFESSOR Q: "Why global average pooling instead of flattening?"
-A: Flattening a (128, 2, 11) map into a 2816-dimensional vector would put ~180k
-   parameters into the first FC layer alone - most of the network's capacity
-   spent on a layer that also destroys spatial structure. GAP collapses each
-   channel to its mean activation, keeps the head tiny, and makes the network
-   robust to small shifts in where in the window a murmur occurs. It also
-   preserves the direct channel-to-class relationship that Grad-CAM exploits.
 """
 
 from __future__ import annotations

@@ -13,26 +13,6 @@ Two explainers are used, for good reason:
 * **KernelSHAP** for the SVM. Model-agnostic but expensive: cost scales with
   ``n_background x n_explained``, so we subsample both aggressively and report
   the resulting Monte-Carlo uncertainty rather than pretending it is exact.
-
-PROFESSOR Q: "Why not just use Random Forest feature_importances_?"
-A: Because impurity-based importance is (a) global only - it cannot tell you
-   why *this* recording was flagged, (b) biased toward continuous and
-   high-cardinality features, and (c) computed on training data, so it partly
-   reflects memorisation. SHAP is per-prediction, model-agnostic and computed
-   on held-out data. We do report both and note where they disagree, because
-   disagreement is informative.
-
-PROFESSOR Q: "SHAP assumes feature independence. Your features are highly
-              correlated - mean and median of the same coefficient, for
-              instance. Doesn't that break it?"
-A: It is a genuine limitation, and the honest framing is this: with correlated
-   features, SHAP splits credit *among* the correlated group in a way that
-   depends on the background distribution, so individual feature rankings
-   within a correlated group are unstable. Our conclusions are therefore drawn
-   at the level of *groups* - a frequency band, or a coefficient's whole set of
-   statistics - not individual dimensions. We also report the rank stability
-   across background resamples so the reader can see how much the ordering
-   moves.
 """
 
 from __future__ import annotations

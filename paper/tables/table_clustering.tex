@@ -1,14 +1,16 @@
 \begin{table}[t]
 \centering
-\caption{Unsupervised structure of each feature space ($k=2$). ARI against the diagnosis is compared with ARI against the recording site to identify what the clusters actually track.}
+\caption{Unsupervised structure of each feature space at $k=2$, on the training
+split. ARI against the diagnosis is compared with ARI against the recording site
+to identify what the clusters actually track.}
 \label{tab:clustering}
 \begin{tabular}{lrrrrr}
 \toprule
-Features & Silh. & DB & ARI (class) & ARI (site) & PCA dims (95\textbackslash\{\}\%) \\
+Features & Silh. & DB & ARI (class) & ARI (site) & PCA dims (95\%) \\
 \midrule
-MFCC & 0.396 & 1.512 & 0.018 & 0.201 & 51 \\
-LOGMEL & 0.192 & 1.703 & 0.028 & 0.043 & 37 \\
-PWP & 0.388 & 1.218 & 0.002 & 0.159 & 31 \\
+MFCC    & 0.396 & 1.512 & 0.018 & \textbf{0.201} & 51 \\
+log-Mel & 0.192 & 1.703 & 0.028 & 0.043 & 37 \\
+PWP     & 0.388 & 1.218 & 0.002 & \textbf{0.159} & 31 \\
 \bottomrule
 \end{tabular}
 \end{table}

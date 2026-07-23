@@ -1,16 +1,20 @@
 \begin{table}[t]
 \centering
-\caption{Recording-level performance on the held-out test set. MAcc = (Se + Sp)/2 is the primary metric; 95\% bootstrap confidence intervals are resampled over recordings.}
+\caption{Recording-level performance on the held-out test set, ordered by MAcc.
+MAcc $=(\mathrm{Se}+\mathrm{Sp})/2$ is the primary metric; \SI{95}{\percent}
+bootstrap confidence intervals are resampled over recordings. All five intervals
+overlap.}
 \label{tab:results}
+\setlength{\tabcolsep}{3.5pt}
 \begin{tabular}{lrrrrcrr}
 \toprule
-Model & Acc. & Se. & Sp. & MAcc & 95\textbackslash\{\}\% CI & F1 & AUC \\
+Model & Acc. & Se. & Sp. & MAcc & \SI{95}{\percent} CI & F1 & AUC \\
 \midrule
-svm mfcc & 0.816 & 0.949 & 0.782 & 0.866 & [0.834, 0.894] & 0.679 & 0.922 \\
-cnn logmel & 0.851 & 0.889 & 0.842 & 0.865 & [0.828, 0.900] & 0.710 & 0.961 \\
-rf mfcc & 0.802 & 0.949 & 0.764 & 0.857 & [0.824, 0.886] & 0.662 & 0.906 \\
-svm pwp & 0.785 & 0.909 & 0.753 & 0.831 & [0.794, 0.863] & 0.634 & 0.877 \\
-rf pwp & 0.731 & 0.970 & 0.670 & 0.820 & [0.790, 0.847] & 0.596 & 0.864 \\
+SVM--MFCC     & 0.816 & 0.949 & 0.782 & \textbf{0.866} & [0.834, 0.894] & 0.679 & 0.922 \\
+CNN--log-Mel  & 0.851 & 0.889 & 0.842 & 0.865 & [0.828, 0.900] & 0.710 & \textbf{0.961} \\
+RF--MFCC      & 0.802 & 0.949 & 0.764 & 0.857 & [0.824, 0.886] & 0.662 & 0.906 \\
+SVM--PWP      & 0.785 & 0.909 & 0.753 & 0.831 & [0.794, 0.863] & 0.634 & 0.877 \\
+RF--PWP       & 0.731 & 0.970 & 0.670 & 0.820 & [0.790, 0.847] & 0.596 & 0.864 \\
 \bottomrule
 \end{tabular}
 \end{table}

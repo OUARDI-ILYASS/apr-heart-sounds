@@ -1,23 +1,4 @@
 """Dimensionality reduction for visualising the feature spaces: PCA and t-SNE.
-
-PROFESSOR Q: "Why show both PCA and t-SNE?"
-A: They answer different questions and each is misleading on its own.
-   PCA is a *linear*, distance-preserving-in-the-large projection: it tells you
-   how much of the total variance lives in a couple of directions, and its axes
-   are interpretable (you can ask which features load on PC1). t-SNE is
-   *non-linear* and optimises local neighbourhood preservation: it reveals
-   manifold structure PCA would flatten, but its global geometry is not
-   meaningful - inter-cluster distances and cluster sizes in a t-SNE plot mean
-   essentially nothing, and the layout changes with perplexity. Showing PCA
-   alone risks concluding "no structure" when the structure is non-linear;
-   showing t-SNE alone risks over-reading artefacts of the embedding.
-
-PROFESSOR Q: "Did you fit t-SNE on all the data?"
-A: t-SNE is transductive - it has no ``transform`` method, so it must be fitted
-   on exactly the points being plotted. That is fine for a *visualisation*, but
-   it means t-SNE coordinates can never be used as features for a classifier;
-   doing so would embed test points using test-point neighbourhoods. PCA, being
-   a linear map, is fitted on train and applied to the rest.
 """
 
 from __future__ import annotations
