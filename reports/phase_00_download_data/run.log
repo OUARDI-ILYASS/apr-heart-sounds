@@ -1,28 +1,28 @@
-2026-07-21 19:05:50,288 | INFO    | 00_download_data:56 | ==============================================================================
-2026-07-21 19:05:50,289 | INFO    | 00_download_data:57 |         PHASE 00_download_data: Download data and build the raw census        
-2026-07-21 19:05:50,289 | INFO    | 00_download_data:58 | ==============================================================================
-2026-07-21 19:05:50,289 | INFO    | 00_download_data:74 | Experiment : baseline_full
-2026-07-21 19:05:50,289 | INFO    | 00_download_data:75 | Config     : /workspace/apr-heart-sounds/configs/config.yaml  (hash 8ae8dd4e)
-2026-07-21 19:05:51,818 | INFO    | 00_download_data:78 | Seed       : 42 (torch=True, cuda=True)
-2026-07-21 19:05:51,818 | INFO    | 00_download_data:82 | Shapes     : {'segment_samples': 6000, 'n_frames': 188, 'mfcc_dim': 234, 'logmel_shape': [32, 188], 'pwp_n_bands': 12, 'pwp_dim': 84, 'fft_bin_width_hz': 7.8125, 'usable_fft_bins_in_band': 49, 'wp_subband_width_hz': 15.625}
-2026-07-21 19:05:51,818 | INFO    | 00_download_data:45 | Downloading into /workspace/apr-heart-sounds/data/raw/physionet2016 ...
-2026-07-21 19:05:51,836 | INFO    | 00_download_data:50 |   training-c: already_present
-2026-07-21 19:05:51,837 | INFO    | 00_download_data:50 |   training-d: already_present
-2026-07-21 19:05:51,837 | INFO    | 00_download_data:50 |   training-a: already_present
-2026-07-21 19:05:51,837 | INFO    | 00_download_data:50 |   training-b: already_present
-2026-07-21 19:05:51,837 | INFO    | 00_download_data:50 |   training-f: already_present
-2026-07-21 19:05:51,837 | INFO    | 00_download_data:50 |   training-e: already_present
-2026-07-21 19:05:52,045 | INFO    | 00_download_data:83 | Building the raw census ...
-2026-07-21 19:07:21,584 | INFO    | 00_download_data:101 | Recordings   : 2693
-2026-07-21 19:07:21,585 | INFO    | 00_download_data:102 | Normal       : 2085
-2026-07-21 19:07:21,585 | INFO    | 00_download_data:103 | Abnormal     : 608 (22.6%)
-2026-07-21 19:07:21,585 | INFO    | 00_download_data:105 | Imbalance    : 3.43:1 (normal:abnormal)
-2026-07-21 19:07:21,586 | INFO    | 00_download_data:106 | Total audio  : 16.76 h
-2026-07-21 19:07:21,586 | INFO    | 00_download_data:107 | Duration     : 5.3-122.0 s (median 20.9 s)
-2026-07-21 19:07:21,586 | INFO    | 00_download_data:112 |   training-a: n= 409  abnormal= 71.4%  mean 32.6 s
-2026-07-21 19:07:21,586 | INFO    | 00_download_data:112 |   training-b: n= 490  abnormal= 21.2%  mean 8.0 s
-2026-07-21 19:07:21,587 | INFO    | 00_download_data:112 |   training-c: n=  31  abnormal= 77.4%  mean 49.4 s
-2026-07-21 19:07:21,587 | INFO    | 00_download_data:112 |   training-d: n=  55  abnormal= 50.9%  mean 15.1 s
-2026-07-21 19:07:21,587 | INFO    | 00_download_data:112 |   training-e: n=1594  abnormal=  7.9%  mean 23.2 s
-2026-07-21 19:07:21,587 | INFO    | 00_download_data:112 |   training-f: n= 114  abnormal= 29.8%  mean 33.1 s
-2026-07-21 19:07:24,018 | INFO    | 00_download_data:159 | Summary written to /workspace/apr-heart-sounds/reports/phase_00_download_data/summary.md
+2026-07-22 21:14:13,754 | INFO    | 00_download_data:56 | ==============================================================================
+2026-07-22 21:14:13,754 | INFO    | 00_download_data:57 |         PHASE 00_download_data: Download data and build the raw census        
+2026-07-22 21:14:13,755 | INFO    | 00_download_data:58 | ==============================================================================
+2026-07-22 21:14:13,755 | INFO    | 00_download_data:78 | Experiment : baseline_full
+2026-07-22 21:14:13,755 | INFO    | 00_download_data:79 | Config     : /workspace/apr-heart-sounds/configs/config.yaml  (hash bfdef2da)
+2026-07-22 21:14:15,223 | INFO    | 00_download_data:82 | Seed       : 42 (torch=True, cuda=True)
+2026-07-22 21:14:15,223 | INFO    | 00_download_data:86 | Shapes     : {'segment_samples': 6000, 'n_frames': 188, 'mfcc_dim': 234, 'logmel_shape': [32, 188], 'pwp_n_bands': 12, 'pwp_dim': 84, 'fft_bin_width_hz': 7.8125, 'usable_fft_bins_in_band': 49, 'wp_subband_width_hz': 15.625}
+2026-07-22 21:14:15,224 | INFO    | 00_download_data:45 | Downloading into /workspace/apr-heart-sounds/data/raw/physionet2016 ...
+2026-07-22 21:59:20,318 | INFO    | 00_download_data:50 |   training-d: downloaded
+2026-07-22 21:59:20,319 | INFO    | 00_download_data:50 |   training-c: downloaded
+2026-07-22 21:59:20,319 | INFO    | 00_download_data:50 |   training-f: downloaded
+2026-07-22 21:59:20,319 | INFO    | 00_download_data:50 |   training-b: downloaded
+2026-07-22 21:59:20,319 | INFO    | 00_download_data:50 |   training-a: downloaded
+2026-07-22 21:59:20,319 | INFO    | 00_download_data:50 |   training-e: downloaded
+2026-07-22 21:59:20,455 | INFO    | 00_download_data:83 | Building the raw census ...
+2026-07-22 22:00:21,400 | INFO    | 00_download_data:101 | Recordings   : 3240
+2026-07-22 22:00:21,408 | INFO    | 00_download_data:102 | Normal       : 2575
+2026-07-22 22:00:21,408 | INFO    | 00_download_data:103 | Abnormal     : 665 (20.5%)
+2026-07-22 22:00:21,408 | INFO    | 00_download_data:105 | Imbalance    : 3.87:1 (normal:abnormal)
+2026-07-22 22:00:21,408 | INFO    | 00_download_data:106 | Total audio  : 20.22 h
+2026-07-22 22:00:21,408 | INFO    | 00_download_data:107 | Duration     : 5.3-122.0 s (median 20.8 s)
+2026-07-22 22:00:21,408 | INFO    | 00_download_data:112 |   training-a: n= 409  abnormal= 71.4%  mean 32.6 s
+2026-07-22 22:00:21,409 | INFO    | 00_download_data:112 |   training-b: n= 490  abnormal= 21.2%  mean 8.0 s
+2026-07-22 22:00:21,409 | INFO    | 00_download_data:112 |   training-c: n=  31  abnormal= 77.4%  mean 49.4 s
+2026-07-22 22:00:21,409 | INFO    | 00_download_data:112 |   training-d: n=  55  abnormal= 50.9%  mean 15.1 s
+2026-07-22 22:00:21,409 | INFO    | 00_download_data:112 |   training-e: n=2141  abnormal=  8.5%  mean 23.1 s
+2026-07-22 22:00:21,409 | INFO    | 00_download_data:112 |   training-f: n= 114  abnormal= 29.8%  mean 33.1 s
+2026-07-22 22:00:23,754 | INFO    | 00_download_data:159 | Summary written to /workspace/apr-heart-sounds/reports/phase_00_download_data/summary.md

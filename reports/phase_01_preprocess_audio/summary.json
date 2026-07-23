@@ -2,17 +2,17 @@
   "phase": "01_preprocess_audio",
   "experiment": "baseline_full",
   "status": "success",
-  "timestamp_start": "2026-07-21T19:07:28.070968+00:00",
-  "timestamp_end": "2026-07-21T19:09:38.055602+00:00",
-  "duration_seconds": 129.98,
-  "config_hash": "8ae8dd4e",
+  "timestamp_start": "2026-07-22T22:00:28.200491+00:00",
+  "timestamp_end": "2026-07-22T22:02:43.508406+00:00",
+  "duration_seconds": 135.31,
+  "config_hash": "bfdef2da",
   "seed": 42,
   "environment": {
     "python": "3.11.10",
-    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
-    "hostname": "c67198af10a8",
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
+    "hostname": "99d1bd91db7a",
     "user": "root",
-    "git_commit": "e70663b",
+    "git_commit": "80dd5ad",
     "git_dirty": true,
     "packages": {
       "numpy": "2.4.6",
@@ -41,66 +41,66 @@
   "inputs_loaded": [
     {
       "path": "/workspace/apr-heart-sounds/data/interim/raw_census.csv",
-      "n_recordings": 2693
+      "n_recordings": 3240
     }
   ],
   "artifacts_written": [
     {
       "path": "/workspace/apr-heart-sounds/data/interim/splits.json",
-      "mb": 0.035
+      "mb": 0.042
     },
     {
       "path": "/workspace/apr-heart-sounds/data/interim/segments_train.npy",
       "shape": [
-        25365,
+        30695,
         6000
       ],
       "dtype": "float32",
-      "n_elements": 152190000,
-      "mb": 580.56,
-      "min": -20.44691276550293,
-      "max": 21.909006118774414,
-      "mean": 7.516191544709727e-06,
-      "std": 0.9994699358940125,
+      "n_elements": 184170000,
+      "mb": 702.55,
+      "min": -25.76576805114746,
+      "max": 34.29537582397461,
+      "mean": 3.582361387088895e-06,
+      "std": 0.9993327260017395,
       "n_nan": 0,
       "n_inf": 0
     },
     {
       "path": "/workspace/apr-heart-sounds/data/interim/segments_val.npy",
       "shape": [
-        2814,
+        3329,
         6000
       ],
       "dtype": "float32",
-      "n_elements": 16884000,
-      "mb": 64.41,
-      "min": -22.46292495727539,
-      "max": 22.620346069335938,
-      "mean": 2.285374648636207e-05,
-      "std": 0.9999256730079651,
+      "n_elements": 19974000,
+      "mb": 76.19,
+      "min": -20.44691276550293,
+      "max": 19.937414169311523,
+      "mean": -9.453173333895393e-06,
+      "std": 1.000952959060669,
       "n_nan": 0,
       "n_inf": 0
     },
     {
       "path": "/workspace/apr-heart-sounds/data/interim/segments_test.npy",
       "shape": [
-        2756,
+        3362,
         6000
       ],
       "dtype": "float32",
-      "n_elements": 16536000,
-      "mb": 63.08,
+      "n_elements": 20172000,
+      "mb": 76.95,
       "min": -20.408754348754883,
       "max": 20.30219078063965,
-      "mean": -2.3507012883783318e-05,
-      "std": 1.0016090869903564,
+      "mean": -2.2310106942313723e-05,
+      "std": 1.00165855884552,
       "n_nan": 0,
       "n_inf": 0
     },
     {
       "path": "/workspace/apr-heart-sounds/data/interim/segment_index.csv",
-      "mb": 1.305,
-      "n_rows": 30935
+      "mb": 1.582,
+      "n_rows": 37386
     }
   ],
   "parameters": {
@@ -115,15 +115,15 @@
     "normalize": "zscore"
   },
   "key_findings": {
-    "max_class_deviation_pp": 0.189,
-    "max_site_deviation_pp": 0.262,
-    "n_segments_total": 30935,
-    "n_segments_train": 25365,
-    "pct_abnormal_segments_train": 26.69,
-    "n_segments_val": 2814,
-    "pct_abnormal_segments_val": 25.34,
-    "n_segments_test": 2756,
-    "pct_abnormal_segments_test": 27.32,
+    "max_class_deviation_pp": 0.07,
+    "max_site_deviation_pp": 0.242,
+    "n_segments_total": 37386,
+    "n_segments_train": 30695,
+    "pct_abnormal_segments_train": 23.27,
+    "n_segments_val": 3329,
+    "pct_abnormal_segments_val": 23.01,
+    "n_segments_test": 3362,
+    "pct_abnormal_segments_test": 25.31,
     "n_recordings_excluded": 0,
     "exclusion_breakdown": {
       "load_error": 0,
@@ -140,21 +140,21 @@
     "split_composition": [
       {
         "split": "train",
-        "n_recordings": 1886,
-        "n_segments": 25365,
-        "pct_abnormal": 26.69
+        "n_recordings": 2269,
+        "n_segments": 30695,
+        "pct_abnormal": 23.27
       },
       {
         "split": "val",
-        "n_recordings": 405,
-        "n_segments": 2814,
-        "pct_abnormal": 25.34
+        "n_recordings": 487,
+        "n_segments": 3329,
+        "pct_abnormal": 23.01
       },
       {
         "split": "test",
-        "n_recordings": 402,
-        "n_segments": 2756,
-        "pct_abnormal": 27.32
+        "n_recordings": 484,
+        "n_segments": 3362,
+        "pct_abnormal": 25.31
       }
     ]
   },
@@ -162,23 +162,23 @@
     {
       "name": "no_patient_leakage",
       "result": "PASS",
-      "detail": "train=1886, val=405, test=402, 0 recording IDs shared between any pair of splits"
+      "detail": "train=2269, val=487, test=484, 0 recording IDs shared between any pair of splits"
     },
     {
       "name": "stratification_within_2pp",
       "result": "PASS",
-      "detail": "max class deviation 0.19 pp"
+      "detail": "max class deviation 0.07 pp"
     }
   ],
   "claim_verdicts": {},
   "warnings": [],
   "notes": [],
   "timings_seconds": {
-    "splits": 0.17,
-    "process_train": 88.122,
-    "process_val": 19.007,
-    "process_test": 18.623,
-    "_total": 129.984
+    "splits": 0.172,
+    "process_train": 88.722,
+    "process_val": 19.439,
+    "process_test": 19.536,
+    "_total": 135.3
   },
   "next_phase": "02_extract_features"
 }

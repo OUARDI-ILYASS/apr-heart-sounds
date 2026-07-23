@@ -4,14 +4,14 @@
     "max_depth": 10,
     "max_features": "sqrt",
     "min_samples_leaf": 5,
-    "n_estimators": 200
+    "n_estimators": 500
   },
-  "best_cv_score": 0.8420638902248007,
-  "best_cv_std": 0.013054943125649315,
+  "best_cv_score": 0.8669017937463597,
+  "best_cv_std": 0.00454790502946444,
   "n_candidates": 36,
   "selection_strategy": "subsample_prune_then_full_refit_topk",
-  "search_n_samples": 7537,
-  "full_n_samples": 25365,
+  "search_n_samples": 9069,
+  "full_n_samples": 30695,
   "search_segments_per_recording": 4,
   "refit_top_k": 3,
   "calibrated_during_search": false,
@@ -26,8 +26,8 @@
         "min_samples_leaf": 1,
         "n_estimators": 200
       },
-      "subsample_mean": 0.6419880896004755,
-      "subsample_std": 0.01694399125542545
+      "subsample_mean": 0.6629508352565348,
+      "subsample_std": 0.01720026075135859
     },
     {
       "params": {
@@ -36,8 +36,8 @@
         "min_samples_leaf": 1,
         "n_estimators": 500
       },
-      "subsample_mean": 0.6359950193606785,
-      "subsample_std": 0.016372289717601636
+      "subsample_mean": 0.6617571747037061,
+      "subsample_std": 0.015627024172741224
     },
     {
       "params": {
@@ -46,8 +46,8 @@
         "min_samples_leaf": 2,
         "n_estimators": 200
       },
-      "subsample_mean": 0.6789424151016762,
-      "subsample_std": 0.021382001890154028
+      "subsample_mean": 0.6981427984333999,
+      "subsample_std": 0.017714936425735954
     },
     {
       "params": {
@@ -56,8 +56,8 @@
         "min_samples_leaf": 2,
         "n_estimators": 500
       },
-      "subsample_mean": 0.6763563803195551,
-      "subsample_std": 0.019722849341179276
+      "subsample_mean": 0.69696231976638,
+      "subsample_std": 0.01891178570990619
     },
     {
       "params": {
@@ -66,8 +66,8 @@
         "min_samples_leaf": 5,
         "n_estimators": 200
       },
-      "subsample_mean": 0.7463946481460082,
-      "subsample_std": 0.023307049159953488
+      "subsample_mean": 0.7670642081589216,
+      "subsample_std": 0.028678417131147424
     },
     {
       "params": {
@@ -76,8 +76,8 @@
         "min_samples_leaf": 5,
         "n_estimators": 500
       },
-      "subsample_mean": 0.7464232477432962,
-      "subsample_std": 0.024976346830612017
+      "subsample_mean": 0.767334260278487,
+      "subsample_std": 0.02624372099255846
     },
     {
       "params": {
@@ -86,8 +86,8 @@
         "min_samples_leaf": 1,
         "n_estimators": 200
       },
-      "subsample_mean": 0.683785845347634,
-      "subsample_std": 0.016550440098849168
+      "subsample_mean": 0.6968481483331386,
+      "subsample_std": 0.014186839024739887
     },
     {
       "params": {
@@ -96,8 +96,8 @@
         "min_samples_leaf": 1,
         "n_estimators": 500
       },
-      "subsample_mean": 0.6850619766938386,
-      "subsample_std": 0.015012848799051095
+      "subsample_mean": 0.6997553471113125,
+      "subsample_std": 0.014368679545805422
     },
     {
       "params": {
@@ -106,8 +106,8 @@
         "min_samples_leaf": 2,
         "n_estimators": 200
       },
-      "subsample_mean": 0.7091122825770467,
-      "subsample_std": 0.016402590424908825
+      "subsample_mean": 0.7296797125775678,
+      "subsample_std": 0.01651338651198881
     },
     {
       "params": {
@@ -116,8 +116,8 @@
         "min_samples_leaf": 2,
         "n_estimators": 500
       },
-      "subsample_mean": 0.7059255515708529,
-      "subsample_std": 0.01658958936913734
+      "subsample_mean": 0.7307460285915333,
+      "subsample_std": 0.019418920821032176
     },
     {
       "params": {
@@ -126,8 +126,8 @@
         "min_samples_leaf": 5,
         "n_estimators": 200
       },
-      "subsample_mean": 0.7519783569334137,
-      "subsample_std": 0.019643827720581524
+      "subsample_mean": 0.7725674582604676,
+      "subsample_std": 0.021708058940498928
     },
     {
       "params": {
@@ -136,8 +136,8 @@
         "min_samples_leaf": 5,
         "n_estimators": 500
       },
-      "subsample_mean": 0.7571394238213317,
-      "subsample_std": 0.022506733785583658
+      "subsample_mean": 0.7743885659849387,
+      "subsample_std": 0.021466958999361734
     },
     {
       "params": {
@@ -146,8 +146,8 @@
         "min_samples_leaf": 1,
         "n_estimators": 200
       },
-      "subsample_mean": 0.7669865278741936,
-      "subsample_std": 0.026709243821708074
+      "subsample_mean": 0.7936733332404778,
+      "subsample_std": 0.028394384346152497
     },
     {
       "params": {
@@ -156,8 +156,8 @@
         "min_samples_leaf": 1,
         "n_estimators": 500
       },
-      "subsample_mean": 0.7650785891240437,
-      "subsample_std": 0.027474637592446647
+      "subsample_mean": 0.7918921963666137,
+      "subsample_std": 0.029013519425176545
     },
     {
       "params": {
@@ -166,8 +166,8 @@
         "min_samples_leaf": 2,
         "n_estimators": 200
       },
-      "subsample_mean": 0.7648013981552001,
-      "subsample_std": 0.021783894360779946
+      "subsample_mean": 0.7924567889386587,
+      "subsample_std": 0.029045231385051835
     },
     {
       "params": {
@@ -176,8 +176,8 @@
         "min_samples_leaf": 2,
         "n_estimators": 500
       },
-      "subsample_mean": 0.7672288488129967,
-      "subsample_std": 0.01965119390574455
+      "subsample_mean": 0.794562883087057,
+      "subsample_std": 0.029341744541718395
     },
     {
       "params": {
@@ -186,8 +186,8 @@
         "min_samples_leaf": 5,
         "n_estimators": 200
       },
-      "subsample_mean": 0.783744148144973,
-      "subsample_std": 0.025046260404410197
+      "subsample_mean": 0.802300960624101,
+      "subsample_std": 0.029495420400854448
     },
     {
       "params": {
@@ -196,8 +196,8 @@
         "min_samples_leaf": 5,
         "n_estimators": 500
       },
-      "subsample_mean": 0.7810044071373682,
-      "subsample_std": 0.021920477826496386
+      "subsample_mean": 0.8025430457922067,
+      "subsample_std": 0.02757208344369655
     },
     {
       "params": {
@@ -206,8 +206,8 @@
         "min_samples_leaf": 1,
         "n_estimators": 200
       },
-      "subsample_mean": 0.7638159157305386,
-      "subsample_std": 0.022563937425575747
+      "subsample_mean": 0.7923935648466183,
+      "subsample_std": 0.02427554746426987
     },
     {
       "params": {
@@ -216,8 +216,8 @@
         "min_samples_leaf": 1,
         "n_estimators": 500
       },
-      "subsample_mean": 0.7703780621665788,
-      "subsample_std": 0.022039662950398463
+      "subsample_mean": 0.794868927273579,
+      "subsample_std": 0.019742627723816974
     },
     {
       "params": {
@@ -226,8 +226,8 @@
         "min_samples_leaf": 2,
         "n_estimators": 200
       },
-      "subsample_mean": 0.7704529398257818,
-      "subsample_std": 0.02196870066284135
+      "subsample_mean": 0.7989509928604954,
+      "subsample_std": 0.020763459171466735
     },
     {
       "params": {
@@ -236,8 +236,8 @@
         "min_samples_leaf": 2,
         "n_estimators": 500
       },
-      "subsample_mean": 0.77037831453149,
-      "subsample_std": 0.020287160625535844
+      "subsample_mean": 0.7980680158055006,
+      "subsample_std": 0.019960227922788013
     },
     {
       "params": {
@@ -246,8 +246,8 @@
         "min_samples_leaf": 5,
         "n_estimators": 200
       },
-      "subsample_mean": 0.7827225423303671,
-      "subsample_std": 0.02169152625070835
+      "subsample_mean": 0.803757498418638,
+      "subsample_std": 0.01983190242497789
     },
     {
       "params": {
@@ -256,8 +256,8 @@
         "min_samples_leaf": 5,
         "n_estimators": 500
       },
-      "subsample_mean": 0.7795301292287785,
-      "subsample_std": 0.022740634250209973
+      "subsample_mean": 0.8039099727506042,
+      "subsample_std": 0.021263448915607018
     },
     {
       "params": {
@@ -266,8 +266,8 @@
         "min_samples_leaf": 1,
         "n_estimators": 200
       },
-      "subsample_mean": 0.677596753293061,
-      "subsample_std": 0.02057355444507903
+      "subsample_mean": 0.7146323334544566,
+      "subsample_std": 0.02115805995443347
     },
     {
       "params": {
@@ -276,8 +276,8 @@
         "min_samples_leaf": 1,
         "n_estimators": 500
       },
-      "subsample_mean": 0.6834513071043099,
-      "subsample_std": 0.022903098993680326
+      "subsample_mean": 0.7113428456136981,
+      "subsample_std": 0.020745378502843345
     },
     {
       "params": {
@@ -286,8 +286,8 @@
         "min_samples_leaf": 2,
         "n_estimators": 200
       },
-      "subsample_mean": 0.7005965787558492,
-      "subsample_std": 0.022662759148807336
+      "subsample_mean": 0.7274045083876755,
+      "subsample_std": 0.02317702852302526
     },
     {
       "params": {
@@ -296,8 +296,8 @@
         "min_samples_leaf": 2,
         "n_estimators": 500
       },
-      "subsample_mean": 0.6951237198042701,
-      "subsample_std": 0.022764458016741762
+      "subsample_mean": 0.7254008092630013,
+      "subsample_std": 0.02299192159322972
     },
     {
       "params": {
@@ -306,8 +306,8 @@
         "min_samples_leaf": 5,
         "n_estimators": 200
       },
-      "subsample_mean": 0.7514709043669515,
-      "subsample_std": 0.02376402795884021
+      "subsample_mean": 0.773089434768481,
+      "subsample_std": 0.02547705488775293
     },
     {
       "params": {
@@ -316,8 +316,8 @@
         "min_samples_leaf": 5,
         "n_estimators": 500
       },
-      "subsample_mean": 0.7491468990790475,
-      "subsample_std": 0.026454271125015867
+      "subsample_mean": 0.7703634640861006,
+      "subsample_std": 0.02463611002003482
     },
     {
       "params": {
@@ -326,8 +326,8 @@
         "min_samples_leaf": 1,
         "n_estimators": 200
       },
-      "subsample_mean": 0.7178416408231781,
-      "subsample_std": 0.018250956516248633
+      "subsample_mean": 0.7514115660697023,
+      "subsample_std": 0.01676759818035763
     },
     {
       "params": {
@@ -336,8 +336,8 @@
         "min_samples_leaf": 1,
         "n_estimators": 500
       },
-      "subsample_mean": 0.7182845615736936,
-      "subsample_std": 0.019579285724615855
+      "subsample_mean": 0.7524225874147347,
+      "subsample_std": 0.023695606660684564
     },
     {
       "params": {
@@ -346,8 +346,8 @@
         "min_samples_leaf": 2,
         "n_estimators": 200
       },
-      "subsample_mean": 0.7291100106073818,
-      "subsample_std": 0.014314687375142373
+      "subsample_mean": 0.7547253226113844,
+      "subsample_std": 0.02183230645979239
     },
     {
       "params": {
@@ -356,8 +356,8 @@
         "min_samples_leaf": 2,
         "n_estimators": 500
       },
-      "subsample_mean": 0.7289786219722865,
-      "subsample_std": 0.018340753824432756
+      "subsample_mean": 0.7565643464115238,
+      "subsample_std": 0.02129357785378774
     },
     {
       "params": {
@@ -366,8 +366,8 @@
         "min_samples_leaf": 5,
         "n_estimators": 200
       },
-      "subsample_mean": 0.755736589400718,
-      "subsample_std": 0.0203941274630367
+      "subsample_mean": 0.7789826060945495,
+      "subsample_std": 0.019882117457648046
     },
     {
       "params": {
@@ -376,60 +376,60 @@
         "min_samples_leaf": 5,
         "n_estimators": 500
       },
-      "subsample_mean": 0.7599447639878953,
-      "subsample_std": 0.019897077850779554
+      "subsample_mean": 0.776654225692922,
+      "subsample_std": 0.022673079530157
     }
   ],
-  "best_train_score": 0.9492006053007593,
-  "overfit_gap": 0.16545645715578639,
+  "best_train_score": 0.9469954443024367,
+  "overfit_gap": 0.1430854715518325,
   "val_segment": {
-    "accuracy": 0.847547974413646,
-    "sensitivity": 0.9074333800841514,
-    "specificity": 0.8272251308900523,
-    "macc": 0.8673292554871019,
-    "precision": 0.6405940594059406,
-    "recall": 0.9074333800841514,
-    "f1": 0.751015670342426,
-    "f1_macro": 0.8205782577064242,
-    "f1_weighted": 0.8548898679627247,
-    "mcc": 0.6661382194564381,
-    "kappa": 0.6458001174792314,
-    "tp": 647.0,
-    "tn": 1738.0,
-    "fp": 363.0,
-    "fn": 66.0,
-    "n": 2814,
-    "prevalence": 0.2533759772565743,
-    "ppv": 0.6405940594059406,
-    "npv": 0.9634146341463414,
-    "roc_auc": 0.9284158415180641,
-    "average_precision": 0.7809893268138488
+    "accuracy": 0.8693301291679183,
+    "sensitivity": 0.8838120104438643,
+    "specificity": 0.8650019508388607,
+    "macc": 0.8744069806413625,
+    "precision": 0.6617790811339198,
+    "recall": 0.8838120104438643,
+    "f1": 0.7568474007825601,
+    "f1_macro": 0.8337533368669424,
+    "f1_weighted": 0.8752672951558085,
+    "mcc": 0.6831170932811726,
+    "kappa": 0.6700088529958332,
+    "tp": 677.0,
+    "tn": 2217.0,
+    "fp": 346.0,
+    "fn": 89.0,
+    "n": 3329,
+    "prevalence": 0.23009912886752779,
+    "ppv": 0.6617790811339198,
+    "npv": 0.9614050303555941,
+    "roc_auc": 0.9401958377350301,
+    "average_precision": 0.7858253614365683
   },
   "val_recording": {
-    "accuracy": 0.7901234567901234,
-    "sensitivity": 0.9130434782608695,
-    "specificity": 0.7539936102236422,
-    "macc": 0.8335185442422559,
-    "precision": 0.5217391304347826,
-    "recall": 0.9130434782608695,
-    "f1": 0.6640316205533597,
-    "f1_macro": 0.755714194477757,
-    "f1_weighted": 0.805743450866132,
-    "mcc": 0.571094810026108,
-    "kappa": 0.5273952856221085,
-    "tp": 84.0,
-    "tn": 236.0,
-    "fp": 77.0,
+    "accuracy": 0.8336755646817249,
+    "sensitivity": 0.92,
+    "specificity": 0.8113695090439277,
+    "macc": 0.8656847545219639,
+    "precision": 0.5575757575757576,
+    "recall": 0.92,
+    "f1": 0.6943396226415094,
+    "f1_macro": 0.7900471032812624,
+    "f1_weighted": 0.8464496637404186,
+    "mcc": 0.6241980751659129,
+    "kappa": 0.5893290302430899,
+    "tp": 92.0,
+    "tn": 314.0,
+    "fp": 73.0,
     "fn": 8.0,
-    "n": 405,
-    "prevalence": 0.2271604938271605,
-    "ppv": 0.5217391304347826,
-    "npv": 0.9672131147540983,
-    "roc_auc": 0.9035977219058202,
-    "average_precision": 0.7260744705152735
+    "n": 487,
+    "prevalence": 0.2053388090349076,
+    "ppv": 0.5575757575757576,
+    "npv": 0.9751552795031055,
+    "roc_auc": 0.9183462532299742,
+    "average_precision": 0.7188469568054447
   },
-  "tuned_threshold": 0.5299999999999999,
-  "tuned_threshold_val_macc": 0.8415057646895402,
+  "tuned_threshold": 0.43999999999999995,
+  "tuned_threshold_val_macc": 0.8788888888888888,
   "feature_domain": "mfcc",
   "n_features": 234
 }

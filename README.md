@@ -78,7 +78,7 @@ pip install -r requirements.txt
 make test
 
 # 3. Run everything
-bash scripts/run_all.sh
+bash scripts/run_all.sh  
 
 # ...or phase by phase
 make data preprocess features cluster classical cnn evaluate

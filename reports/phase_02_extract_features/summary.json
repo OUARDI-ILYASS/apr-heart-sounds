@@ -2,17 +2,17 @@
   "phase": "02_extract_features",
   "experiment": "baseline_full",
   "status": "success",
-  "timestamp_start": "2026-07-21T19:09:43.650460+00:00",
-  "timestamp_end": "2026-07-21T19:19:06.463887+00:00",
-  "duration_seconds": 562.81,
-  "config_hash": "8ae8dd4e",
+  "timestamp_start": "2026-07-22T22:02:48.610533+00:00",
+  "timestamp_end": "2026-07-22T22:13:41.947050+00:00",
+  "duration_seconds": 653.34,
+  "config_hash": "bfdef2da",
   "seed": 42,
   "environment": {
     "python": "3.11.10",
-    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
-    "hostname": "c67198af10a8",
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
+    "hostname": "99d1bd91db7a",
     "user": "root",
-    "git_commit": "e70663b",
+    "git_commit": "80dd5ad",
     "git_dirty": true,
     "packages": {
       "numpy": "2.4.6",
@@ -41,7 +41,7 @@
   "inputs_loaded": [
     {
       "path": "/workspace/apr-heart-sounds/data/interim/segment_index.csv",
-      "n_segments": 30935
+      "n_segments": 37386
     }
   ],
   "artifacts_written": [
@@ -52,48 +52,48 @@
     {
       "path": "/workspace/apr-heart-sounds/data/processed/mfcc/features_train.npy",
       "shape": [
-        25365,
+        30695,
         234
       ],
       "dtype": "float32",
-      "n_elements": 5935410,
-      "mb": 22.64,
-      "min": -16.555816650390625,
-      "max": 47.33580780029297,
-      "mean": -1.9743791046522574e-09,
-      "std": 1.0,
+      "n_elements": 7182630,
+      "mb": 27.4,
+      "min": -15.366141319274902,
+      "max": 49.142578125,
+      "mean": 1.6315402362465647e-09,
+      "std": 0.9999999403953552,
       "n_nan": 0,
       "n_inf": 0
     },
     {
       "path": "/workspace/apr-heart-sounds/data/processed/mfcc/features_val.npy",
       "shape": [
-        2814,
+        3329,
         234
       ],
       "dtype": "float32",
-      "n_elements": 658476,
-      "mb": 2.51,
-      "min": -10.50202465057373,
-      "max": 22.803325653076172,
-      "mean": -0.003074357518926263,
-      "std": 0.9807087779045105,
+      "n_elements": 778986,
+      "mb": 2.97,
+      "min": -11.088387489318848,
+      "max": 18.761125564575195,
+      "mean": -0.005118764936923981,
+      "std": 0.9943455457687378,
       "n_nan": 0,
       "n_inf": 0
     },
     {
       "path": "/workspace/apr-heart-sounds/data/processed/mfcc/features_test.npy",
       "shape": [
-        2756,
+        3362,
         234
       ],
       "dtype": "float32",
-      "n_elements": 644904,
-      "mb": 2.46,
-      "min": -16.649471282958984,
-      "max": 51.65195083618164,
-      "mean": 0.006698715500533581,
-      "std": 1.0328024625778198,
+      "n_elements": 786708,
+      "mb": 3.0,
+      "min": -16.71965217590332,
+      "max": 52.85914611816406,
+      "mean": 0.006043355446308851,
+      "std": 1.0335458517074585,
       "n_nan": 0,
       "n_inf": 0
     },
@@ -109,16 +109,16 @@
     {
       "path": "/workspace/apr-heart-sounds/data/processed/logmel/features_train.npy",
       "shape": [
-        25365,
+        30695,
         32,
         188
       ],
       "dtype": "float32",
-      "n_elements": 152595840,
-      "mb": 582.11,
-      "min": -7.087920188903809,
-      "max": 5.236964225769043,
-      "mean": 3.276629190196445e-09,
+      "n_elements": 184661120,
+      "mb": 704.43,
+      "min": -7.095383167266846,
+      "max": 5.436850547790527,
+      "mean": -5.415325077251509e-09,
       "std": 1.0,
       "n_nan": 0,
       "n_inf": 0
@@ -126,34 +126,34 @@
     {
       "path": "/workspace/apr-heart-sounds/data/processed/logmel/features_val.npy",
       "shape": [
-        2814,
+        3329,
         32,
         188
       ],
       "dtype": "float32",
-      "n_elements": 16929024,
-      "mb": 64.58,
-      "min": -7.087920188903809,
-      "max": 5.284834384918213,
-      "mean": -0.018216976895928383,
-      "std": 0.9664196372032166,
+      "n_elements": 20027264,
+      "mb": 76.4,
+      "min": -7.095383167266846,
+      "max": 4.676737308502197,
+      "mean": 0.016816044226288795,
+      "std": 0.9921671748161316,
       "n_nan": 0,
       "n_inf": 0
     },
     {
       "path": "/workspace/apr-heart-sounds/data/processed/logmel/features_test.npy",
       "shape": [
-        2756,
+        3362,
         32,
         188
       ],
       "dtype": "float32",
-      "n_elements": 16580096,
-      "mb": 63.25,
-      "min": -7.087920188903809,
-      "max": 4.663783550262451,
-      "mean": -0.03653987497091293,
-      "std": 0.9918477535247803,
+      "n_elements": 20225792,
+      "mb": 77.16,
+      "min": -7.095383167266846,
+      "max": 4.72417688369751,
+      "mean": -0.033828627318143845,
+      "std": 1.0029867887496948,
       "n_nan": 0,
       "n_inf": 0
     },
@@ -169,15 +169,15 @@
     {
       "path": "/workspace/apr-heart-sounds/data/processed/pwp/features_train.npy",
       "shape": [
-        25365,
+        30695,
         84
       ],
       "dtype": "float32",
-      "n_elements": 2130660,
-      "mb": 8.13,
-      "min": -28.458881378173828,
-      "max": 24.724472045898438,
-      "mean": -7.333408547083309e-09,
+      "n_elements": 2578380,
+      "mb": 9.84,
+      "min": -11.69596004486084,
+      "max": 52.82444381713867,
+      "mean": 3.030003359327793e-09,
       "std": 1.0,
       "n_nan": 0,
       "n_inf": 0
@@ -185,32 +185,32 @@
     {
       "path": "/workspace/apr-heart-sounds/data/processed/pwp/features_val.npy",
       "shape": [
-        2814,
+        3329,
         84
       ],
       "dtype": "float32",
-      "n_elements": 236376,
-      "mb": 0.9,
-      "min": -6.569333553314209,
-      "max": 53.25297164916992,
-      "mean": -0.012296829372644424,
-      "std": 0.9737155437469482,
+      "n_elements": 279636,
+      "mb": 1.07,
+      "min": -6.900301456451416,
+      "max": 15.267378807067871,
+      "mean": 0.003828463377431035,
+      "std": 0.9612846374511719,
       "n_nan": 0,
       "n_inf": 0
     },
     {
       "path": "/workspace/apr-heart-sounds/data/processed/pwp/features_test.npy",
       "shape": [
-        2756,
+        3362,
         84
       ],
       "dtype": "float32",
-      "n_elements": 231504,
-      "mb": 0.88,
-      "min": -11.547063827514648,
-      "max": 14.84399127960205,
-      "mean": -0.015907874330878258,
-      "std": 0.9784525632858276,
+      "n_elements": 282408,
+      "mb": 1.08,
+      "min": -11.798566818237305,
+      "max": 14.74799633026123,
+      "mean": -0.006811586208641529,
+      "std": 0.9742150902748108,
       "n_nan": 0,
       "n_inf": 0
     },
@@ -327,8 +327,8 @@
       "n_features": 234,
       "n_near_constant": 0,
       "near_constant_features": [],
-      "scale_min": 0.025787638612285745,
-      "scale_max": 49.51787495024726
+      "scale_min": 0.025767138222300777,
+      "scale_max": 47.75607932836195
     },
     "mfcc_dim": 234,
     "mfcc_window_ms": 128.0,
@@ -343,8 +343,8 @@
       "n_features": 84,
       "n_near_constant": 0,
       "near_constant_features": [],
-      "scale_min": 0.004399021608900277,
-      "scale_max": 16.987531413890377
+      "scale_min": 0.004106703837956423,
+      "scale_max": 16.540882847295265
     },
     "pwp_dim": 84
   },
@@ -379,16 +379,16 @@
   "warnings": [],
   "notes": [],
   "timings_seconds": {
-    "mfcc_train": 141.329,
-    "mfcc_val": 16.01,
-    "mfcc_test": 15.465,
-    "logmel_train": 14.943,
-    "logmel_val": 1.683,
-    "logmel_test": 1.631,
-    "pwp_train": 299.436,
-    "pwp_val": 33.474,
-    "pwp_test": 32.885,
-    "_total": 562.812
+    "mfcc_train": 177.193,
+    "mfcc_val": 17.366,
+    "mfcc_test": 17.619,
+    "logmel_train": 17.018,
+    "logmel_val": 1.838,
+    "logmel_test": 1.858,
+    "pwp_train": 338.749,
+    "pwp_val": 36.728,
+    "pwp_test": 38.123,
+    "_total": 653.336
   },
   "next_phase": "03_cluster_features"
 }

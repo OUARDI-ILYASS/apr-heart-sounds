@@ -2,17 +2,17 @@
   "phase": "03_cluster_features",
   "experiment": "baseline_full",
   "status": "success",
-  "timestamp_start": "2026-07-21T19:30:47.210487+00:00",
-  "timestamp_end": "2026-07-21T19:32:49.517291+00:00",
-  "duration_seconds": 122.31,
-  "config_hash": "8ae8dd4e",
+  "timestamp_start": "2026-07-22T22:13:47.339004+00:00",
+  "timestamp_end": "2026-07-22T22:16:41.236464+00:00",
+  "duration_seconds": 173.9,
+  "config_hash": "bfdef2da",
   "seed": 42,
   "environment": {
     "python": "3.11.10",
-    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
-    "hostname": "c67198af10a8",
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
+    "hostname": "99d1bd91db7a",
     "user": "root",
-    "git_commit": "e70663b",
+    "git_commit": "80dd5ad",
     "git_dirty": true,
     "packages": {
       "numpy": "2.4.6",
@@ -40,14 +40,14 @@
     {
       "path": "/workspace/apr-heart-sounds/data/processed/mfcc/features_train.npy",
       "shape": [
-        25365,
+        30695,
         234
       ]
     },
     {
       "path": "/workspace/apr-heart-sounds/data/processed/logmel/features_train.npy",
       "shape": [
-        25365,
+        30695,
         32,
         188
       ]
@@ -55,7 +55,7 @@
     {
       "path": "/workspace/apr-heart-sounds/data/processed/pwp/features_train.npy",
       "shape": [
-        25365,
+        30695,
         84
       ]
     }
@@ -75,50 +75,50 @@
     },
     {
       "path": "/workspace/apr-heart-sounds/figures/fig_feature_projections.pdf",
-      "mb": 1.179
+      "mb": 1.395
     }
   ],
   "parameters": {},
   "key_findings": {
-    "mfcc_silhouette_k2": 0.3867,
-    "mfcc_ari_class_k2": 0.0061,
-    "mfcc_ari_site_k2": 0.1885,
+    "mfcc_silhouette_k2": 0.3958,
+    "mfcc_ari_class_k2": 0.0181,
+    "mfcc_ari_site_k2": 0.2011,
     "mfcc_pca_95pct_components": 51,
-    "logmel_silhouette_k2": 0.1915,
-    "logmel_ari_class_k2": 0.0249,
-    "logmel_ari_site_k2": 0.0418,
+    "logmel_silhouette_k2": 0.1924,
+    "logmel_ari_class_k2": 0.028,
+    "logmel_ari_site_k2": 0.0426,
     "logmel_pca_95pct_components": 37,
-    "pwp_silhouette_k2": 0.364,
-    "pwp_ari_class_k2": -0.0084,
-    "pwp_ari_site_k2": 0.1402,
-    "pwp_pca_95pct_components": 32
+    "pwp_silhouette_k2": 0.3877,
+    "pwp_ari_class_k2": 0.0021,
+    "pwp_ari_site_k2": 0.1591,
+    "pwp_pca_95pct_components": 31
   },
   "finding_notes": {},
   "tables": {
     "clustering_k2_summary": [
       {
         "domain": "mfcc",
-        "silhouette": 0.3867,
-        "ari_vs_class": 0.0061,
-        "ari_vs_site": 0.1885,
-        "elbow_k": 4,
+        "silhouette": 0.3958,
+        "ari_vs_class": 0.0181,
+        "ari_vs_site": 0.2011,
+        "elbow_k": 3,
         "pca_95pct": 51
       },
       {
         "domain": "logmel",
-        "silhouette": 0.1915,
-        "ari_vs_class": 0.0249,
-        "ari_vs_site": 0.0418,
+        "silhouette": 0.1924,
+        "ari_vs_class": 0.028,
+        "ari_vs_site": 0.0426,
         "elbow_k": 4,
         "pca_95pct": 37
       },
       {
         "domain": "pwp",
-        "silhouette": 0.364,
-        "ari_vs_class": -0.0084,
-        "ari_vs_site": 0.1402,
+        "silhouette": 0.3877,
+        "ari_vs_class": 0.0021,
+        "ari_vs_site": 0.1591,
         "elbow_k": 4,
-        "pca_95pct": 32
+        "pca_95pct": 31
       }
     ]
   },
@@ -127,7 +127,7 @@
     "C1": {
       "statement": "The Normal/Abnormal distinction is recoverable by unsupervised clustering of the feature spaces.",
       "verdict": "contradicted",
-      "evidence": "best ARI vs diagnosis at k=2 is 0.025, close to chance; ARI vs recording site reaches 0.189",
+      "evidence": "best ARI vs diagnosis at k=2 is 0.028, close to chance; ARI vs recording site reaches 0.201",
       "detail": "A contradicted verdict is a useful result: it establishes that the class boundary is a thin supervised direction rather than the dominant structure, which is what makes the supervised comparison in phases 04-06 non-trivial."
     }
   },
@@ -136,14 +136,14 @@
     "log-Mel maps were flattened and PCA-reduced to 50 dimensions before k-means, because k-means in 6016-dimensional space suffers from distance concentration."
   ],
   "timings_seconds": {
-    "mfcc_kmeans": 30.754,
-    "mfcc_projection": 8.657,
-    "logmel_pca_reduce": 12.143,
-    "logmel_kmeans": 19.983,
-    "logmel_projection": 6.604,
-    "pwp_kmeans": 22.548,
-    "pwp_projection": 6.845,
-    "_total": 122.306
+    "mfcc_kmeans": 43.195,
+    "mfcc_projection": 24.549,
+    "logmel_pca_reduce": 6.179,
+    "logmel_kmeans": 19.336,
+    "logmel_projection": 19.442,
+    "pwp_kmeans": 26.679,
+    "pwp_projection": 20.407,
+    "_total": 173.896
   },
   "next_phase": "04_train_classical"
 }

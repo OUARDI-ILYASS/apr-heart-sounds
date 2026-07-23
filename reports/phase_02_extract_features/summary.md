@@ -2,8 +2,8 @@
 
 ✅ **Status:** success  
 **Experiment:** `baseline_full`  
-**Config hash:** `8ae8dd4e`  •  **Seed:** `42`  
-**Started:** 2026-07-21T19:09:43.650460+00:00  •  **Duration:** 562.81 s  
+**Config hash:** `bfdef2da`  •  **Seed:** `42`  
+**Started:** 2026-07-22T22:02:48.610533+00:00  •  **Duration:** 653.34 s  
 **Data splits read:** `train, val, test`  
 
 ## Assertions
@@ -22,7 +22,7 @@
   - `n_near_constant`: 0
   - `near_constant_features`: []
   - `scale_min`: 0.0258
-  - `scale_max`: 49.5179
+  - `scale_max`: 47.7561
 - **mfcc_dim:** `234`
 - **mfcc_window_ms:** 128.0000
 - **logmel_n_degenerate_bands:** `0` — Mel bands with (near) zero training variance
@@ -33,8 +33,8 @@
   - `n_features`: 84
   - `n_near_constant`: 0
   - `near_constant_features`: []
-  - `scale_min`: 0.0044
-  - `scale_max`: 16.9875
+  - `scale_min`: 0.0041
+  - `scale_max`: 16.5409
 - **pwp_dim:** `84`
 
 ## Artifacts Written
@@ -42,24 +42,24 @@
 | Path | Shape | Dtype | MB |
 |---|---|---|---|
 | /workspace/apr-heart-sounds/models/scalers/mfcc_scaler.joblib | — | — | 0.0060 |
-| /workspace/apr-heart-sounds/data/processed/mfcc/features_train.npy | 25365×234 | float32 | 22.6400 |
-| /workspace/apr-heart-sounds/data/processed/mfcc/features_val.npy | 2814×234 | float32 | 2.5100 |
-| /workspace/apr-heart-sounds/data/processed/mfcc/features_test.npy | 2756×234 | float32 | 2.4600 |
+| /workspace/apr-heart-sounds/data/processed/mfcc/features_train.npy | 30695×234 | float32 | 27.4000 |
+| /workspace/apr-heart-sounds/data/processed/mfcc/features_val.npy | 3329×234 | float32 | 2.9700 |
+| /workspace/apr-heart-sounds/data/processed/mfcc/features_test.npy | 3362×234 | float32 | 3.0000 |
 | /workspace/apr-heart-sounds/data/processed/mfcc/feature_names.json | — | — | 0.0040 |
 | /workspace/apr-heart-sounds/models/scalers/logmel_norm.json | — | — | 0.0010 |
-| /workspace/apr-heart-sounds/data/processed/logmel/features_train.npy | 25365×32×188 | float32 | 582.1100 |
-| /workspace/apr-heart-sounds/data/processed/logmel/features_val.npy | 2814×32×188 | float32 | 64.5800 |
-| /workspace/apr-heart-sounds/data/processed/logmel/features_test.npy | 2756×32×188 | float32 | 63.2500 |
+| /workspace/apr-heart-sounds/data/processed/logmel/features_train.npy | 30695×32×188 | float32 | 704.4300 |
+| /workspace/apr-heart-sounds/data/processed/logmel/features_val.npy | 3329×32×188 | float32 | 76.4000 |
+| /workspace/apr-heart-sounds/data/processed/logmel/features_test.npy | 3362×32×188 | float32 | 77.1600 |
 | /workspace/apr-heart-sounds/data/processed/logmel/feature_names.json | — | — | 0.1260 |
 | /workspace/apr-heart-sounds/models/scalers/pwp_scaler.joblib | — | — | 0.0020 |
-| /workspace/apr-heart-sounds/data/processed/pwp/features_train.npy | 25365×84 | float32 | 8.1300 |
-| /workspace/apr-heart-sounds/data/processed/pwp/features_val.npy | 2814×84 | float32 | 0.9000 |
-| /workspace/apr-heart-sounds/data/processed/pwp/features_test.npy | 2756×84 | float32 | 0.8800 |
+| /workspace/apr-heart-sounds/data/processed/pwp/features_train.npy | 30695×84 | float32 | 9.8400 |
+| /workspace/apr-heart-sounds/data/processed/pwp/features_val.npy | 3329×84 | float32 | 1.0700 |
+| /workspace/apr-heart-sounds/data/processed/pwp/features_test.npy | 3362×84 | float32 | 1.0800 |
 | /workspace/apr-heart-sounds/data/processed/pwp/feature_names.json | — | — | 0.0020 |
 
 ## Inputs Loaded
 
-- `/workspace/apr-heart-sounds/data/interim/segment_index.csv` (n_segments=30935)
+- `/workspace/apr-heart-sounds/data/interim/segment_index.csv` (n_segments=37386)
 
 ## Parameters Used
 
@@ -71,21 +71,21 @@ pwp_config: {'domain': 'pwp', 'sr': 2000.0, 'output_shape': [84], 'n_features': 
 
 ## Timing Breakdown
 
-- `_total`: 562.81 s
-- `pwp_train`: 299.44 s
-- `mfcc_train`: 141.33 s
-- `pwp_val`: 33.47 s
-- `pwp_test`: 32.88 s
-- `mfcc_val`: 16.01 s
-- `mfcc_test`: 15.46 s
-- `logmel_train`: 14.94 s
-- `logmel_val`: 1.68 s
-- `logmel_test`: 1.63 s
+- `_total`: 653.34 s
+- `pwp_train`: 338.75 s
+- `mfcc_train`: 177.19 s
+- `pwp_test`: 38.12 s
+- `pwp_val`: 36.73 s
+- `mfcc_test`: 17.62 s
+- `mfcc_val`: 17.37 s
+- `logmel_train`: 17.02 s
+- `logmel_test`: 1.86 s
+- `logmel_val`: 1.84 s
 
 <details><summary>Environment</summary>
 
-- Python 3.11.10 on Linux-6.8.0-111-generic-x86_64-with-glibc2.35
-- Git commit: `e70663b` (dirty: True)
+- Python 3.11.10 on Linux-6.8.0-124-generic-x86_64-with-glibc2.35
+- Git commit: `80dd5ad` (dirty: True)
 - GPU: NVIDIA RTX 4000 Ada Generation ×1, CUDA 12.4, 19.55 GB
 - Packages: numpy==2.4.6, scipy==1.17.1, sklearn==1.9.0, pandas==3.0.3, librosa==0.11.0, pywt==1.8.0, torch==2.4.1+cu124, shap==0.51.0, matplotlib==3.11.1, joblib==1.5.3
 

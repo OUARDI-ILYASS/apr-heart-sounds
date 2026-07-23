@@ -1,28 +1,28 @@
-2026-07-21 19:09:42,082 | INFO    | 02_extract_features:56 | ==============================================================================
-2026-07-21 19:09:42,082 | INFO    | 02_extract_features:57 |        PHASE 02_extract_features: Extract MFCC / log-Mel / PWP features       
-2026-07-21 19:09:42,082 | INFO    | 02_extract_features:58 | ==============================================================================
-2026-07-21 19:09:42,082 | INFO    | 02_extract_features:74 | Experiment : baseline_full
-2026-07-21 19:09:42,083 | INFO    | 02_extract_features:75 | Config     : /workspace/apr-heart-sounds/configs/config.yaml  (hash 8ae8dd4e)
-2026-07-21 19:09:43,649 | INFO    | 02_extract_features:78 | Seed       : 42 (torch=True, cuda=True)
-2026-07-21 19:09:43,650 | INFO    | 02_extract_features:82 | Shapes     : {'segment_samples': 6000, 'n_frames': 188, 'mfcc_dim': 234, 'logmel_shape': [32, 188], 'pwp_n_bands': 12, 'pwp_dim': 84, 'fft_bin_width_hz': 7.8125, 'usable_fft_bins_in_band': 49, 'wp_subband_width_hz': 15.625}
-2026-07-21 19:09:43,950 | INFO    | 02_extract_features:68 | train: (25365, 6000)
-2026-07-21 19:09:43,983 | INFO    | 02_extract_features:68 | val: (2814, 6000)
-2026-07-21 19:09:44,010 | INFO    | 02_extract_features:68 | test: (2756, 6000)
-2026-07-21 19:09:44,011 | INFO    | 02_extract_features:71 | --- mfcc --------------------------------------------------
-2026-07-21 19:09:44,011 | INFO    | 02_extract_features:74 |   output shape per segment: [234] (234 values)
-2026-07-21 19:12:05,342 | INFO    | 02_extract_features:83 |   train: (25365, 234)
-2026-07-21 19:12:21,353 | INFO    | 02_extract_features:83 |   val: (2814, 234)
-2026-07-21 19:12:36,818 | INFO    | 02_extract_features:83 |   test: (2756, 234)
-2026-07-21 19:12:37,638 | INFO    | 02_extract_features:71 | --- logmel --------------------------------------------------
-2026-07-21 19:12:37,639 | INFO    | 02_extract_features:74 |   output shape per segment: [32, 188] (6016 values)
-2026-07-21 19:12:52,584 | INFO    | 02_extract_features:83 |   train: (25365, 32, 188)
-2026-07-21 19:12:54,267 | INFO    | 02_extract_features:83 |   val: (2814, 32, 188)
-2026-07-21 19:12:55,898 | INFO    | 02_extract_features:83 |   test: (2756, 32, 188)
-2026-07-21 19:13:00,177 | INFO    | 02_extract_features:71 | --- pwp --------------------------------------------------
-2026-07-21 19:13:00,178 | INFO    | 02_extract_features:74 |   output shape per segment: [84] (84 values)
-2026-07-21 19:17:59,619 | INFO    | 02_extract_features:83 |   train: (25365, 84)
-2026-07-21 19:18:33,094 | INFO    | 02_extract_features:83 |   val: (2814, 84)
-2026-07-21 19:19:05,980 | INFO    | 02_extract_features:83 |   test: (2756, 84)
-2026-07-21 19:19:06,458 | INFO    | 02_extract_features:132 |   perceptual bands: [25.0, 50.6, 77.2, 104.6, 133.1, 162.5, 193.0, 224.6, 257.3, 291.1, 326.2, 362.4, 400.0]
-2026-07-21 19:19:06,458 | INFO    | 02_extract_features:133 |   nodes per band  : [2, 2, 2, 2, 1, 2, 2, 2, 3, 2, 2, 3]
-2026-07-21 19:19:07,683 | INFO    | 02_extract_features:156 | Summary written to /workspace/apr-heart-sounds/reports/phase_02_extract_features/summary.md
+2026-07-22 22:02:47,094 | INFO    | 02_extract_features:56 | ==============================================================================
+2026-07-22 22:02:47,094 | INFO    | 02_extract_features:57 |        PHASE 02_extract_features: Extract MFCC / log-Mel / PWP features       
+2026-07-22 22:02:47,094 | INFO    | 02_extract_features:58 | ==============================================================================
+2026-07-22 22:02:47,094 | INFO    | 02_extract_features:78 | Experiment : baseline_full
+2026-07-22 22:02:47,095 | INFO    | 02_extract_features:79 | Config     : /workspace/apr-heart-sounds/configs/config.yaml  (hash bfdef2da)
+2026-07-22 22:02:48,609 | INFO    | 02_extract_features:82 | Seed       : 42 (torch=True, cuda=True)
+2026-07-22 22:02:48,610 | INFO    | 02_extract_features:86 | Shapes     : {'segment_samples': 6000, 'n_frames': 188, 'mfcc_dim': 234, 'logmel_shape': [32, 188], 'pwp_n_bands': 12, 'pwp_dim': 84, 'fft_bin_width_hz': 7.8125, 'usable_fft_bins_in_band': 49, 'wp_subband_width_hz': 15.625}
+2026-07-22 22:02:48,838 | INFO    | 02_extract_features:68 | train: (30695, 6000)
+2026-07-22 22:02:48,862 | INFO    | 02_extract_features:68 | val: (3329, 6000)
+2026-07-22 22:02:48,887 | INFO    | 02_extract_features:68 | test: (3362, 6000)
+2026-07-22 22:02:48,887 | INFO    | 02_extract_features:71 | --- mfcc --------------------------------------------------
+2026-07-22 22:02:48,887 | INFO    | 02_extract_features:74 |   output shape per segment: [234] (234 values)
+2026-07-22 22:05:46,081 | INFO    | 02_extract_features:83 |   train: (30695, 234)
+2026-07-22 22:06:03,447 | INFO    | 02_extract_features:83 |   val: (3329, 234)
+2026-07-22 22:06:21,067 | INFO    | 02_extract_features:83 |   test: (3362, 234)
+2026-07-22 22:06:21,812 | INFO    | 02_extract_features:71 | --- logmel --------------------------------------------------
+2026-07-22 22:06:21,813 | INFO    | 02_extract_features:74 |   output shape per segment: [32, 188] (6016 values)
+2026-07-22 22:06:38,833 | INFO    | 02_extract_features:83 |   train: (30695, 32, 188)
+2026-07-22 22:06:40,671 | INFO    | 02_extract_features:83 |   val: (3329, 32, 188)
+2026-07-22 22:06:42,529 | INFO    | 02_extract_features:83 |   test: (3362, 32, 188)
+2026-07-22 22:06:48,123 | INFO    | 02_extract_features:71 | --- pwp --------------------------------------------------
+2026-07-22 22:06:48,124 | INFO    | 02_extract_features:74 |   output shape per segment: [84] (84 values)
+2026-07-22 22:12:26,879 | INFO    | 02_extract_features:83 |   train: (30695, 84)
+2026-07-22 22:13:03,608 | INFO    | 02_extract_features:83 |   val: (3329, 84)
+2026-07-22 22:13:41,732 | INFO    | 02_extract_features:83 |   test: (3362, 84)
+2026-07-22 22:13:41,941 | INFO    | 02_extract_features:132 |   perceptual bands: [25.0, 50.6, 77.2, 104.6, 133.1, 162.5, 193.0, 224.6, 257.3, 291.1, 326.2, 362.4, 400.0]
+2026-07-22 22:13:41,941 | INFO    | 02_extract_features:133 |   nodes per band  : [2, 2, 2, 2, 1, 2, 2, 2, 3, 2, 2, 3]
+2026-07-22 22:13:43,192 | INFO    | 02_extract_features:156 | Summary written to /workspace/apr-heart-sounds/reports/phase_02_extract_features/summary.md

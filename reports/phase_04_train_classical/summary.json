@@ -2,17 +2,17 @@
   "phase": "04_train_classical",
   "experiment": "baseline_full",
   "status": "success",
-  "timestamp_start": "2026-07-22T00:10:14.863018+00:00",
-  "timestamp_end": "2026-07-22T01:09:05.853028+00:00",
-  "duration_seconds": 3530.99,
-  "config_hash": "f915b259",
+  "timestamp_start": "2026-07-22T22:16:45.255604+00:00",
+  "timestamp_end": "2026-07-22T23:21:51.738689+00:00",
+  "duration_seconds": 3906.48,
+  "config_hash": "bfdef2da",
   "seed": 42,
   "environment": {
     "python": "3.11.10",
-    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
-    "hostname": "c67198af10a8",
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
+    "hostname": "99d1bd91db7a",
     "user": "root",
-    "git_commit": "e70663b",
+    "git_commit": "80dd5ad",
     "git_dirty": true,
     "packages": {
       "numpy": "2.4.6",
@@ -41,14 +41,14 @@
     {
       "path": "/workspace/apr-heart-sounds/data/processed/mfcc/features_train.npy",
       "shape": [
-        25365,
+        30695,
         234
       ]
     },
     {
       "path": "/workspace/apr-heart-sounds/data/processed/pwp/features_train.npy",
       "shape": [
-        25365,
+        30695,
         84
       ]
     }
@@ -56,19 +56,19 @@
   "artifacts_written": [
     {
       "path": "/workspace/apr-heart-sounds/models/classical/svm_mfcc.joblib",
-      "mb": 10.201
+      "mb": 9.644
     },
     {
       "path": "/workspace/apr-heart-sounds/models/classical/rf_mfcc.joblib",
-      "mb": 4.174
+      "mb": 10.716
     },
     {
       "path": "/workspace/apr-heart-sounds/models/classical/svm_pwp.joblib",
-      "mb": 4.127
+      "mb": 3.926
     },
     {
       "path": "/workspace/apr-heart-sounds/models/classical/rf_pwp.joblib",
-      "mb": 4.669
+      "mb": 13.364
     },
     {
       "path": "/workspace/apr-heart-sounds/results/evaluation/classical_cv.json",
@@ -77,18 +77,18 @@
   ],
   "parameters": {},
   "key_findings": {
-    "svm_mfcc_cv_macc": 0.8512,
-    "svm_mfcc_val_macc_recording": 0.806,
+    "svm_mfcc_cv_macc": 0.8744,
+    "svm_mfcc_val_macc_recording": 0.8461,
     "svm_mfcc_threshold": 0.23,
-    "rf_mfcc_cv_macc": 0.8421,
-    "rf_mfcc_val_macc_recording": 0.8335,
-    "rf_mfcc_threshold": 0.53,
-    "svm_pwp_cv_macc": 0.8211,
-    "svm_pwp_val_macc_recording": 0.7481,
-    "svm_pwp_threshold": 0.2,
-    "rf_pwp_cv_macc": 0.7935,
-    "rf_pwp_val_macc_recording": 0.8102,
-    "rf_pwp_threshold": 0.44,
+    "rf_mfcc_cv_macc": 0.8669,
+    "rf_mfcc_val_macc_recording": 0.8657,
+    "rf_mfcc_threshold": 0.44,
+    "svm_pwp_cv_macc": 0.8488,
+    "svm_pwp_val_macc_recording": 0.7757,
+    "svm_pwp_threshold": 0.22,
+    "rf_pwp_cv_macc": 0.8141,
+    "rf_pwp_val_macc_recording": 0.8248,
+    "rf_pwp_threshold": 0.36,
     "best_classical_model": "rf_mfcc"
   },
   "finding_notes": {},
@@ -98,63 +98,63 @@
         "model": "rf_mfcc",
         "features": "mfcc",
         "n_features": 234,
-        "cv_macc": 0.8421,
-        "cv_std": 0.0131,
-        "val_macc_recording": 0.8335,
-        "val_sensitivity": 0.913,
-        "val_specificity": 0.754,
-        "overfit_gap": 0.1655
-      },
-      {
-        "model": "rf_pwp",
-        "features": "pwp",
-        "n_features": 84,
-        "cv_macc": 0.7935,
-        "cv_std": 0.0168,
-        "val_macc_recording": 0.8102,
-        "val_sensitivity": 0.8696,
-        "val_specificity": 0.7508,
-        "overfit_gap": 0.2341
+        "cv_macc": 0.8669,
+        "cv_std": 0.0045,
+        "val_macc_recording": 0.8657,
+        "val_sensitivity": 0.92,
+        "val_specificity": 0.8114,
+        "overfit_gap": 0.1431
       },
       {
         "model": "svm_mfcc",
         "features": "mfcc",
         "n_features": 234,
-        "cv_macc": 0.8512,
-        "cv_std": 0.0126,
-        "val_macc_recording": 0.806,
-        "val_sensitivity": 0.7174,
-        "val_specificity": 0.8946,
-        "overfit_gap": 0.093
+        "cv_macc": 0.8744,
+        "cv_std": 0.0079,
+        "val_macc_recording": 0.8461,
+        "val_sensitivity": 0.78,
+        "val_specificity": 0.9121,
+        "overfit_gap": 0.0407
+      },
+      {
+        "model": "rf_pwp",
+        "features": "pwp",
+        "n_features": 84,
+        "cv_macc": 0.8141,
+        "cv_std": 0.0229,
+        "val_macc_recording": 0.8248,
+        "val_sensitivity": 0.89,
+        "val_specificity": 0.7597,
+        "overfit_gap": 0.1982
       },
       {
         "model": "svm_pwp",
         "features": "pwp",
         "n_features": 84,
-        "cv_macc": 0.8211,
-        "cv_std": 0.0111,
-        "val_macc_recording": 0.7481,
-        "val_sensitivity": 0.6304,
-        "val_specificity": 0.8658,
-        "overfit_gap": 0.0846
+        "cv_macc": 0.8488,
+        "cv_std": 0.0143,
+        "val_macc_recording": 0.7757,
+        "val_sensitivity": 0.66,
+        "val_specificity": 0.8915,
+        "overfit_gap": 0.0732
       }
     ]
   },
   "assertions": [],
   "claim_verdicts": {},
   "warnings": [
-    "rf: train-CV gap is 0.165 (train 0.949 vs CV 0.842). The model is memorising the training folds; consider stronger regularisation (lower C for SVM, higher min_samples_leaf for RF).",
-    "rf: train-CV gap is 0.234 (train 0.950 vs CV 0.793). The model is memorising the training folds; consider stronger regularisation (lower C for SVM, higher min_samples_leaf for RF)."
+    "rf: train-CV gap is 0.143 (train 0.947 vs CV 0.867). The model is memorising the training folds; consider stronger regularisation (lower C for SVM, higher min_samples_leaf for RF).",
+    "rf: train-CV gap is 0.198 (train 0.945 vs CV 0.814). The model is memorising the training folds; consider stronger regularisation (lower C for SVM, higher min_samples_leaf for RF)."
   ],
   "notes": [
     "All numbers in this phase are cross-validation or validation scores. The test split has not been read. Hyperparameter and threshold choices are now frozen."
   ],
   "timings_seconds": {
-    "gridsearch_svm_mfcc": 608.185,
-    "gridsearch_rf_mfcc": 1745.836,
-    "gridsearch_svm_pwp": 299.953,
-    "gridsearch_rf_pwp": 866.55,
-    "_total": 3530.989
+    "gridsearch_svm_mfcc": 660.08,
+    "gridsearch_rf_mfcc": 2060.575,
+    "gridsearch_svm_pwp": 448.357,
+    "gridsearch_rf_pwp": 724.981,
+    "_total": 3906.482
   },
   "next_phase": "05_train_cnn"
 }

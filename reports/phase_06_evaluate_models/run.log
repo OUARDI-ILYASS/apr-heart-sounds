@@ -1,41 +1,41 @@
-2026-07-22 01:11:03,170 | INFO    | 06_evaluate_models:56 | ==============================================================================
-2026-07-22 01:11:03,170 | INFO    | 06_evaluate_models:57 |     PHASE 06_evaluate_models: Evaluate all models on the held-out test set    
-2026-07-22 01:11:03,171 | INFO    | 06_evaluate_models:58 | ==============================================================================
-2026-07-22 01:11:03,171 | INFO    | 06_evaluate_models:78 | Experiment : baseline_full
-2026-07-22 01:11:03,171 | INFO    | 06_evaluate_models:79 | Config     : /workspace/apr-heart-sounds/configs/config.yaml  (hash f915b259)
-2026-07-22 01:11:03,310 | INFO    | 06_evaluate_models:82 | Seed       : 42 (torch=True, cuda=True)
-2026-07-22 01:11:03,310 | INFO    | 06_evaluate_models:86 | Shapes     : {'segment_samples': 6000, 'n_frames': 188, 'mfcc_dim': 234, 'logmel_shape': [32, 188], 'pwp_n_bands': 12, 'pwp_dim': 84, 'fft_bin_width_hz': 7.8125, 'usable_fft_bins_in_band': 49, 'wp_subband_width_hz': 15.625}
-2026-07-22 01:11:03,349 | INFO    | 06_evaluate_models:86 | Test: 2756 segments from 402 recordings (27.3% abnormal segments)
-2026-07-22 01:11:03,360 | INFO    | 06_evaluate_models:111 | --- rf_mfcc ---
-2026-07-22 01:11:05,832 | INFO    | 06_evaluate_models:385 |   test MAcc (recording) = 0.8354 [0.797, 0.871] | Se 0.911 Sp 0.760 AUC 0.894
-2026-07-22 01:11:05,834 | INFO    | 06_evaluate_models:111 | --- rf_pwp ---
-2026-07-22 01:11:07,260 | INFO    | 06_evaluate_models:385 |   test MAcc (recording) = 0.8129 [0.775, 0.849] | Se 0.911 Sp 0.715 AUC 0.859
-2026-07-22 01:11:07,263 | INFO    | 06_evaluate_models:111 | --- svm_mfcc ---
-2026-07-22 01:11:14,625 | INFO    | 06_evaluate_models:385 |   test MAcc (recording) = 0.8607 [0.832, 0.888] | Se 0.978 Sp 0.744 AUC 0.894
-2026-07-22 01:11:14,627 | INFO    | 06_evaluate_models:111 | --- svm_pwp ---
-2026-07-22 01:11:17,937 | INFO    | 06_evaluate_models:385 |   test MAcc (recording) = 0.8263 [0.792, 0.855] | Se 0.967 Sp 0.686 AUC 0.877
-2026-07-22 01:11:17,939 | INFO    | 06_evaluate_models:128 | --- cnn_logmel ---
-2026-07-22 01:11:19,947 | INFO    | 06_evaluate_models:385 |   test MAcc (recording) = 0.8707 [0.832, 0.907] | Se 0.889 Sp 0.853 AUC 0.947
-2026-07-22 01:11:19,982 | INFO    | 06_evaluate_models:162 | Trivial baselines (recording level):
-2026-07-22 01:11:19,982 | INFO    | 06_evaluate_models:164 |   always_normal        acc=0.7761 MAcc=0.5000
-2026-07-22 01:11:19,983 | INFO    | 06_evaluate_models:164 |   always_abnormal      acc=0.2239 MAcc=0.5000
-2026-07-22 01:11:19,983 | INFO    | 06_evaluate_models:164 |   random_stratified    acc=0.6095 MAcc=0.4756
-2026-07-22 01:11:19,983 | INFO    | 06_evaluate_models:192 | McNemar cnn_logmel vs rf_mfcc: p=0.0000 (34 vs 7 discordant)
-2026-07-22 01:11:19,984 | INFO    | 06_evaluate_models:192 | McNemar cnn_logmel vs rf_pwp: p=0.0000 (55 vs 14 discordant)
-2026-07-22 01:11:19,984 | INFO    | 06_evaluate_models:192 | McNemar cnn_logmel vs svm_mfcc: p=0.0004 (38 vs 12 discordant)
-2026-07-22 01:11:19,984 | INFO    | 06_evaluate_models:192 | McNemar cnn_logmel vs svm_pwp: p=0.0000 (57 vs 12 discordant)
-2026-07-22 01:11:19,985 | INFO    | 06_evaluate_models:192 | McNemar rf_mfcc vs rf_pwp: p=0.0303 (25 vs 11 discordant)
-2026-07-22 01:11:19,985 | INFO    | 06_evaluate_models:192 | McNemar rf_mfcc vs svm_mfcc: p=1.0000 (12 vs 13 discordant)
-2026-07-22 01:11:19,985 | INFO    | 06_evaluate_models:192 | McNemar rf_mfcc vs svm_pwp: p=0.0072 (29 vs 11 discordant)
-2026-07-22 01:11:19,985 | INFO    | 06_evaluate_models:192 | McNemar rf_pwp vs svm_mfcc: p=0.0119 (8 vs 23 discordant)
-2026-07-22 01:11:19,986 | INFO    | 06_evaluate_models:192 | McNemar rf_pwp vs svm_pwp: p=0.5235 (13 vs 9 discordant)
-2026-07-22 01:11:19,986 | INFO    | 06_evaluate_models:192 | McNemar svm_mfcc vs svm_pwp: p=0.0005 (23 vs 4 discordant)
-2026-07-22 01:11:19,987 | INFO    | 06_evaluate_models:197 | 7/10 comparisons remain significant after Holm-Bonferroni correction
-2026-07-22 01:11:19,987 | INFO    | 06_evaluate_models:203 | Best model: cnn_logmel (MAcc 0.8707)
-2026-07-22 01:11:20,055 | INFO    | 06_evaluate_models:252 | Per-site MAcc spread for cnn_logmel: 0.368
-2026-07-22 01:11:22,385 | INFO    | 06_evaluate_models:289 |   rf_mfcc: ECE = 0.1400
-2026-07-22 01:11:22,385 | INFO    | 06_evaluate_models:289 |   rf_pwp: ECE = 0.1463
-2026-07-22 01:11:22,385 | INFO    | 06_evaluate_models:289 |   svm_mfcc: ECE = 0.0610
-2026-07-22 01:11:22,386 | INFO    | 06_evaluate_models:289 |   svm_pwp: ECE = 0.0661
-2026-07-22 01:11:22,386 | INFO    | 06_evaluate_models:289 |   cnn_logmel: ECE = 0.1262
-2026-07-22 01:11:23,283 | INFO    | 06_evaluate_models:341 | Summary written to /workspace/apr-heart-sounds/reports/phase_06_evaluate_models/summary.md
+2026-07-22 23:24:09,470 | INFO    | 06_evaluate_models:56 | ==============================================================================
+2026-07-22 23:24:09,470 | INFO    | 06_evaluate_models:57 |     PHASE 06_evaluate_models: Evaluate all models on the held-out test set    
+2026-07-22 23:24:09,470 | INFO    | 06_evaluate_models:58 | ==============================================================================
+2026-07-22 23:24:09,470 | INFO    | 06_evaluate_models:78 | Experiment : baseline_full
+2026-07-22 23:24:09,471 | INFO    | 06_evaluate_models:79 | Config     : /workspace/apr-heart-sounds/configs/config.yaml  (hash bfdef2da)
+2026-07-22 23:24:09,610 | INFO    | 06_evaluate_models:82 | Seed       : 42 (torch=True, cuda=True)
+2026-07-22 23:24:09,610 | INFO    | 06_evaluate_models:86 | Shapes     : {'segment_samples': 6000, 'n_frames': 188, 'mfcc_dim': 234, 'logmel_shape': [32, 188], 'pwp_n_bands': 12, 'pwp_dim': 84, 'fft_bin_width_hz': 7.8125, 'usable_fft_bins_in_band': 49, 'wp_subband_width_hz': 15.625}
+2026-07-22 23:24:09,645 | INFO    | 06_evaluate_models:86 | Test: 3362 segments from 484 recordings (25.3% abnormal segments)
+2026-07-22 23:24:09,653 | INFO    | 06_evaluate_models:111 | --- rf_mfcc ---
+2026-07-22 23:24:12,839 | INFO    | 06_evaluate_models:385 |   test MAcc (recording) = 0.8566 [0.824, 0.886] | Se 0.949 Sp 0.764 AUC 0.906
+2026-07-22 23:24:12,842 | INFO    | 06_evaluate_models:111 | --- rf_pwp ---
+2026-07-22 23:24:14,810 | INFO    | 06_evaluate_models:385 |   test MAcc (recording) = 0.8199 [0.790, 0.847] | Se 0.970 Sp 0.670 AUC 0.864
+2026-07-22 23:24:14,813 | INFO    | 06_evaluate_models:111 | --- svm_mfcc ---
+2026-07-22 23:24:22,276 | INFO    | 06_evaluate_models:385 |   test MAcc (recording) = 0.8657 [0.834, 0.894] | Se 0.949 Sp 0.782 AUC 0.922
+2026-07-22 23:24:22,279 | INFO    | 06_evaluate_models:111 | --- svm_pwp ---
+2026-07-22 23:24:26,190 | INFO    | 06_evaluate_models:385 |   test MAcc (recording) = 0.8312 [0.794, 0.863] | Se 0.909 Sp 0.753 AUC 0.877
+2026-07-22 23:24:26,192 | INFO    | 06_evaluate_models:128 | --- cnn_logmel ---
+2026-07-22 23:24:28,291 | INFO    | 06_evaluate_models:385 |   test MAcc (recording) = 0.8652 [0.828, 0.900] | Se 0.889 Sp 0.842 AUC 0.961
+2026-07-22 23:24:28,324 | INFO    | 06_evaluate_models:162 | Trivial baselines (recording level):
+2026-07-22 23:24:28,324 | INFO    | 06_evaluate_models:164 |   always_normal        acc=0.7955 MAcc=0.5000
+2026-07-22 23:24:28,324 | INFO    | 06_evaluate_models:164 |   always_abnormal      acc=0.2045 MAcc=0.5000
+2026-07-22 23:24:28,324 | INFO    | 06_evaluate_models:164 |   random_stratified    acc=0.6384 MAcc=0.4801
+2026-07-22 23:24:28,324 | INFO    | 06_evaluate_models:192 | McNemar cnn_logmel vs rf_mfcc: p=0.0007 (35 vs 11 discordant)
+2026-07-22 23:24:28,325 | INFO    | 06_evaluate_models:192 | McNemar cnn_logmel vs rf_pwp: p=0.0000 (68 vs 10 discordant)
+2026-07-22 23:24:28,325 | INFO    | 06_evaluate_models:192 | McNemar cnn_logmel vs svm_mfcc: p=0.0104 (28 vs 11 discordant)
+2026-07-22 23:24:28,325 | INFO    | 06_evaluate_models:192 | McNemar cnn_logmel vs svm_pwp: p=0.0000 (43 vs 11 discordant)
+2026-07-22 23:24:28,326 | INFO    | 06_evaluate_models:192 | McNemar rf_mfcc vs rf_pwp: p=0.0000 (39 vs 5 discordant)
+2026-07-22 23:24:28,326 | INFO    | 06_evaluate_models:192 | McNemar rf_mfcc vs svm_mfcc: p=0.2100 (8 vs 15 discordant)
+2026-07-22 23:24:28,327 | INFO    | 06_evaluate_models:192 | McNemar rf_mfcc vs svm_pwp: p=0.2684 (24 vs 16 discordant)
+2026-07-22 23:24:28,327 | INFO    | 06_evaluate_models:192 | McNemar rf_pwp vs svm_mfcc: p=0.0000 (8 vs 49 discordant)
+2026-07-22 23:24:28,327 | INFO    | 06_evaluate_models:192 | McNemar rf_pwp vs svm_pwp: p=0.0002 (9 vs 35 discordant)
+2026-07-22 23:24:28,327 | INFO    | 06_evaluate_models:192 | McNemar svm_mfcc vs svm_pwp: p=0.0250 (27 vs 12 discordant)
+2026-07-22 23:24:28,328 | INFO    | 06_evaluate_models:197 | 7/10 comparisons remain significant after Holm-Bonferroni correction
+2026-07-22 23:24:28,328 | INFO    | 06_evaluate_models:203 | Best model: svm_mfcc (MAcc 0.8657)
+2026-07-22 23:24:28,394 | INFO    | 06_evaluate_models:252 | Per-site MAcc spread for svm_mfcc: 0.509
+2026-07-22 23:24:30,612 | INFO    | 06_evaluate_models:289 |   rf_mfcc: ECE = 0.1294
+2026-07-22 23:24:30,612 | INFO    | 06_evaluate_models:289 |   rf_pwp: ECE = 0.1500
+2026-07-22 23:24:30,612 | INFO    | 06_evaluate_models:289 |   svm_mfcc: ECE = 0.0439
+2026-07-22 23:24:30,613 | INFO    | 06_evaluate_models:289 |   svm_pwp: ECE = 0.0418
+2026-07-22 23:24:30,613 | INFO    | 06_evaluate_models:289 |   cnn_logmel: ECE = 0.1164
+2026-07-22 23:24:31,533 | INFO    | 06_evaluate_models:341 | Summary written to /workspace/apr-heart-sounds/reports/phase_06_evaluate_models/summary.md

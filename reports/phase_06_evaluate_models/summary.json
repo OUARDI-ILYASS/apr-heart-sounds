@@ -2,17 +2,17 @@
   "phase": "06_evaluate_models",
   "experiment": "baseline_full",
   "status": "success",
-  "timestamp_start": "2026-07-22T01:11:03.311043+00:00",
-  "timestamp_end": "2026-07-22T01:11:22.433600+00:00",
-  "duration_seconds": 19.12,
-  "config_hash": "f915b259",
+  "timestamp_start": "2026-07-22T23:24:09.610845+00:00",
+  "timestamp_end": "2026-07-22T23:24:30.633553+00:00",
+  "duration_seconds": 21.02,
+  "config_hash": "bfdef2da",
   "seed": 42,
   "environment": {
     "python": "3.11.10",
-    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
-    "hostname": "c67198af10a8",
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
+    "hostname": "99d1bd91db7a",
     "user": "root",
-    "git_commit": "e70663b",
+    "git_commit": "80dd5ad",
     "git_dirty": true,
     "packages": {
       "numpy": "2.4.6",
@@ -64,7 +64,7 @@
     },
     {
       "path": "/workspace/apr-heart-sounds/figures/fig_pr_curves.pdf",
-      "mb": 0.016
+      "mb": 0.017
     },
     {
       "path": "/workspace/apr-heart-sounds/figures/fig_model_comparison.pdf",
@@ -76,7 +76,7 @@
     },
     {
       "path": "/workspace/apr-heart-sounds/figures/fig_calibration.pdf",
-      "mb": 0.016
+      "mb": 0.017
     },
     {
       "path": "/workspace/apr-heart-sounds/results/evaluation/test_results.json",
@@ -85,20 +85,20 @@
   ],
   "parameters": {},
   "key_findings": {
-    "majority_class_accuracy": 0.7761,
-    "site_macc_spread": 0.3682,
-    "rf_mfcc_ece": 0.14,
-    "rf_pwp_ece": 0.1463,
-    "svm_mfcc_ece": 0.061,
-    "svm_pwp_ece": 0.0661,
-    "cnn_logmel_ece": 0.1262,
-    "rf_mfcc_test_macc": 0.8354,
-    "rf_pwp_test_macc": 0.8129,
-    "svm_mfcc_test_macc": 0.8607,
-    "svm_pwp_test_macc": 0.8263,
-    "cnn_logmel_test_macc": 0.8707,
-    "best_model": "cnn_logmel",
-    "best_test_macc": 0.8707,
+    "majority_class_accuracy": 0.7955,
+    "site_macc_spread": 0.509,
+    "rf_mfcc_ece": 0.1294,
+    "rf_pwp_ece": 0.15,
+    "svm_mfcc_ece": 0.0439,
+    "svm_pwp_ece": 0.0418,
+    "cnn_logmel_ece": 0.1164,
+    "rf_mfcc_test_macc": 0.8566,
+    "rf_pwp_test_macc": 0.8199,
+    "svm_mfcc_test_macc": 0.8657,
+    "svm_pwp_test_macc": 0.8312,
+    "cnn_logmel_test_macc": 0.8652,
+    "best_model": "svm_mfcc",
+    "best_test_macc": 0.8657,
     "n_significant_comparisons": 7
   },
   "finding_notes": {
@@ -109,24 +109,24 @@
     "trivial_baselines": [
       {
         "baseline": "always_normal",
-        "accuracy": 0.7761,
+        "accuracy": 0.7955,
         "sensitivity": 0.0,
         "specificity": 1.0,
         "macc": 0.5
       },
       {
         "baseline": "always_abnormal",
-        "accuracy": 0.2239,
+        "accuracy": 0.2045,
         "sensitivity": 1.0,
         "specificity": 0.0,
         "macc": 0.5
       },
       {
         "baseline": "random_stratified",
-        "accuracy": 0.6095,
-        "sensitivity": 0.2333,
-        "specificity": 0.7179,
-        "macc": 0.4756
+        "accuracy": 0.6384,
+        "sensitivity": 0.2121,
+        "specificity": 0.7481,
+        "macc": 0.4801
       }
     ],
     "per_subdatabase": [
@@ -134,19 +134,19 @@
         "group": "training-a",
         "n": 61,
         "prevalence": 0.721,
-        "macc": 0.6718,
-        "sensitivity": 0.9318,
-        "specificity": 0.4118,
-        "accuracy": 0.7869
+        "macc": 0.4773,
+        "sensitivity": 0.9545,
+        "specificity": 0.0,
+        "accuracy": 0.6885
       },
       {
         "group": "training-b",
         "n": 73,
         "prevalence": 0.205,
-        "macc": 0.6253,
-        "sensitivity": 0.7333,
-        "specificity": 0.5172,
-        "accuracy": 0.5616
+        "macc": 0.5109,
+        "sensitivity": 0.8667,
+        "specificity": 0.1552,
+        "accuracy": 0.3014
       },
       {
         "group": "training-c",
@@ -157,36 +157,36 @@
         "group": "training-d",
         "n": 8,
         "prevalence": 0.5,
-        "macc": 0.625,
+        "macc": 0.5,
         "sensitivity": 1.0,
-        "specificity": 0.25,
-        "accuracy": 0.625
+        "specificity": 0.0,
+        "accuracy": 0.5
       },
       {
         "group": "training-e",
-        "n": 239,
-        "prevalence": 0.079,
-        "macc": 0.9932,
+        "n": 321,
+        "prevalence": 0.087,
+        "macc": 0.9863,
         "sensitivity": 1.0,
-        "specificity": 0.9864,
-        "accuracy": 0.9874
+        "specificity": 0.9727,
+        "accuracy": 0.9751
       },
       {
         "group": "training-f",
         "n": 17,
         "prevalence": 0.294,
-        "macc": 0.6583,
-        "sensitivity": 0.4,
-        "specificity": 0.9167,
-        "accuracy": 0.7647
+        "macc": 0.6917,
+        "sensitivity": 0.8,
+        "specificity": 0.5833,
+        "accuracy": 0.6471
       }
     ],
     "literature_comparison": [
       {
         "system": "This work (best)",
-        "macc": 0.8707,
-        "sensitivity": 0.8889,
-        "specificity": 0.8526,
+        "macc": 0.8657,
+        "sensitivity": 0.9495,
+        "specificity": 0.7818,
         "test_set": "our held-out split of the public training data",
         "comparable": true
       },
@@ -217,149 +217,149 @@
     ],
     "test_results_recording_level": [
       {
-        "model": "cnn_logmel",
-        "accuracy": 0.8607,
-        "sensitivity": 0.8889,
-        "specificity": 0.8526,
-        "macc": 0.8707,
-        "f1": 0.7407,
-        "roc_auc": 0.947,
-        "macc_ci": "[0.832, 0.907]",
-        "n": 402
+        "model": "svm_mfcc",
+        "accuracy": 0.8161,
+        "sensitivity": 0.9495,
+        "specificity": 0.7818,
+        "macc": 0.8657,
+        "f1": 0.6787,
+        "roc_auc": 0.9217,
+        "macc_ci": "[0.834, 0.894]",
+        "n": 484
       },
       {
-        "model": "svm_mfcc",
-        "accuracy": 0.796,
-        "sensitivity": 0.9778,
-        "specificity": 0.7436,
-        "macc": 0.8607,
-        "f1": 0.6822,
-        "roc_auc": 0.8941,
-        "macc_ci": "[0.832, 0.888]",
-        "n": 402
+        "model": "cnn_logmel",
+        "accuracy": 0.8512,
+        "sensitivity": 0.8889,
+        "specificity": 0.8416,
+        "macc": 0.8652,
+        "f1": 0.7097,
+        "roc_auc": 0.9606,
+        "macc_ci": "[0.828, 0.900]",
+        "n": 484
       },
       {
         "model": "rf_mfcc",
-        "accuracy": 0.7935,
-        "sensitivity": 0.9111,
-        "specificity": 0.7596,
-        "macc": 0.8354,
-        "f1": 0.664,
-        "roc_auc": 0.8944,
-        "macc_ci": "[0.797, 0.871]",
-        "n": 402
+        "accuracy": 0.8017,
+        "sensitivity": 0.9495,
+        "specificity": 0.7636,
+        "macc": 0.8566,
+        "f1": 0.662,
+        "roc_auc": 0.9061,
+        "macc_ci": "[0.824, 0.886]",
+        "n": 484
       },
       {
         "model": "svm_pwp",
-        "accuracy": 0.7488,
-        "sensitivity": 0.9667,
-        "specificity": 0.6859,
-        "macc": 0.8263,
-        "f1": 0.6327,
-        "roc_auc": 0.8767,
-        "macc_ci": "[0.792, 0.855]",
-        "n": 402
+        "accuracy": 0.7851,
+        "sensitivity": 0.9091,
+        "specificity": 0.7532,
+        "macc": 0.8312,
+        "f1": 0.6338,
+        "roc_auc": 0.877,
+        "macc_ci": "[0.794, 0.863]",
+        "n": 484
       },
       {
         "model": "rf_pwp",
-        "accuracy": 0.7587,
-        "sensitivity": 0.9111,
-        "specificity": 0.7147,
-        "macc": 0.8129,
-        "f1": 0.6284,
-        "roc_auc": 0.8593,
-        "macc_ci": "[0.775, 0.849]",
-        "n": 402
+        "accuracy": 0.7314,
+        "sensitivity": 0.9697,
+        "specificity": 0.6701,
+        "macc": 0.8199,
+        "f1": 0.5963,
+        "roc_auc": 0.8644,
+        "macc_ci": "[0.790, 0.847]",
+        "n": 484
       }
     ],
     "pairwise_mcnemar": [
       {
-        "comparison": "cnn_logmel vs rf_mfcc",
-        "a_only_correct": 34,
-        "b_only_correct": 7,
-        "statistic": 16.488,
-        "p_value": 0.0,
-        "significant": true,
-        "test": "chi2_with_continuity_correction"
-      },
-      {
         "comparison": "cnn_logmel vs rf_pwp",
-        "a_only_correct": 55,
-        "b_only_correct": 14,
-        "statistic": 23.188,
+        "a_only_correct": 68,
+        "b_only_correct": 10,
+        "statistic": 41.654,
         "p_value": 0.0,
         "significant": true,
         "test": "chi2_with_continuity_correction"
       },
       {
         "comparison": "cnn_logmel vs svm_pwp",
-        "a_only_correct": 57,
-        "b_only_correct": 12,
-        "statistic": 28.058,
+        "a_only_correct": 43,
+        "b_only_correct": 11,
+        "statistic": 17.796,
         "p_value": 0.0,
         "significant": true,
         "test": "chi2_with_continuity_correction"
       },
       {
-        "comparison": "cnn_logmel vs svm_mfcc",
-        "a_only_correct": 38,
-        "b_only_correct": 12,
-        "statistic": 12.5,
-        "p_value": 0.0004,
-        "significant": true,
-        "test": "chi2_with_continuity_correction"
-      },
-      {
-        "comparison": "svm_mfcc vs svm_pwp",
-        "a_only_correct": 23,
-        "b_only_correct": 4,
-        "statistic": 12.0,
-        "p_value": 0.0005,
-        "significant": true,
-        "test": "chi2_with_continuity_correction"
-      },
-      {
-        "comparison": "rf_mfcc vs svm_pwp",
-        "a_only_correct": 29,
-        "b_only_correct": 11,
-        "statistic": 7.225,
-        "p_value": 0.0072,
+        "comparison": "rf_mfcc vs rf_pwp",
+        "a_only_correct": 39,
+        "b_only_correct": 5,
+        "statistic": 24.75,
+        "p_value": 0.0,
         "significant": true,
         "test": "chi2_with_continuity_correction"
       },
       {
         "comparison": "rf_pwp vs svm_mfcc",
         "a_only_correct": 8,
-        "b_only_correct": 23,
-        "statistic": 6.323,
-        "p_value": 0.0119,
-        "significant": true,
-        "test": "chi2_with_continuity_correction"
-      },
-      {
-        "comparison": "rf_mfcc vs rf_pwp",
-        "a_only_correct": 25,
-        "b_only_correct": 11,
-        "statistic": 4.694,
-        "p_value": 0.0303,
+        "b_only_correct": 49,
+        "statistic": 28.07,
+        "p_value": 0.0,
         "significant": true,
         "test": "chi2_with_continuity_correction"
       },
       {
         "comparison": "rf_pwp vs svm_pwp",
-        "a_only_correct": 13,
-        "b_only_correct": 9,
-        "statistic": 9.0,
-        "p_value": 0.5235,
+        "a_only_correct": 9,
+        "b_only_correct": 35,
+        "statistic": 14.205,
+        "p_value": 0.0002,
+        "significant": true,
+        "test": "chi2_with_continuity_correction"
+      },
+      {
+        "comparison": "cnn_logmel vs rf_mfcc",
+        "a_only_correct": 35,
+        "b_only_correct": 11,
+        "statistic": 11.5,
+        "p_value": 0.0007,
+        "significant": true,
+        "test": "chi2_with_continuity_correction"
+      },
+      {
+        "comparison": "cnn_logmel vs svm_mfcc",
+        "a_only_correct": 28,
+        "b_only_correct": 11,
+        "statistic": 6.564,
+        "p_value": 0.0104,
+        "significant": true,
+        "test": "chi2_with_continuity_correction"
+      },
+      {
+        "comparison": "svm_mfcc vs svm_pwp",
+        "a_only_correct": 27,
+        "b_only_correct": 12,
+        "statistic": 5.026,
+        "p_value": 0.025,
+        "significant": true,
+        "test": "chi2_with_continuity_correction"
+      },
+      {
+        "comparison": "rf_mfcc vs svm_mfcc",
+        "a_only_correct": 8,
+        "b_only_correct": 15,
+        "statistic": 8.0,
+        "p_value": 0.21,
         "significant": false,
         "test": "exact_binomial"
       },
       {
-        "comparison": "rf_mfcc vs svm_mfcc",
-        "a_only_correct": 12,
-        "b_only_correct": 13,
-        "statistic": 0.0,
-        "p_value": 1.0,
+        "comparison": "rf_mfcc vs svm_pwp",
+        "a_only_correct": 24,
+        "b_only_correct": 16,
+        "statistic": 1.225,
+        "p_value": 0.2684,
         "significant": false,
         "test": "chi2_with_continuity_correction"
       }
@@ -369,37 +369,37 @@
     {
       "name": "no_gross_site_shortcut",
       "result": "FAIL",
-      "detail": "per-site MAcc spread = 0.368"
+      "detail": "per-site MAcc spread = 0.509"
     }
   ],
   "claim_verdicts": {
     "C2": {
       "statement": "The log-Mel CNN outperforms the best classical feature/model pairing.",
-      "verdict": "supported",
-      "evidence": "CNN MAcc 0.8707 vs classical 0.8607 (delta +0.0100, McNemar p=0.0000)",
+      "verdict": "contradicted",
+      "evidence": "CNN MAcc 0.8652 vs classical 0.8657 (delta -0.0004, McNemar p=0.0007)",
       "detail": "If the difference is not significant, the honest conclusion is that the compact CNN and a well-tuned classical model are statistically indistinguishable on this dataset - which is itself worth reporting, since the classical model is far cheaper to train and to explain."
     },
     "C3": {
       "statement": "All models substantially exceed the majority-class baseline on MAcc.",
       "verdict": "supported",
-      "evidence": "best MAcc 0.8707 vs 0.500 for the always-Normal baseline",
+      "evidence": "best MAcc 0.8657 vs 0.500 for the always-Normal baseline",
       "detail": ""
     }
   },
   "warnings": [
-    "Per-site MAcc varies by 0.368. Report this prominently: it indicates the model does not transfer uniformly across acquisition conditions, and the pooled metric hides that."
+    "Per-site MAcc varies by 0.509. Report this prominently: it indicates the model does not transfer uniformly across acquisition conditions, and the pooled metric hides that."
   ],
   "notes": [
     "This is the first phase to read the test split. All model and threshold selection happened in phases 04-05 on training and validation data, as recorded in the splits_touched field of those phases' summaries.",
     "The literature rows in the comparison table were obtained on the official PhysioNet/CinC 2016 hidden test set, which was never publicly released. Our numbers come from a held-out split of the public training data. The two are therefore NOT directly comparable, and the table carries a 'comparable' column saying so."
   ],
   "timings_seconds": {
-    "predict_rf_mfcc": 0.14,
-    "predict_rf_pwp": 0.09,
-    "predict_svm_mfcc": 6.11,
-    "predict_svm_pwp": 2.143,
-    "predict_cnn": 0.673,
-    "_total": 19.122
+    "predict_rf_mfcc": 0.215,
+    "predict_rf_pwp": 0.19,
+    "predict_svm_mfcc": 6.238,
+    "predict_svm_pwp": 2.335,
+    "predict_cnn": 0.592,
+    "_total": 21.022
   },
   "next_phase": "07_explain_shap"
 }

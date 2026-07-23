@@ -2,17 +2,17 @@
   "phase": "07_explain_shap",
   "experiment": "baseline_full",
   "status": "success",
-  "timestamp_start": "2026-07-22T03:24:38.658115+00:00",
-  "timestamp_end": "2026-07-22T03:49:47.074961+00:00",
-  "duration_seconds": 1508.42,
+  "timestamp_start": "2026-07-22T23:24:36.636057+00:00",
+  "timestamp_end": "2026-07-22T23:38:27.151388+00:00",
+  "duration_seconds": 830.52,
   "config_hash": "bfdef2da",
   "seed": 42,
   "environment": {
     "python": "3.11.10",
-    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
-    "hostname": "c67198af10a8",
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
+    "hostname": "99d1bd91db7a",
     "user": "root",
-    "git_commit": "e70663b",
+    "git_commit": "80dd5ad",
     "git_dirty": true,
     "packages": {
       "numpy": "2.4.6",
@@ -70,13 +70,13 @@
     "rf_mfcc_centroid_hz": 212.5,
     "rf_mfcc_top_feature": "mfcc3_mean",
     "rf_pwp_peak_frequency_hz": 37.8,
-    "rf_pwp_centroid_hz": 178.7,
+    "rf_pwp_centroid_hz": 180.8,
     "rf_pwp_top_feature": "pwp_b0_25-51Hz_shannon_entropy",
     "svm_mfcc_peak_frequency_hz": 36.4,
     "svm_mfcc_centroid_hz": 212.5,
     "svm_mfcc_top_feature": "mfcc3_mean",
     "svm_pwp_peak_frequency_hz": 37.8,
-    "svm_pwp_centroid_hz": 166.5,
+    "svm_pwp_centroid_hz": 161.0,
     "svm_pwp_top_feature": "pwp_b0_25-51Hz_shannon_entropy",
     "peak_frequencies_hz": [
       36.4,
@@ -104,7 +104,7 @@
         "explainer": "TreeSHAP",
         "exact": true,
         "peak_hz": 37.8,
-        "centroid_hz": 178.7,
+        "centroid_hz": 180.8,
         "mapping": "exact band aggregation"
       },
       {
@@ -120,7 +120,7 @@
         "explainer": "KernelSHAP",
         "exact": false,
         "peak_hz": 37.8,
-        "centroid_hz": 166.5,
+        "centroid_hz": 161.0,
         "mapping": "exact band aggregation"
       }
     ]
@@ -130,7 +130,7 @@
     "C4": {
       "statement": "Models trained on different feature domains attribute importance to the same frequency region.",
       "verdict": "weak",
-      "evidence": "mean pairwise correlation between frequency-attribution profiles = 0.572",
+      "evidence": "mean pairwise correlation between frequency-attribution profiles = 0.514",
       "detail": "Agreement across models with different inductive biases and different SHAP algorithms is far stronger evidence than any single explanation. Disagreement would mean at least one model is reading an artefact."
     }
   },
@@ -143,11 +143,11 @@
     "MFCC frequency attributions are an approximation: cepstral coefficients are a DCT of the log-mel spectrum, so SHAP mass is redistributed through the magnitude of the DCT basis and the sign is discarded. PWP attributions are exact, because each PWP feature belongs to exactly one frequency band by construction. Where the two disagree, the PWP result is the reliable one."
   ],
   "timings_seconds": {
-    "shap_rf_mfcc": 3.837,
-    "shap_rf_pwp": 4.151,
-    "shap_svm_mfcc": 1095.079,
-    "shap_svm_pwp": 397.99,
-    "_total": 1508.416
+    "shap_rf_mfcc": 9.568,
+    "shap_rf_pwp": 12.079,
+    "shap_svm_mfcc": 580.9,
+    "shap_svm_pwp": 219.743,
+    "_total": 830.515
   },
   "next_phase": "08_explain_gradcam"
 }

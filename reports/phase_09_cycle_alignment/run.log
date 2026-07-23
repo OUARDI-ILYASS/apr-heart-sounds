@@ -1,28 +1,28 @@
-2026-07-22 03:50:02,261 | INFO    | 09_cycle_alignment:56 | ==============================================================================
-2026-07-22 03:50:02,262 | INFO    | 09_cycle_alignment:57 |    PHASE 09_cycle_alignment: Cardiac-cycle alignment of model attributions    
-2026-07-22 03:50:02,262 | INFO    | 09_cycle_alignment:58 | ==============================================================================
-2026-07-22 03:50:02,262 | INFO    | 09_cycle_alignment:78 | Experiment : baseline_full
-2026-07-22 03:50:02,262 | INFO    | 09_cycle_alignment:79 | Config     : /workspace/apr-heart-sounds/configs/config.yaml  (hash bfdef2da)
-2026-07-22 03:50:03,816 | INFO    | 09_cycle_alignment:82 | Seed       : 42 (torch=True, cuda=True)
-2026-07-22 03:50:03,816 | INFO    | 09_cycle_alignment:86 | Shapes     : {'segment_samples': 6000, 'n_frames': 188, 'mfcc_dim': 234, 'logmel_shape': [32, 188], 'pwp_n_bands': 12, 'pwp_dim': 84, 'fft_bin_width_hz': 7.8125, 'usable_fft_bins_in_band': 49, 'wp_subband_width_hz': 15.625}
-2026-07-22 03:50:04,183 | INFO    | 09_cycle_alignment:86 | Segmenting 2756 test windows into cardiac states ...
-2026-07-22 03:50:04,184 | INFO    | 09_cycle_alignment:87 | NOTE: this is an envelope-based segmenter, not the Springer HSMM. It is used only for evaluation, never for training.
-2026-07-22 03:50:19,724 | INFO    | 09_cycle_alignment:93 |   usable: 1823/2756 (66.1%)
-2026-07-22 03:50:19,724 | INFO    | 09_cycle_alignment:95 |   mean confidence: 0.557
-2026-07-22 03:50:19,724 | INFO    | 09_cycle_alignment:96 |   mean heart rate: 81.4 bpm (range 40-180)
-2026-07-22 03:50:19,744 | INFO    | 09_cycle_alignment:133 | Computing cardiac-cycle alignment for the CNN (Grad-CAM) ...
-2026-07-22 03:50:25,152 | INFO    | 09_cycle_alignment:147 |   included 1821/2756 segments (66.1%)
-2026-07-22 03:50:25,153 | INFO    | 09_cycle_alignment:153 |   S1       : mass 0.1864  time 0.1923  enrichment 0.953
-2026-07-22 03:50:25,153 | INFO    | 09_cycle_alignment:153 |   systole  : mass 0.2208  time 0.2340  enrichment 0.936
-2026-07-22 03:50:25,153 | INFO    | 09_cycle_alignment:153 |   S2       : mass 0.1583  time 0.1875  enrichment 0.766
-2026-07-22 03:50:25,153 | INFO    | 09_cycle_alignment:153 |   diastole : mass 0.4346  time 0.3863  enrichment 1.092
-2026-07-22 03:50:25,154 | INFO    | 09_cycle_alignment:157 | Testing 'systole' enrichment against the shuffled null ...
-2026-07-22 03:50:26,899 | INFO    | 09_cycle_alignment:161 |   observed mass 0.2364 vs null 0.2339
-2026-07-22 03:50:26,900 | INFO    | 09_cycle_alignment:163 |   27.5% of segments significant at p<0.05, Cohen's d = 0.021
-2026-07-22 03:50:26,900 | INFO    | 09_cycle_alignment:166 |   Attribution mass exceeds the null in a substantial minority of segments. The alignment claim is weakly supported and should be stated as a tendency, not a property.
-2026-07-22 03:50:26,902 | INFO    | 09_cycle_alignment:172 |   true_positive: n=392, E_systole=0.947
-2026-07-22 03:50:26,902 | INFO    | 09_cycle_alignment:172 |   true_negative: n=1194, E_systole=0.950
-2026-07-22 03:50:26,902 | INFO    | 09_cycle_alignment:172 |   false_positive: n=215, E_systole=0.861
-2026-07-22 03:50:26,902 | INFO    | 09_cycle_alignment:172 |   false_negative: n=20, E_systole=0.683
-2026-07-22 03:50:26,903 | INFO    | 09_cycle_alignment:185 |   TP vs FP enrichment: 0.947 vs 0.861
-2026-07-22 03:50:38,611 | INFO    | 09_cycle_alignment:310 | Summary written to /workspace/apr-heart-sounds/reports/phase_09_cycle_alignment/summary.md
+2026-07-22 23:38:48,766 | INFO    | 09_cycle_alignment:56 | ==============================================================================
+2026-07-22 23:38:48,767 | INFO    | 09_cycle_alignment:57 |    PHASE 09_cycle_alignment: Cardiac-cycle alignment of model attributions    
+2026-07-22 23:38:48,767 | INFO    | 09_cycle_alignment:58 | ==============================================================================
+2026-07-22 23:38:48,767 | INFO    | 09_cycle_alignment:78 | Experiment : baseline_full
+2026-07-22 23:38:48,767 | INFO    | 09_cycle_alignment:79 | Config     : /workspace/apr-heart-sounds/configs/config.yaml  (hash bfdef2da)
+2026-07-22 23:38:50,347 | INFO    | 09_cycle_alignment:82 | Seed       : 42 (torch=True, cuda=True)
+2026-07-22 23:38:50,347 | INFO    | 09_cycle_alignment:86 | Shapes     : {'segment_samples': 6000, 'n_frames': 188, 'mfcc_dim': 234, 'logmel_shape': [32, 188], 'pwp_n_bands': 12, 'pwp_dim': 84, 'fft_bin_width_hz': 7.8125, 'usable_fft_bins_in_band': 49, 'wp_subband_width_hz': 15.625}
+2026-07-22 23:38:51,216 | INFO    | 09_cycle_alignment:86 | Segmenting 3362 test windows into cardiac states ...
+2026-07-22 23:38:51,216 | INFO    | 09_cycle_alignment:87 | NOTE: this is an envelope-based segmenter, not the Springer HSMM. It is used only for evaluation, never for training.
+2026-07-22 23:39:09,451 | INFO    | 09_cycle_alignment:93 |   usable: 2236/3362 (66.5%)
+2026-07-22 23:39:09,452 | INFO    | 09_cycle_alignment:95 |   mean confidence: 0.559
+2026-07-22 23:39:09,452 | INFO    | 09_cycle_alignment:96 |   mean heart rate: 82.0 bpm (range 40-180)
+2026-07-22 23:39:09,465 | INFO    | 09_cycle_alignment:133 | Computing cardiac-cycle alignment for the CNN (Grad-CAM) ...
+2026-07-22 23:39:15,531 | INFO    | 09_cycle_alignment:147 |   included 2235/3362 segments (66.5%)
+2026-07-22 23:39:15,532 | INFO    | 09_cycle_alignment:153 |   S1       : mass 0.1900  time 0.1919  enrichment 1.001
+2026-07-22 23:39:15,532 | INFO    | 09_cycle_alignment:153 |   systole  : mass 0.2454  time 0.2318  enrichment 1.056
+2026-07-22 23:39:15,532 | INFO    | 09_cycle_alignment:153 |   S2       : mass 0.1500  time 0.1870  enrichment 0.753
+2026-07-22 23:39:15,532 | INFO    | 09_cycle_alignment:153 |   diastole : mass 0.4146  time 0.3893  enrichment 1.067
+2026-07-22 23:39:15,532 | INFO    | 09_cycle_alignment:157 | Testing 'systole' enrichment against the shuffled null ...
+2026-07-22 23:39:17,191 | INFO    | 09_cycle_alignment:161 |   observed mass 0.2454 vs null 0.2336
+2026-07-22 23:39:17,191 | INFO    | 09_cycle_alignment:163 |   33.0% of segments significant at p<0.05, Cohen's d = 0.131
+2026-07-22 23:39:17,191 | INFO    | 09_cycle_alignment:166 |   Attribution mass exceeds the null in a substantial minority of segments. The alignment claim is weakly supported and should be stated as a tendency, not a property.
+2026-07-22 23:39:17,194 | INFO    | 09_cycle_alignment:172 |   true_positive: n=409, E_systole=1.085
+2026-07-22 23:39:17,194 | INFO    | 09_cycle_alignment:172 |   true_negative: n=1600, E_systole=1.039
+2026-07-22 23:39:17,194 | INFO    | 09_cycle_alignment:172 |   false_positive: n=200, E_systole=1.115
+2026-07-22 23:39:17,194 | INFO    | 09_cycle_alignment:172 |   false_negative: n=26, E_systole=1.157
+2026-07-22 23:39:17,194 | INFO    | 09_cycle_alignment:185 |   TP vs FP enrichment: 1.085 vs 1.115
+2026-07-22 23:39:28,793 | INFO    | 09_cycle_alignment:310 | Summary written to /workspace/apr-heart-sounds/reports/phase_09_cycle_alignment/summary.md

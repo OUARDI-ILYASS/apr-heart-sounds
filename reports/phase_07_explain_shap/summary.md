@@ -3,7 +3,7 @@
 ✅ **Status:** success  
 **Experiment:** `baseline_full`  
 **Config hash:** `bfdef2da`  •  **Seed:** `42`  
-**Started:** 2026-07-22T03:24:38.658115+00:00  •  **Duration:** 1508.42 s  
+**Started:** 2026-07-22T23:24:36.636057+00:00  •  **Duration:** 830.52 s  
 **Data splits read:** `train, test`  
 
 > [!WARNING]
@@ -14,7 +14,7 @@
 
 | Claim | Statement | Verdict | Evidence |
 |---|---|---|---|
-| C4 | Models trained on different feature domains attribute importance to the same frequency region. | ⚠️ weak | mean pairwise correlation between frequency-attribution profiles = 0.572 |
+| C4 | Models trained on different feature domains attribute importance to the same frequency region. | ⚠️ weak | mean pairwise correlation between frequency-attribution profiles = 0.514 |
 
 ## Key Findings
 
@@ -22,25 +22,25 @@
 - **rf_mfcc_centroid_hz:** 212.5000
 - **rf_mfcc_top_feature:** `mfcc3_mean`
 - **rf_pwp_peak_frequency_hz:** 37.8000
-- **rf_pwp_centroid_hz:** 178.7000
+- **rf_pwp_centroid_hz:** 180.8000
 - **rf_pwp_top_feature:** `pwp_b0_25-51Hz_shannon_entropy`
 - **svm_mfcc_peak_frequency_hz:** 36.4000
 - **svm_mfcc_centroid_hz:** 212.5000
 - **svm_mfcc_top_feature:** `mfcc3_mean`
 - **svm_pwp_peak_frequency_hz:** 37.8000
-- **svm_pwp_centroid_hz:** 166.5000
+- **svm_pwp_centroid_hz:** 161.0000
 - **svm_pwp_top_feature:** `pwp_b0_25-51Hz_shannon_entropy`
 - **peak_frequencies_hz:** `[36.4, 37.8, 36.4, 37.8]`
 - **n_models_peaking_in_murmur_band:** `0/4` — Models whose attribution peaks in the 100-300 Hz range where systolic murmur energy is clinically expected
 
 ## Table: shap_frequency_summary
 
-| exact | centroid_hz | mapping | peak_hz | model | explainer |
+| mapping | peak_hz | exact | centroid_hz | explainer | model |
 |---|---|---|---|---|---|
-| True | 212.5000 | abs(DCT basis) projection | 36.4000 | rf_mfcc | TreeSHAP |
-| True | 178.7000 | exact band aggregation | 37.8000 | rf_pwp | TreeSHAP |
-| False | 212.5000 | abs(DCT basis) projection | 36.4000 | svm_mfcc | KernelSHAP |
-| False | 166.5000 | exact band aggregation | 37.8000 | svm_pwp | KernelSHAP |
+| abs(DCT basis) projection | 36.4000 | True | 212.5000 | TreeSHAP | rf_mfcc |
+| exact band aggregation | 37.8000 | True | 180.8000 | TreeSHAP | rf_pwp |
+| abs(DCT basis) projection | 36.4000 | False | 212.5000 | KernelSHAP | svm_mfcc |
+| exact band aggregation | 37.8000 | False | 161.0000 | KernelSHAP | svm_pwp |
 
 ## Artifacts Written
 
@@ -60,16 +60,16 @@
 
 ## Timing Breakdown
 
-- `_total`: 1508.42 s
-- `shap_svm_mfcc`: 1095.08 s
-- `shap_svm_pwp`: 397.99 s
-- `shap_rf_pwp`: 4.15 s
-- `shap_rf_mfcc`: 3.84 s
+- `_total`: 830.51 s
+- `shap_svm_mfcc`: 580.90 s
+- `shap_svm_pwp`: 219.74 s
+- `shap_rf_pwp`: 12.08 s
+- `shap_rf_mfcc`: 9.57 s
 
 <details><summary>Environment</summary>
 
-- Python 3.11.10 on Linux-6.8.0-111-generic-x86_64-with-glibc2.35
-- Git commit: `e70663b` (dirty: True)
+- Python 3.11.10 on Linux-6.8.0-124-generic-x86_64-with-glibc2.35
+- Git commit: `80dd5ad` (dirty: True)
 - GPU: NVIDIA RTX 4000 Ada Generation ×1, CUDA 12.4, 19.55 GB
 - Packages: numpy==2.4.6, scipy==1.17.1, sklearn==1.9.0, pandas==3.0.3, librosa==0.11.0, pywt==1.8.0, torch==2.4.1+cu124, shap==0.51.0, matplotlib==3.11.1, joblib==1.5.3
 

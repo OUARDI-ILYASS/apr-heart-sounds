@@ -1,70 +1,70 @@
-2026-07-22 00:10:12,935 | INFO    | 04_train_classical:56 | ==============================================================================
-2026-07-22 00:10:12,936 | INFO    | 04_train_classical:57 |         PHASE 04_train_classical: Train and tune SVM and Random Forest        
-2026-07-22 00:10:12,936 | INFO    | 04_train_classical:58 | ==============================================================================
-2026-07-22 00:10:12,936 | INFO    | 04_train_classical:78 | Experiment : baseline_full
-2026-07-22 00:10:12,936 | INFO    | 04_train_classical:79 | Config     : /workspace/apr-heart-sounds/configs/config.yaml  (hash f915b259)
-2026-07-22 00:10:14,862 | INFO    | 04_train_classical:82 | Seed       : 42 (torch=True, cuda=True)
-2026-07-22 00:10:14,862 | INFO    | 04_train_classical:86 | Shapes     : {'segment_samples': 6000, 'n_frames': 188, 'mfcc_dim': 234, 'logmel_shape': [32, 188], 'pwp_n_bands': 12, 'pwp_dim': 84, 'fft_bin_width_hz': 7.8125, 'usable_fft_bins_in_band': 49, 'wp_subband_width_hz': 15.625}
-2026-07-22 00:10:14,935 | INFO    | 04_train_classical:57 | Train: 25365 segments from 1886 recordings
-2026-07-22 00:10:14,936 | INFO    | 04_train_classical:58 | Val  : 2814 segments from 405 recordings
-2026-07-22 00:10:15,037 | INFO    | 04_train_classical:78 | === mfcc: 234 features ========================================
-2026-07-22 00:10:15,037 | INFO    | 04_train_classical:82 | --- svm_mfcc ---
-2026-07-22 00:10:16,451 | INFO    | 04_train_classical:233 |   prune on 7537/25365 segments (4/recording, 22.6% abnormal vs 26.7% full)
-2026-07-22 00:11:32,814 | INFO    | 04_train_classical:233 |   re-scoring top 3 candidates on all 25365 segments
-2026-07-22 00:12:12,179 | INFO    | 04_train_classical:233 |     {'C': 10.0, 'gamma': 0.0005}  full CV balanced_accuracy 0.8504
-2026-07-22 00:12:56,851 | INFO    | 04_train_classical:233 |     {'C': 1.0, 'gamma': 0.001}  full CV balanced_accuracy 0.8512
-2026-07-22 00:13:53,571 | INFO    | 04_train_classical:233 |     {'C': 0.1, 'gamma': 0.005}  full CV balanced_accuracy 0.8420
-2026-07-22 00:14:37,578 | INFO    | 04_train_classical:233 |   selected {'C': 1.0, 'gamma': 0.001}  CV balanced_accuracy 0.8512 ± 0.0126
-2026-07-22 00:14:37,579 | INFO    | 04_train_classical:233 |   refitting on all 25365 segments (probability=True restored for SVM)
-2026-07-22 00:20:23,223 | INFO    | 04_train_classical:91 |   best params : {'C': 1.0, 'gamma': 0.001}
-2026-07-22 00:20:23,223 | INFO    | 04_train_classical:92 |   CV MAcc     : 0.8512 ± 0.0126
-2026-07-22 00:20:23,224 | INFO    | 04_train_classical:94 |   train MAcc  : 0.8972 (gap +0.0930)
-2026-07-22 00:20:29,099 | INFO    | 04_train_classical:123 |   val MAcc (segment)   : 0.8026
-2026-07-22 00:20:29,099 | INFO    | 04_train_classical:124 |   val MAcc (recording) : 0.8060
-2026-07-22 00:20:29,099 | INFO    | 04_train_classical:125 |   tuned threshold      : 0.23 -> val MAcc 0.8661
-2026-07-22 00:20:29,956 | INFO    | 04_train_classical:82 | --- rf_mfcc ---
-2026-07-22 00:20:30,594 | INFO    | 04_train_classical:233 |   prune on 7537/25365 segments (4/recording, 22.6% abnormal vs 26.7% full)
-2026-07-22 00:43:25,210 | INFO    | 04_train_classical:233 |   re-scoring top 3 candidates on all 25365 segments
-2026-07-22 00:44:05,628 | INFO    | 04_train_classical:233 |     {'max_depth': 10, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 200}  full CV balanced_accuracy 0.8421
-2026-07-22 00:47:09,116 | INFO    | 04_train_classical:233 |     {'max_depth': 10, 'max_features': 0.3, 'min_samples_leaf': 5, 'n_estimators': 200}  full CV balanced_accuracy 0.8387
-2026-07-22 00:48:48,487 | INFO    | 04_train_classical:233 |     {'max_depth': 10, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 500}  full CV balanced_accuracy 0.8420
-2026-07-22 00:49:28,816 | INFO    | 04_train_classical:233 |   selected {'max_depth': 10, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 200}  CV balanced_accuracy 0.8421 ± 0.0131
-2026-07-22 00:49:28,818 | INFO    | 04_train_classical:233 |   refitting on all 25365 segments (probability=True restored for SVM)
-2026-07-22 00:49:35,792 | INFO    | 04_train_classical:91 |   best params : {'max_depth': 10, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 200}
-2026-07-22 00:49:35,793 | INFO    | 04_train_classical:92 |   CV MAcc     : 0.8421 ± 0.0131
-2026-07-22 00:49:35,793 | INFO    | 04_train_classical:94 |   train MAcc  : 0.9492 (gap +0.1655)
-2026-07-22 00:49:35,793 | WARNING | 04_train_classical:99 |   rf: train-CV gap is 0.165 (train 0.949 vs CV 0.842). The model is memorising the training folds; consider stronger regularisation (lower C for SVM, higher min_samples_leaf for RF).
-2026-07-22 00:49:35,975 | INFO    | 04_train_classical:123 |   val MAcc (segment)   : 0.8673
-2026-07-22 00:49:35,976 | INFO    | 04_train_classical:124 |   val MAcc (recording) : 0.8335
-2026-07-22 00:49:35,976 | INFO    | 04_train_classical:125 |   tuned threshold      : 0.53 -> val MAcc 0.8415
-2026-07-22 00:49:36,345 | INFO    | 04_train_classical:78 | === pwp: 84 features ========================================
-2026-07-22 00:49:36,345 | INFO    | 04_train_classical:82 | --- svm_pwp ---
-2026-07-22 00:49:36,965 | INFO    | 04_train_classical:233 |   prune on 7537/25365 segments (4/recording, 22.6% abnormal vs 26.7% full)
-2026-07-22 00:50:11,605 | INFO    | 04_train_classical:233 |   re-scoring top 3 candidates on all 25365 segments
-2026-07-22 00:50:30,603 | INFO    | 04_train_classical:233 |     {'C': 1.0, 'gamma': 0.01}  full CV balanced_accuracy 0.8211
-2026-07-22 00:50:49,731 | INFO    | 04_train_classical:233 |     {'C': 1.0, 'gamma': 0.005}  full CV balanced_accuracy 0.8134
-2026-07-22 00:51:10,020 | INFO    | 04_train_classical:233 |     {'C': 10.0, 'gamma': 0.001}  full CV balanced_accuracy 0.8077
-2026-07-22 00:51:28,815 | INFO    | 04_train_classical:233 |   selected {'C': 1.0, 'gamma': 0.01}  CV balanced_accuracy 0.8211 ± 0.0111
-2026-07-22 00:51:28,817 | INFO    | 04_train_classical:233 |   refitting on all 25365 segments (probability=True restored for SVM)
-2026-07-22 00:54:36,298 | INFO    | 04_train_classical:91 |   best params : {'C': 1.0, 'gamma': 0.01}
-2026-07-22 00:54:36,299 | INFO    | 04_train_classical:92 |   CV MAcc     : 0.8211 ± 0.0111
-2026-07-22 00:54:36,299 | INFO    | 04_train_classical:94 |   train MAcc  : 0.8572 (gap +0.0846)
-2026-07-22 00:54:38,466 | INFO    | 04_train_classical:123 |   val MAcc (segment)   : 0.7627
-2026-07-22 00:54:38,466 | INFO    | 04_train_classical:124 |   val MAcc (recording) : 0.7481
-2026-07-22 00:54:38,466 | INFO    | 04_train_classical:125 |   tuned threshold      : 0.20 -> val MAcc 0.8374
-2026-07-22 00:54:38,798 | INFO    | 04_train_classical:82 | --- rf_pwp ---
-2026-07-22 00:54:39,414 | INFO    | 04_train_classical:233 |   prune on 7537/25365 segments (4/recording, 22.6% abnormal vs 26.7% full)
-2026-07-22 01:03:10,863 | INFO    | 04_train_classical:233 |   re-scoring top 3 candidates on all 25365 segments
-2026-07-22 01:04:14,502 | INFO    | 04_train_classical:233 |     {'max_depth': 10, 'max_features': 0.3, 'min_samples_leaf': 5, 'n_estimators': 200}  full CV balanced_accuracy 0.7935
-2026-07-22 01:06:52,030 | INFO    | 04_train_classical:233 |     {'max_depth': 10, 'max_features': 0.3, 'min_samples_leaf': 5, 'n_estimators': 500}  full CV balanced_accuracy 0.7917
-2026-07-22 01:07:50,963 | INFO    | 04_train_classical:233 |     {'max_depth': 10, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 500}  full CV balanced_accuracy 0.7901
-2026-07-22 01:08:54,491 | INFO    | 04_train_classical:233 |   selected {'max_depth': 10, 'max_features': 0.3, 'min_samples_leaf': 5, 'n_estimators': 200}  CV balanced_accuracy 0.7935 ± 0.0168
-2026-07-22 01:08:54,496 | INFO    | 04_train_classical:233 |   refitting on all 25365 segments (probability=True restored for SVM)
-2026-07-22 01:09:05,348 | INFO    | 04_train_classical:91 |   best params : {'max_depth': 10, 'max_features': 0.3, 'min_samples_leaf': 5, 'n_estimators': 200}
-2026-07-22 01:09:05,349 | INFO    | 04_train_classical:92 |   CV MAcc     : 0.7935 ± 0.0168
-2026-07-22 01:09:05,349 | INFO    | 04_train_classical:94 |   train MAcc  : 0.9504 (gap +0.2341)
-2026-07-22 01:09:05,349 | WARNING | 04_train_classical:99 |   rf: train-CV gap is 0.234 (train 0.950 vs CV 0.793). The model is memorising the training folds; consider stronger regularisation (lower C for SVM, higher min_samples_leaf for RF).
-2026-07-22 01:09:05,484 | INFO    | 04_train_classical:123 |   val MAcc (segment)   : 0.8066
-2026-07-22 01:09:05,485 | INFO    | 04_train_classical:124 |   val MAcc (recording) : 0.8102
-2026-07-22 01:09:05,485 | INFO    | 04_train_classical:125 |   tuned threshold      : 0.44 -> val MAcc 0.8265
-2026-07-22 01:09:07,101 | INFO    | 04_train_classical:180 | Summary written to /workspace/apr-heart-sounds/reports/phase_04_train_classical/summary.md
+2026-07-22 22:16:43,666 | INFO    | 04_train_classical:56 | ==============================================================================
+2026-07-22 22:16:43,667 | INFO    | 04_train_classical:57 |         PHASE 04_train_classical: Train and tune SVM and Random Forest        
+2026-07-22 22:16:43,667 | INFO    | 04_train_classical:58 | ==============================================================================
+2026-07-22 22:16:43,667 | INFO    | 04_train_classical:78 | Experiment : baseline_full
+2026-07-22 22:16:43,667 | INFO    | 04_train_classical:79 | Config     : /workspace/apr-heart-sounds/configs/config.yaml  (hash bfdef2da)
+2026-07-22 22:16:45,255 | INFO    | 04_train_classical:82 | Seed       : 42 (torch=True, cuda=True)
+2026-07-22 22:16:45,255 | INFO    | 04_train_classical:86 | Shapes     : {'segment_samples': 6000, 'n_frames': 188, 'mfcc_dim': 234, 'logmel_shape': [32, 188], 'pwp_n_bands': 12, 'pwp_dim': 84, 'fft_bin_width_hz': 7.8125, 'usable_fft_bins_in_band': 49, 'wp_subband_width_hz': 15.625}
+2026-07-22 22:16:45,307 | INFO    | 04_train_classical:57 | Train: 30695 segments from 2269 recordings
+2026-07-22 22:16:45,308 | INFO    | 04_train_classical:58 | Val  : 3329 segments from 487 recordings
+2026-07-22 22:16:45,799 | INFO    | 04_train_classical:78 | === mfcc: 234 features ========================================
+2026-07-22 22:16:45,799 | INFO    | 04_train_classical:82 | --- svm_mfcc ---
+2026-07-22 22:16:47,461 | INFO    | 04_train_classical:233 |   prune on 9069/30695 segments (4/recording, 20.5% abnormal vs 23.3% full)
+2026-07-22 22:17:46,422 | INFO    | 04_train_classical:233 |   re-scoring top 3 candidates on all 30695 segments
+2026-07-22 22:18:41,329 | INFO    | 04_train_classical:233 |     {'C': 1.0, 'gamma': 0.001}  full CV balanced_accuracy 0.8713
+2026-07-22 22:19:52,385 | INFO    | 04_train_classical:233 |     {'C': 0.1, 'gamma': 0.005}  full CV balanced_accuracy 0.8675
+2026-07-22 22:20:40,083 | INFO    | 04_train_classical:233 |     {'C': 10.0, 'gamma': 0.0005}  full CV balanced_accuracy 0.8744
+2026-07-22 22:21:29,124 | INFO    | 04_train_classical:233 |   selected {'C': 10.0, 'gamma': 0.0005}  CV balanced_accuracy 0.8744 ± 0.0079
+2026-07-22 22:21:29,126 | INFO    | 04_train_classical:233 |   refitting on all 30695 segments (probability=True restored for SVM)
+2026-07-22 22:27:45,880 | INFO    | 04_train_classical:91 |   best params : {'C': 10.0, 'gamma': 0.0005}
+2026-07-22 22:27:45,881 | INFO    | 04_train_classical:92 |   CV MAcc     : 0.8744 ± 0.0079
+2026-07-22 22:27:45,882 | INFO    | 04_train_classical:94 |   train MAcc  : 0.8760 (gap +0.0407)
+2026-07-22 22:27:51,756 | INFO    | 04_train_classical:123 |   val MAcc (segment)   : 0.8278
+2026-07-22 22:27:51,756 | INFO    | 04_train_classical:124 |   val MAcc (recording) : 0.8461
+2026-07-22 22:27:51,757 | INFO    | 04_train_classical:125 |   tuned threshold      : 0.23 -> val MAcc 0.8857
+2026-07-22 22:27:52,480 | INFO    | 04_train_classical:82 | --- rf_mfcc ---
+2026-07-22 22:27:53,337 | INFO    | 04_train_classical:233 |   prune on 9069/30695 segments (4/recording, 20.5% abnormal vs 23.3% full)
+2026-07-22 22:44:58,983 | INFO    | 04_train_classical:233 |   re-scoring top 3 candidates on all 30695 segments
+2026-07-22 22:54:14,894 | INFO    | 04_train_classical:233 |     {'max_depth': 10, 'max_features': 0.3, 'min_samples_leaf': 5, 'n_estimators': 500}  full CV balanced_accuracy 0.8641
+2026-07-22 22:57:59,069 | INFO    | 04_train_classical:233 |     {'max_depth': 10, 'max_features': 0.3, 'min_samples_leaf': 5, 'n_estimators': 200}  full CV balanced_accuracy 0.8631
+2026-07-22 23:00:01,692 | INFO    | 04_train_classical:233 |     {'max_depth': 10, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 500}  full CV balanced_accuracy 0.8669
+2026-07-22 23:02:01,226 | INFO    | 04_train_classical:233 |   selected {'max_depth': 10, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 500}  CV balanced_accuracy 0.8669 ± 0.0045
+2026-07-22 23:02:01,227 | INFO    | 04_train_classical:233 |   refitting on all 30695 segments (probability=True restored for SVM)
+2026-07-22 23:02:13,055 | INFO    | 04_train_classical:91 |   best params : {'max_depth': 10, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 500}
+2026-07-22 23:02:13,055 | INFO    | 04_train_classical:92 |   CV MAcc     : 0.8669 ± 0.0045
+2026-07-22 23:02:13,056 | INFO    | 04_train_classical:94 |   train MAcc  : 0.9470 (gap +0.1431)
+2026-07-22 23:02:13,056 | WARNING | 04_train_classical:99 |   rf: train-CV gap is 0.143 (train 0.947 vs CV 0.867). The model is memorising the training folds; consider stronger regularisation (lower C for SVM, higher min_samples_leaf for RF).
+2026-07-22 23:02:13,365 | INFO    | 04_train_classical:123 |   val MAcc (segment)   : 0.8744
+2026-07-22 23:02:13,365 | INFO    | 04_train_classical:124 |   val MAcc (recording) : 0.8657
+2026-07-22 23:02:13,365 | INFO    | 04_train_classical:125 |   tuned threshold      : 0.44 -> val MAcc 0.8789
+2026-07-22 23:02:14,397 | INFO    | 04_train_classical:78 | === pwp: 84 features ========================================
+2026-07-22 23:02:14,397 | INFO    | 04_train_classical:82 | --- svm_pwp ---
+2026-07-22 23:02:15,265 | INFO    | 04_train_classical:233 |   prune on 9069/30695 segments (4/recording, 20.5% abnormal vs 23.3% full)
+2026-07-22 23:02:41,934 | INFO    | 04_train_classical:233 |   re-scoring top 3 candidates on all 30695 segments
+2026-07-22 23:03:12,176 | INFO    | 04_train_classical:233 |     {'C': 100.0, 'gamma': 0.001}  full CV balanced_accuracy 0.8488
+2026-07-22 23:03:40,298 | INFO    | 04_train_classical:233 |     {'C': 1.0, 'gamma': 0.01}  full CV balanced_accuracy 0.8476
+2026-07-22 23:04:11,081 | INFO    | 04_train_classical:233 |     {'C': 100.0, 'gamma': 0.0005}  full CV balanced_accuracy 0.8427
+2026-07-22 23:04:43,250 | INFO    | 04_train_classical:233 |   selected {'C': 100.0, 'gamma': 0.001}  CV balanced_accuracy 0.8488 ± 0.0143
+2026-07-22 23:04:43,251 | INFO    | 04_train_classical:233 |   refitting on all 30695 segments (probability=True restored for SVM)
+2026-07-22 23:09:42,754 | INFO    | 04_train_classical:91 |   best params : {'C': 100.0, 'gamma': 0.001}
+2026-07-22 23:09:42,755 | INFO    | 04_train_classical:92 |   CV MAcc     : 0.8488 ± 0.0143
+2026-07-22 23:09:42,756 | INFO    | 04_train_classical:94 |   train MAcc  : 0.8772 (gap +0.0732)
+2026-07-22 23:09:45,061 | INFO    | 04_train_classical:123 |   val MAcc (segment)   : 0.7892
+2026-07-22 23:09:45,061 | INFO    | 04_train_classical:124 |   val MAcc (recording) : 0.7757
+2026-07-22 23:09:45,061 | INFO    | 04_train_classical:125 |   tuned threshold      : 0.22 -> val MAcc 0.8636
+2026-07-22 23:09:45,639 | INFO    | 04_train_classical:82 | --- rf_pwp ---
+2026-07-22 23:09:46,508 | INFO    | 04_train_classical:233 |   prune on 9069/30695 segments (4/recording, 20.5% abnormal vs 23.3% full)
+2026-07-22 23:15:46,713 | INFO    | 04_train_classical:233 |   re-scoring top 3 candidates on all 30695 segments
+2026-07-22 23:16:14,885 | INFO    | 04_train_classical:233 |     {'max_depth': 10, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 200}  full CV balanced_accuracy 0.8141
+2026-07-22 23:19:23,534 | INFO    | 04_train_classical:233 |     {'max_depth': 10, 'max_features': 0.3, 'min_samples_leaf': 5, 'n_estimators': 500}  full CV balanced_accuracy 0.8133
+2026-07-22 23:20:33,855 | INFO    | 04_train_classical:233 |     {'max_depth': 10, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 500}  full CV balanced_accuracy 0.8141
+2026-07-22 23:21:43,540 | INFO    | 04_train_classical:233 |   selected {'max_depth': 10, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 500}  CV balanced_accuracy 0.8141 ± 0.0229
+2026-07-22 23:21:43,541 | INFO    | 04_train_classical:233 |   refitting on all 30695 segments (probability=True restored for SVM)
+2026-07-22 23:21:50,620 | INFO    | 04_train_classical:91 |   best params : {'max_depth': 10, 'max_features': 'sqrt', 'min_samples_leaf': 5, 'n_estimators': 500}
+2026-07-22 23:21:50,621 | INFO    | 04_train_classical:92 |   CV MAcc     : 0.8141 ± 0.0229
+2026-07-22 23:21:50,621 | INFO    | 04_train_classical:94 |   train MAcc  : 0.9447 (gap +0.1982)
+2026-07-22 23:21:50,622 | WARNING | 04_train_classical:99 |   rf: train-CV gap is 0.198 (train 0.945 vs CV 0.814). The model is memorising the training folds; consider stronger regularisation (lower C for SVM, higher min_samples_leaf for RF).
+2026-07-22 23:21:50,883 | INFO    | 04_train_classical:123 |   val MAcc (segment)   : 0.8388
+2026-07-22 23:21:50,883 | INFO    | 04_train_classical:124 |   val MAcc (recording) : 0.8248
+2026-07-22 23:21:50,884 | INFO    | 04_train_classical:125 |   tuned threshold      : 0.36 -> val MAcc 0.8390
+2026-07-22 23:21:53,732 | INFO    | 04_train_classical:180 | Summary written to /workspace/apr-heart-sounds/reports/phase_04_train_classical/summary.md

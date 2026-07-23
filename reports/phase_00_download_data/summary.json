@@ -2,17 +2,17 @@
   "phase": "00_download_data",
   "experiment": "baseline_full",
   "status": "success",
-  "timestamp_start": "2026-07-21T19:05:51.818657+00:00",
-  "timestamp_end": "2026-07-21T19:07:21.599367+00:00",
-  "duration_seconds": 89.78,
-  "config_hash": "8ae8dd4e",
+  "timestamp_start": "2026-07-22T21:14:15.224070+00:00",
+  "timestamp_end": "2026-07-22T22:00:21.412546+00:00",
+  "duration_seconds": 2766.19,
+  "config_hash": "bfdef2da",
   "seed": 42,
   "environment": {
     "python": "3.11.10",
-    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
-    "hostname": "c67198af10a8",
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
+    "hostname": "99d1bd91db7a",
     "user": "root",
-    "git_commit": "e70663b",
+    "git_commit": "80dd5ad",
     "git_dirty": true,
     "packages": {
       "numpy": "2.4.6",
@@ -38,8 +38,8 @@
   "artifacts_written": [
     {
       "path": "/workspace/apr-heart-sounds/data/interim/raw_census.csv",
-      "mb": 0.216,
-      "n_rows": 2693
+      "mb": 0.26,
+      "n_rows": 3240
     },
     {
       "path": "/workspace/apr-heart-sounds/data/interim/raw_census_stats.json",
@@ -48,12 +48,12 @@
   ],
   "parameters": {
     "download_status": {
-      "training-c": "already_present",
-      "training-d": "already_present",
-      "training-a": "already_present",
-      "training-b": "already_present",
-      "training-f": "already_present",
-      "training-e": "already_present"
+      "training-d": "downloaded",
+      "training-c": "downloaded",
+      "training-f": "downloaded",
+      "training-b": "downloaded",
+      "training-a": "downloaded",
+      "training-e": "downloaded"
     },
     "subdatabases": [
       "training-a",
@@ -66,11 +66,11 @@
     "raw_dir": "/workspace/apr-heart-sounds/data/raw/physionet2016"
   },
   "key_findings": {
-    "n_recordings": 2693,
-    "pct_abnormal": 22.58,
-    "imbalance_ratio": 3.43,
-    "duration_total_hours": 16.76,
-    "prevalence_spread_pp": 69.5
+    "n_recordings": 3240,
+    "pct_abnormal": 20.52,
+    "imbalance_ratio": 3.87,
+    "duration_total_hours": 20.22,
+    "prevalence_spread_pp": 68.9
   },
   "finding_notes": {
     "pct_abnormal": "Class imbalance drives every design decision downstream",
@@ -116,12 +116,12 @@
       },
       {
         "subdb": "training-e",
-        "n": 1594,
-        "n_abnormal": 126,
-        "mean_duration_s": 23.191784818067756,
-        "total_minutes": 616.1284166666667,
-        "n_normal": 1468,
-        "pct_abnormal": 7.9
+        "n": 2141,
+        "n_abnormal": 183,
+        "mean_duration_s": 23.07179402148529,
+        "total_minutes": 823.2785166666666,
+        "n_normal": 1958,
+        "pct_abnormal": 8.5
       },
       {
         "subdb": "training-f",
@@ -154,13 +154,13 @@
   "claim_verdicts": {},
   "warnings": [],
   "notes": [
-    "Abnormal prevalence ranges over 70 percentage points across sub-databases. Splits are stratified jointly on (label, subdb) in phase 01, and per-site metrics are reported in phase 06 so any site shortcut would be visible."
+    "Abnormal prevalence ranges over 69 percentage points across sub-databases. Splits are stratified jointly on (label, subdb) in phase 01, and per-site metrics are reported in phase 06 so any site shortcut would be visible."
   ],
   "timings_seconds": {
-    "download": 0.018,
-    "verify": 0.207,
-    "census": 89.17,
-    "_total": 89.78
+    "download": 2705.094,
+    "verify": 0.135,
+    "census": 60.893,
+    "_total": 2766.188
   },
   "next_phase": "01_preprocess_audio"
 }

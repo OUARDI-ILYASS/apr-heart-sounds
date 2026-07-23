@@ -2,17 +2,17 @@
   "phase": "05_train_cnn",
   "experiment": "baseline_full",
   "status": "success",
-  "timestamp_start": "2026-07-22T01:09:11.303771+00:00",
-  "timestamp_end": "2026-07-22T01:10:17.974692+00:00",
-  "duration_seconds": 66.67,
-  "config_hash": "f915b259",
+  "timestamp_start": "2026-07-22T23:21:58.577912+00:00",
+  "timestamp_end": "2026-07-22T23:23:24.543232+00:00",
+  "duration_seconds": 85.97,
+  "config_hash": "bfdef2da",
   "seed": 42,
   "environment": {
     "python": "3.11.10",
-    "platform": "Linux-6.8.0-111-generic-x86_64-with-glibc2.35",
-    "hostname": "c67198af10a8",
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
+    "hostname": "99d1bd91db7a",
     "user": "root",
-    "git_commit": "e70663b",
+    "git_commit": "80dd5ad",
     "git_dirty": true,
     "packages": {
       "numpy": "2.4.6",
@@ -41,11 +41,11 @@
   "artifacts_written": [
     {
       "path": "/workspace/apr-heart-sounds/models/cnn/cnn_logmel.pt",
-      "mb": 0.421
+      "mb": 0.422
     },
     {
       "path": "/workspace/apr-heart-sounds/results/evaluation/cnn_training.json",
-      "mb": 0.01
+      "mb": 0.011
     },
     {
       "path": "/workspace/apr-heart-sounds/figures/fig_training_curves.pdf",
@@ -54,7 +54,7 @@
   ],
   "parameters": {
     "epochs_configured": 60,
-    "epochs_run": 17,
+    "epochs_run": 20,
     "batch_size": 64,
     "learning_rate": 0.001,
     "augmentation": {
@@ -70,11 +70,11 @@
   },
   "key_findings": {
     "n_parameters": 105778,
-    "best_epoch": 5,
+    "best_epoch": 8,
     "early_stopped": true,
-    "val_macc_segment": 0.8915,
-    "val_macc_recording": 0.8441,
-    "training_minutes": 1.0,
+    "val_macc_segment": 0.9153,
+    "val_macc_recording": 0.8894,
+    "training_minutes": 1.3,
     "gradcam_feature_map_shape": [
       128,
       2,
@@ -89,12 +89,12 @@
     {
       "name": "cnn_beats_chance",
       "result": "PASS",
-      "detail": "val recording MAcc = 0.8441"
+      "detail": "val recording MAcc = 0.8894"
     },
     {
       "name": "train_val_gap_acceptable",
       "result": "PASS",
-      "detail": "final gap = +0.0763"
+      "detail": "final gap = +0.0537"
     }
   ],
   "claim_verdicts": {},
@@ -103,8 +103,8 @@
     "Weights are restored from the best validation epoch, not the last. The test split has not been read in this phase."
   ],
   "timings_seconds": {
-    "training": 63.276,
-    "_total": 66.67
+    "training": 80.787,
+    "_total": 85.964
   },
   "next_phase": "06_evaluate_models"
 }
