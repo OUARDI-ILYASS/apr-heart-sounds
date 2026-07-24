@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Phase 07 - SHAP explanations for the classical models.
 
 TreeSHAP (exact) for the Random Forests, KernelSHAP (approximate) for the SVM.

@@ -1,8 +1,0 @@
-# A1 - Remove PWP from the classical branch.
-# Purpose: isolate the contribution of the wavelet-packet feature domain.
-# Everything else is identical to configs/config.yaml.
-experiment:
-  name: "A1_mfcc_only"
-  description: "Ablation A1: classical models use MFCC only (no PWP branch)"
-classical:
-  feature_sets: ["mfcc"]

@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-"""Phase 11 - Collect every phase summary, build the dashboard and LaTeX tables.
+"""Phase 10 - Collect every phase summary, build the dashboard and LaTeX tables.
 
 Produces:
     reports/PIPELINE_STATUS.md    dashboard with the claim roll-up and the
@@ -7,12 +6,6 @@ Produces:
     paper/tables/*.tex            LaTeX tables generated from result JSON, so
                                   no number is ever retyped by hand
     paper/figs/                   every figure copied in for the LaTeX build
-
-PROFESSOR Q: "How do you know the numbers in the paper match the experiments?"
-A: Because they are generated from the same JSON artifacts the experiments
-   wrote, by this script, and \\input{} directly into the LaTeX source. Nobody
-   ever copies a number by hand, so the usual failure mode - a table that was
-   correct three runs ago - cannot occur.
 
 Run:  python scripts/11_build_report_assets.py
 """
@@ -282,25 +275,6 @@ def main() -> int:
                           "windows the segmenter labelled with sufficient confidence.",
                 ), encoding="utf-8")
             n_tables += 1
-
-    # Ablations
-    ablation_path = results_dir / "ablations" / "ablation_summary.json"
-    if ablation_path.exists():
-        payload = load_json(ablation_path)
-        (tables_dir / "table_ablations.tex").write_text(
-            latex_table(
-                payload["table"], ["variant", "macc", "delta", "changed"],
-                caption="Ablation study. $\\Delta$ is the change in test MAcc "
-                        "relative to the full model; negative values indicate the "
-                        "removed component was contributing.",
-                label="tab:ablations",
-                column_names=["Variant", "MAcc", "$\\Delta$", "Parameter changed"],
-                column_format="lrrl",
-            ), encoding="utf-8")
-        n_tables += 1
-
-    logger.info(f"Generated {n_tables} LaTeX tables in {tables_dir}")
-    summary.add_finding("n_latex_tables", n_tables)
 
     # ---- copy figures ------------------------------------------------------
     n_figures = 0

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Phase 09 - Cardiac-cycle alignment: the quantitative XAI evaluation.
 
 Segments the test audio into S1 / systole / S2 / diastole with a lightweight

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Phase 03 - K-means clustering and PCA / t-SNE visualisation (course requirement).
 
 Answers: is the Normal/Abnormal distinction present in the feature geometry

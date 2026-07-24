@@ -1,203 +1,187 @@
 # Interpretable Phonocardiogram Classification
 
-Audio Pattern Recognition course project. Binary Normal/Abnormal classification
-of heart sound recordings (PhysioNet/CinC Challenge 2016), comparing three
-feature domains and three model families, with a **quantitatively evaluated**
-explainability analysis.
+Audio Pattern Recognition course project.
+
+**Report:** `./report.pdf` — IEEE conference format, 10 pages with references.
 
 ---
 
-## What is actually new here
+## Summary
 
-Most applied XAI sections show three heatmaps and assert that the model "focuses
-on clinically relevant regions". That assertion is unfalsifiable as written.
-This project makes it testable.
+The project addresses binary Normal/Abnormal classification of phonocardiogram
+recordings from the PhysioNet/CinC Challenge 2016 corpus. Three feature
+representations that differ in kind — cepstral (MFCC), spectral (log-Mel) and
+perceptual wavelet packet (PWP) — are compared across three classifier families
+(SVM, random forest, CNN) under a single recording-level protocol. The best
+configuration reaches a modified accuracy of 0.866, comparable to published
+entries on this corpus.
 
-Given an attribution map (Grad-CAM for the CNN, SHAP for the classical models)
-and a cardiac state map obtained independently of the model, we compute the
-**enrichment**
+The contribution is not that number. Each performance claim is paired with a
+diagnostic capable of refuting it, and two of the three expectations the study
+began with were contradicted by the evidence. They are reported in the same voice
+as the results that held.
 
-```
-E_s  =  (fraction of attribution mass inside state s)
-        ────────────────────────────────────────────
-        (fraction of time occupied by state s)
-```
-
-`E = 1` is exactly what uniform temporal attention produces, so `E > 1` is a
-real preference and `E < 1` is avoidance. Since most clinically important
-murmurs are systolic, a model that has learned pathology rather than an
-artefact should show `E_systole > 1` — a prediction stated *before* looking at
-the results, and tested against uniform, shuffled and state-shuffled nulls with
-a permutation test.
-
-The three sanity checks that decide whether any of it means anything are part of
-the pipeline, not optional extras:
-
-| Check | What it would invalidate |
+| Diagnostic | Result |
 |---|---|
-| Adebayo model-randomisation | Grad-CAM maps being architecture artefacts rather than learned structure |
-| Energy-confound correlation | "Attends to systole" really meaning "attends to whatever is loud" |
-| Per-sub-database performance | The classifier recognising the recording site instead of the pathology |
+| k-means on the unsupervised feature spaces | recovers the **recording site** (ARI 0.201) far better than the **diagnosis** (ARI 0.018) |
+| Per-sub-database performance | MAcc spans **0.986 → 0.477**; three of five sites at or below a constant predictor |
+| Grad-CAM systolic enrichment | 1.056, and *no higher* on correct predictions (1.085) than on false alarms (1.115) |
+
+Abnormal prevalence varies across the six collection sites by 68.9 percentage
+points, so site identity alone predicts the label. The pooled metric is carried
+by `training-e`, which supplies 66 % of test recordings at 8.7 % prevalence.
+
+Conclusion: on this corpus the aggregate metric overstates what the models have
+learned.
+
+---
+
+## Results
+
+| Model | Acc. | Se. | Sp. | MAcc | 95 % CI | AUC |
+|---|---|---|---|---|---|---|
+| SVM–MFCC | 0.816 | 0.949 | 0.782 | **0.866** | [0.834, 0.894] | 0.922 |
+| CNN–log-Mel | 0.851 | 0.889 | 0.842 | 0.865 | [0.828, 0.900] | **0.961** |
+| RF–MFCC | 0.802 | 0.949 | 0.764 | 0.857 | [0.824, 0.886] | 0.906 |
+| SVM–PWP | 0.785 | 0.909 | 0.753 | 0.831 | [0.794, 0.863] | 0.877 |
+| RF–PWP | 0.731 | 0.970 | 0.670 | 0.820 | [0.790, 0.847] | 0.864 |
+
+All intervals overlap. Trivial baseline: a constant *Normal* predictor scores
+0.795 accuracy at 0.500 MAcc, which is why MAcc rather than accuracy is the
+primary metric.
+
+Five claims were declared in advance with thresholds fixed in code. Two were
+contradicted (class structure recoverable without labels; CNN beats the best
+classical model), one supported, two weak. All are reported as scored.
+
+| # | Claim | Verdict | Evidence | Scored in |
+|---|---|---|---|---|
+| C1 | Class structure is recoverable without labels | **contradicted** | best ARI vs diagnosis 0.028, vs site 0.201 | phase 03 |
+| C2 | The CNN outperforms the best classical pairing | **contradicted** | 0.865 vs 0.866, CIs overlap | phase 06 |
+| C3 | All models exceed trivial baselines | supported | 0.820–0.866 vs 0.500 | phase 06 |
+| C4 | Frequency attribution agrees across feature domains | weak | mean pairwise correlation 0.514 | phase 07 |
+| C5 | Attribution concentrates in systole | weak | E = 1.056, d = 0.131, 33 % significant | phase 09 |
+
+
+---
+
+## Method
+
+```
+signal → 2 kHz → 25–400 Hz zero-phase Butterworth → spike removal
+       → per-recording z-norm → 3 s windows
+                    │
+       ┌────────────┼────────────┐
+     MFCC        log-Mel        PWP
+    (234-d)     (32×188)      (84-d)
+       │            │            │
+   SVM · RF       CNN        SVM · RF
+       └────────────┼────────────┘
+              mean probability
+            → recording decision
+```
+
+Three feature domains computed from identical windows, so any difference is
+attributable to the representation. Window scores aggregated to a recording
+decision by averaging probabilities.
+
+Explainability: SHAP (exact for forests, kernel for SVMs) projected onto
+frequency; Grad-CAM on the CNN, tested against uniform and permutation nulls for
+enrichment in the cardiac cycle, with model-randomisation and energy-confound
+sanity checks reported before the findings.
 
 ---
 
 ## Pipeline
 
 ```
-00_download_data        fetch corpus, build raw census
-01_preprocess_audio     bandpass → spike removal → normalise → split → segment
-02_extract_features     MFCC (234-d) │ log-Mel (32×188) │ PWP (84-d)
-03_cluster_features     k-means sweep + PCA/t-SNE          ← course requirement
+00_download_data        fetch corpus, build census
+01_preprocess_audio     filter → spike removal → normalise → split → window
+02_extract_features     MFCC │ log-Mel │ PWP
+03_cluster_features     k-means sweep + PCA/t-SNE
 04_train_classical      SVM + Random Forest, grouped CV
-05_train_cnn            2-D CNN on log-Mel (PyTorch)
-06_evaluate_models      ★ first and only phase to open the test split
+05_train_cnn            2-D CNN on log-Mel
+06_evaluate_models      first and only phase to open the test split
 07_explain_shap         TreeSHAP + KernelSHAP → frequency attribution
 08_explain_gradcam      Grad-CAM + sanity checks
-09_cycle_alignment      ★ the alignment metric and its null tests
-10_run_ablations        7 single-parameter ablations
-11_build_report_assets  dashboard + auto-generated LaTeX tables
+09_cycle_alignment      alignment metric and null tests
+10_build_report_assets  dashboard + LaTeX tables generated from result JSON
 ```
 
-Every phase reads artifacts from disk and writes artifacts to disk, so any phase
-can be re-run in isolation and the pipeline resumed from any point. Every phase
-writes a summary (`reports/phase_*/summary.md`) recording what it produced, what
-it asserted, and **which data splits it read**.
+Each phase reads and writes artifacts on disk, so any phase can be re-run in
+isolation. Each writes a summary to `reports/phase_*/summary.md` recording its
+findings, assertions, and which data splits it read.
 
 ---
 
-## Quick start
+## Running
 
 ```bash
-# 1. Install
-python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-# For a local NVIDIA GPU, install the CUDA build of torch FIRST:
-#   pip install torch --index-url https://download.pytorch.org/whl/cu121
 
-# 2. Verify the code before committing hours of compute
-make test
-
-# 3. Run everything
-bash scripts/run_all.sh  
-
-# ...or phase by phase
-make data preprocess features cluster classical cnn evaluate
-make shap gradcam alignment ablations report
+bash scripts/run_all.sh
 ```
 
-Expected runtime on a single modern GPU: roughly 2–4 hours end to end, dominated
-by phase 02 (feature extraction, CPU-bound) and phase 10 (ablations, which re-run
-earlier phases).
-
-If your network blocks `physionet.org`, download the six `training-*.zip`
-archives manually into `data/raw/physionet2016/` and run
-`python scripts/00_download_data.py --skip-download`.
+Roughly 1–2 hours end to end on a single GPU, dominated by feature extraction.
+Individual phases via `make data preprocess features cluster classical cnn
+evaluate shap gradcam alignment report`.
 
 ---
 
 ## Layout
 
 ```
-configs/          config.yaml (master) + 7 ablation overrides
-src/              pure library code — no side effects at import
-  config/         loading, deep-merge, hashing, fail-fast validation
+configs/          config.yaml
+src/              library code, no side effects at import
+  config/         loading, hashing, fail-fast validation
   data/           download, preprocessing, segmentation, splits
   features/       MFCC · log-Mel · PWP extractors + scaling
   models/         SVM/RF builders, CNN, trainer, inference
   clustering/     k-means, validity indices, PCA/t-SNE
   evaluation/     metrics, bootstrap, McNemar, calibration
   xai/            SHAP, Grad-CAM, cardiac segmenter, alignment metric
-  visualization/  IEEE-styled figure builders
-scripts/          00–11 orchestrators + run_all.sh
-tests/            94 unit tests
-paper/            IEEE LaTeX skeleton; tables/ and figs/ are generated
-docs/             PROFESSOR_QA.md — anticipated exam questions with answers
+  visualization/  figure builders
+scripts/          00–10 orchestrators + run_all.sh
+figures/          generated figures
+reports/          per-phase summaries + PIPELINE_STATUS.md
+paper/            IEEE report: main.tex, sections/, tables/, figs/, refs.bib
 ```
-
----
-
-## Design decisions worth knowing before you read the code
-
-**Splits are frozen at recording level and asserted disjoint.** A recording
-contributes 5–20 segments that share a patient, a stethoscope and a murmur.
-`assert_no_leakage` raises and kills the run if any ID appears in two splits.
-Splits are stratified jointly on `(label, sub-database)`, because abnormal
-prevalence varies enormously between the six collection sites — so site identity
-predicts the label, and a random split would let a model score well by
-recognising the equipment.
-
-**Only phase 06 touches the test set.** Every phase records which splits it
-read; the dashboard prints that audit trail automatically. Hyperparameters and
-decision thresholds are frozen in phases 04–05 using validation data only.
-
-**MAcc, not accuracy.** About 78% of recordings are Normal, so an unconditional
-"Normal" predictor scores 78% accuracy at 0.50 MAcc. That baseline is printed in
-the results table so nobody has to do the arithmetic. Ablation A3 removes class
-weighting to demonstrate the failure mode deliberately.
-
-**32 mel bands, not 64.** At sr = 2000 with n_fft = 256 the bin width is 7.8 Hz,
-so only ~48 FFT bins fall in the 25–400 Hz band. Asking for 64 filters produces
-empty, all-zero filters. librosa only warns; `src/config/schema.py` turns it
-into a hard error.
-
-**Zero-phase filtering.** The whole XAI argument is about *when* the model
-attends, so a causal filter's frequency-dependent group delay would silently
-misalign 200 Hz murmur energy against 40 Hz S1 energy.
-
-**Wavelet packet nodes are requested in frequency order.** pywt returns natural
-(Paley) order by default, which is a bit-reversed permutation of frequency
-order. Indexing it as though it were frequency-ordered scrambles the spectrum
-and nothing crashes. The validator refuses any other setting.
-
-**The segmenter is not Springer's HSMM, and we say so.** It is a simplified
-envelope-based labeller used *only at evaluation time*, never during training.
-A noisier segmenter adds variance to the alignment estimate and therefore makes
-the claim harder to support — it cannot manufacture a positive result. Segments
-below a confidence threshold are excluded and the exclusion rate is reported.
-
 ---
 
 ## Reproducibility
 
-- One seed propagated to `random`, `numpy`, `torch` and every sklearn estimator.
-- Config is SHA-256 hashed; the hash is recorded in every phase summary, so any
-  number traces back to the exact parameters that produced it.
-- Ablations are *partial* config files deep-merged onto the base, and the runner
-  records the exact dotted key paths that differ — so "we changed one thing" is
-  verifiable from the artifacts rather than taken on trust.
-- Environment (Python, packages, git commit, GPU) captured per phase.
-- LaTeX tables are generated from result JSON and `\input{}` directly, so no
-  number in the paper is ever retyped by hand.
+One seed propagated to `random`, `numpy`, `torch` and all sklearn estimators.
+Config SHA-256 hashed and recorded in every phase summary. Environment captured
+per phase. LaTeX tables generated from result JSON and `\input{}` directly, so no
+number in the report is retyped by hand.
+
+
+### Requirements
+
+- Python 3.10 or later
+- ~8 GB RAM; a CUDA GPU is optional and reduces phase 05 substantially
+- ~6 GB disk for the corpus and intermediates
+- LaTeX with `IEEEtran.cls` and `IEEEtran.bst` to build the report
+
+Total runtime is approximately two hours end to end on CPU, dominated by phase 02
+(feature extraction) and phase 05 (CNN training); a GPU reduces the latter to a
+few minutes. Every phase can be re-run in isolation, and `run_all.sh --from 04`
+resumes from any point, since phases communicate only through files on disk.
 
 ---
 
-## Paper
+## Data availability
 
-`paper/main.tex` is the IEEE conference skeleton. The section files under
-`paper/sections/` are **intentionally empty** — they are written after the
-experiments have run, against `reports/PIPELINE_STATUS.md` and the generated
-tables, so that no claim is written before the evidence for it exists.
+PhysioNet/CinC Challenge 2016 — 3,240 recordings, 20.2 hours, 2 kHz, six
+sub-databases, 20.5 % abnormal. Distributed under the ODC-BY 1.0 licence and
+obtained via `scripts/00_download_data.py`. **The corpus is not redistributed in
+this repository.**
 
-`IEEEtran.cls` is not bundled. TeX Live and MiKTeX ship it; otherwise
-`tlmgr install ieeetran` or download it from the IEEE templates page.
+Primary references:
 
-```bash
-make paper    # pdflatex → bibtex → pdflatex ×2
-```
+> Liu, C. et al. (2016). An open access database for the evaluation of heart
+> sound algorithms. *Physiological Measurement*, 37(12), 2181–2213.
 
----
-
-## Data
-
-PhysioNet/CinC Challenge 2016 — 3,126 recordings, 2 kHz, six sub-databases.
-Released under the ODC-BY licence; cite Liu et al. (2016) and Clifford et al.
-(2016). The corpus is **not** included in this repository.
-
----
-
-## Exam preparation
-
-`docs/PROFESSOR_QA.md` collects the questions an examiner is most likely to ask,
-with answers and pointers to the code that backs each one. The same material
-appears as `PROFESSOR Q:` comments at the corresponding decision points in the
-source, so you can point at the file while answering.
+> Clifford, G. D. et al. (2016). Classification of normal/abnormal heart sound
+> recordings: the PhysioNet/Computing in Cardiology Challenge 2016. *Computing in
+> Cardiology*, 43, 609–612.

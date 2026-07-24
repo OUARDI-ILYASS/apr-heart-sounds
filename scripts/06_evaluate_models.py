@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Phase 06 - Evaluate every model on the held-out TEST split.
 
 This is the first and only phase that opens the test data. Everything it

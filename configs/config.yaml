@@ -4,13 +4,6 @@
 # Every script reads this file. Nothing is hardcoded in the scripts. If you
 # want to change an experiment, you change this file (or pass --override).
 #
-# PROFESSOR Q: "Why a config file instead of arguments in each script?"
-# A: Reproducibility. The config is hashed and the hash is stored in every
-#    phase summary, so any result can be traced back to the exact parameter
-#    set that produced it. Ablations are then just override files (see
-#    configs/config_ablation_*.yaml), which guarantees that the ONLY thing
-#    differing between the full model and an ablation is the parameter under
-#    test - the classic "change one thing at a time" requirement.
 # =============================================================================
 
 experiment:
@@ -53,13 +46,6 @@ preprocessing:
   target_sr: 2000               # Native rate of the PhysioNet 2016 recordings
 
   # Bandpass 25-400 Hz.
-  # PROFESSOR Q: "Why this band?"
-  # A: Below ~25 Hz the signal is dominated by respiration, body movement and
-  #    DC drift. Above ~400 Hz there is essentially no cardiac acoustic energy;
-  #    what is there is stethoscope/ambient noise and rubbing artefacts. The
-  #    fundamental components of S1 (~25-45 Hz), S2 (~55-75 Hz) and most
-  #    murmurs (up to ~400 Hz for high-frequency regurgitant murmurs) all fall
-  #    inside this band. This choice follows the CinC 2016 literature.
   bandpass_low: 25.0
   bandpass_high: 400.0
   filter_order: 4
@@ -86,22 +72,9 @@ preprocessing:
 # -----------------------------------------------------------------------------
 segmentation:
   # 3 s window.
-  # PROFESSOR Q: "Why 3 seconds?"
-  # A: At a typical resting heart rate of 60-100 bpm one cardiac cycle lasts
-  #    0.6-1.0 s. A 3 s window therefore always contains at least 3 complete
-  #    cycles, so a murmur that occurs in every cycle is guaranteed to be
-  #    represented, and the window is robust to the exact phase at which we
-  #    happen to cut. Shorter windows (1 s) can straddle an S1-S2 boundary and
-  #    contain no complete systole; we test this in ablation A6.
   segment_seconds: 3.0
   train_hop_seconds: 1.5        # 50% overlap on TRAIN -> more samples for CNN
   eval_hop_seconds: 3.0         # NO overlap on VAL/TEST -> unbiased evaluation
-  # PROFESSOR Q: "Isn't overlapping segmentation a form of data leakage?"
-  # A: Not across splits. Splits are frozen at RECORDING level (see below), so
-  #    two overlapping segments always land in the same split. Within the
-  #    training set, overlap is simply augmentation. We deliberately disable it
-  #    at evaluation time so the test statistics are computed on independent
-  #    windows.
   pad_policy: "drop"            # drop | zero_pad  (for trailing partial window)
   min_segments_per_recording: 1
 
@@ -126,21 +99,6 @@ splits:
 # -----------------------------------------------------------------------------
 features:
   # ---- Shared STFT front-end -------------------------------------------------
-  # PROFESSOR Q: "Why n_fft=256 and only 32 mel bands? Speech uses 40-128."
-  # A: Because of the sampling rate and the band of interest. At sr=2000 Hz,
-  #    n_fft=256 gives a bin width of 2000/256 = 7.8 Hz. Between 25 and 400 Hz
-  #    there are therefore only ~48 usable FFT bins. Asking for 64 mel filters
-  #    over 48 bins produces empty (all-zero) filters, which inject structural
-  #    zeros into the feature vector. 32 filters is the largest value that
-  #    keeps every filter non-degenerate. This is a resolution-limited design
-  #    decision, not a copy of speech defaults.
-  #
-  # PROFESSOR Q: "Is the mel scale even meaningful at these frequencies?"
-  # A: Honestly, barely. The mel scale is approximately linear below ~1000 Hz,
-  #    so a 25-400 Hz mel filterbank is very close to a linear filterbank. We
-  #    keep it for comparability with the literature (Rubin et al. 2016) and we
-  #    TEST this explicitly in ablation A2 (linear-frequency spectrogram). A
-  #    null result there is a legitimate finding, not a failed experiment.
   n_fft: 256                    # 128 ms window at 2 kHz
   hop_length: 32                # 16 ms hop -> fine temporal grid for Grad-CAM
   window: "hann"
@@ -167,16 +125,6 @@ features:
 
   pwp:
     # Perceptual Wavelet Packet features.
-    # PROFESSOR Q: "Why wavelets when you already have MFCC and log-Mel?"
-    # A: MFCC and log-Mel are both STFT-based and therefore assume local
-    #    stationarity inside each analysis window. Heart sounds are the exact
-    #    opposite: S1 and S2 are short transients with sharp onsets, and
-    #    clicks/snaps are near-impulsive. The wavelet packet transform gives a
-    #    multiresolution tiling of the time-frequency plane that adapts to
-    #    transients, which is the textbook motivation for using it on PCG
-    #    (Safara et al. 2013). This is the methodological reason the three
-    #    feature domains are genuinely different and not three flavours of the
-    #    same thing.
     wavelet: "db4"              # Daubechies-4: compact support, 4 vanishing
                                 # moments -> good for sharp onsets
     # Level 6 -> 2^6 = 64 uniform subbands of 15.6 Hz each, ~25 of which fall
@@ -187,12 +135,6 @@ features:
     # coefficients, comfortably more than the db4 filter length (8), so
     # boundary effects stay negligible.
     level: 6
-    # PROFESSOR Q: "How do you order the wavelet packet nodes?"
-    # A: pywt returns nodes in NATURAL (Paley) order, which is NOT frequency
-    #    order because of the frequency reversal in the high-pass branch at
-    #    each level. We request order='freq' so node index maps monotonically
-    #    to frequency. Getting this wrong silently scrambles the frequency
-    #    axis - a classic and invisible bug.
     node_order: "freq"
     # Restrict to nodes overlapping the diagnostic band 25-400 Hz.
     band_low: 25.0
@@ -210,10 +152,6 @@ features:
 
   scaling:
     method: "standard"          # StandardScaler, FIT ON TRAIN ONLY
-    # PROFESSOR Q: "Where exactly do you fit the scaler?"
-    # A: On the training partition only, then applied unchanged to val and
-    #    test. Fitting on the full dataset would leak test-set statistics into
-    #    training - a subtle but real form of leakage that inflates results.
 
 # -----------------------------------------------------------------------------
 # CLUSTERING (unsupervised analysis - course requirement)

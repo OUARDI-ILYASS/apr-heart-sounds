@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Phase 08 - Grad-CAM explanations for the CNN, plus saliency sanity checks.
 
 Produces per-example heatmaps, class-averaged maps, and two checks that decide

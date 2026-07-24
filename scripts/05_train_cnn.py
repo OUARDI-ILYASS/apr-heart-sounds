@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Phase 05 - Train the 2-D CNN on log-Mel spectrograms (PyTorch, local GPU).
 
 Early stopping and checkpoint selection are driven by validation MAcc. The test
