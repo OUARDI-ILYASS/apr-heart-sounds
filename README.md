@@ -67,19 +67,8 @@ classical model), one supported, two weak. All are reported as scored.
 
 ## Method
 
-```
-signal → 2 kHz → 25–400 Hz zero-phase Butterworth → spike removal
-       → per-recording z-norm → 3 s windows
-                    │
-       ┌────────────┼────────────┐
-     MFCC        log-Mel        PWP
-    (234-d)     (32×188)      (84-d)
-       │            │            │
-   SVM · RF       CNN        SVM · RF
-       └────────────┼────────────┘
-              mean probability
-            → recording decision
-```
+![](./image.png)
+
 
 Three feature domains computed from identical windows, so any difference is
 attributable to the representation. Window scores aggregated to a recording
