@@ -1,8 +1,7 @@
 # =============================================================================
 # MASTER CONFIGURATION - Single source of truth for the entire pipeline.
 #
-# Every script reads this file. Nothing is hardcoded in the scripts. If you
-# want to change an experiment, you change this file (or pass --override).
+# Every script reads this file. Nothing is hardcoded in the scripts.
 #
 # =============================================================================
 
@@ -130,7 +129,7 @@ features:
     # Level 6 -> 2^6 = 64 uniform subbands of 15.6 Hz each, ~25 of which fall
     # inside 25-400 Hz. Chosen so that the perceptual grouping below actually
     # merges several nodes per band; at level 5 there would be only ~13 nodes
-    # in the band and the "grouping" would be almost one-to-one, i.e. cosmetic.
+    # in the band and the "grouping" would be almost one-to-one.
     # At 6000 samples per segment each level-6 node still holds ~94
     # coefficients, comfortably more than the db4 filter length (8), so
     # boundary effects stay negligible.
@@ -228,13 +227,6 @@ classical:
 # -----------------------------------------------------------------------------
 cnn:
   # 4 convolutional blocks on the (1, 32, 188) log-Mel "image".
-  # PROFESSOR Q: "Why so small? Why not ResNet / a pretrained model?"
-  # A: ~3000 recordings is a small dataset. A 25M-parameter network would
-  #    memorise it. This architecture has ~0.2M parameters, which keeps the
-  #    parameter:sample ratio sane. Transfer learning from ImageNet is possible
-  #    but the domain gap (natural images -> 32-band PCG spectrograms) is large
-  #    and it would obscure the feature-domain comparison that is the point of
-  #    the study. We state this as an explicit scope boundary.
   architecture:
     conv_channels: [16, 32, 64, 128]
     kernel_size: 3
@@ -327,25 +319,11 @@ xai:
   gradcam:
     target_layer: "conv_block_4"   # Last conv block: best trade-off between
                                    # semantic content and spatial resolution
-    # PROFESSOR Q: "Why the last conv layer?"
-    # A: Earlier layers have high spatial resolution but encode generic edges;
-    #    the last conv layer encodes class-discriminative structure while still
-    #    retaining a spatial grid (2 x 11 here), which we upsample back to the
-    #    input. This is the standard Grad-CAM recommendation.
     n_examples_per_category: 4     # TP / TN / FP / FN
     normalize: "unit_mass"         # So heatmaps are comparable across examples
     upsample_mode: "bilinear"
 
   segmentation:
-    # PROFESSOR Q: "Is this the real Springer HSMM segmenter?"
-    # A: No, and we are explicit about it. The Springer 2016 segmenter is a
-    #    logistic-regression HSMM released as MATLAB code. We implement a
-    #    lighter envelope-based segmenter (homomorphic + Shannon energy
-    #    envelope, autocorrelation for cycle length, peak picking, and the
-    #    physiological systole<diastole duration rule). It is used ONLY at
-    #    evaluation time to define cardiac-state windows for the XAI alignment
-    #    metric - never during training - so an imperfect segmenter adds noise
-    #    to the metric but cannot inflate classification results.
     method: "envelope_hsmm_lite"
     envelope: "shannon"           # shannon | homomorphic | hilbert
     smoothing_ms: 20

@@ -143,26 +143,6 @@ def main() -> int:
             logger.info(f"  descriptor shares: {profile['per_descriptor_share']}")
         frequency_profiles[tag] = profile
 
-        # # ---- stability check (KernelSHAP only) --------------------------
-        # stability = None
-        # if model_kind == "svm":
-        #     logger.info("  checking SHAP rank stability across background resamples ...")
-        #     with watch.section(f"stability_{tag}"):
-        #         stability = rank_stability(
-        #             model, X_explain[:100], X_background, feature_names,
-        #             n_repeats=3, top_k=top_k, seed=seed,
-        #         )
-        #     logger.info(f"    mean Jaccard overlap of top-{top_k}: "
-        #                 f"{stability['mean_jaccard']:.3f} "
-        #                 f"({stability['n_always']} features always present)")
-        #     if stability["mean_jaccard"] < 0.5:
-        #         summary.add_warning(
-        #             f"{tag}: top-{top_k} SHAP ranking is unstable "
-        #             f"(mean Jaccard {stability['mean_jaccard']:.2f}). Report "
-        #             "conclusions at the level of feature groups, not individual "
-        #             "features."
-        #         )
-
         # ---- persist ----------------------------------------------------
         payload = {
             "model": tag,
