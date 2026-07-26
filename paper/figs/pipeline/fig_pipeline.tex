@@ -1,0 +1,56 @@
+% Top-level pipeline overview (block-diagram style). From sections/02_method.tex.
+% Requires: tikz (arrows.meta, positioning, fit, backgrounds, calc).
+\begin{figure*}[t]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\small, >={Latex[length=2.2mm]},
+  blk/.style={draw, rounded corners=3pt, align=center, fill=white,
+              minimum height=11mm, inner xsep=4pt, text width=23mm, line width=.5pt},
+  sm/.style={blk, text width=21mm, minimum height=9mm},
+  ar/.style={->, line width=.5pt},
+  gl/.style={font=\footnotesize\itshape}
+]
+% corpora
+\node[sm] (train) {Training audio corpus};
+\node[sm, below=6mm of train] (test) {Testing audio corpus};
+% preprocessing
+\node[blk, right=24mm of $(train)!0.5!(test)$] (pre)
+  {Signal pre-processing\\[1pt]\footnotesize band-pass, spike\\ removal, normalise,\\ windowing};
+\draw[ar] (train.east) -- ++(7mm,0) |- (pre.west);
+\draw[ar] (test.east)  -- ++(7mm,0) |- (pre.west);
+% feature group
+\node[sm, right=16mm of pre.east |- train, yshift=3mm] (mfcc) {MFCC\\ (cepstral)};
+\node[sm, below=4mm of mfcc] (mel) {log-Mel\\ filterbank};
+\node[sm, below=4mm of mel] (pwp) {Perceptual\\ wavelet packets};
+\node[draw, dashed, rounded corners, fit=(mfcc)(pwp), inner sep=4mm] (feat) {};
+\node[gl, above=0.5mm of feat.north] {feature extraction};
+\draw[ar] (pre.east) -- (feat.west);
+% classifiers
+\node[blk, right=8mm of feat] (clf) {Classifiers\\[1pt]\footnotesize SVM $\cdot$ RF $\cdot$ CNN};
+\draw[ar] (feat.east) -- (clf.west);
+% aggregation
+\node[blk, right=8mm of clf] (agg) {Recording-level\\ aggregation\\[1pt]\footnotesize mean of window prob.};
+\draw[ar] (clf) -- (agg);
+% evaluation
+\node[blk, right=8mm of agg] (eval) {Evaluation\\[1pt]\footnotesize test split, once};
+\draw[ar] (agg) -- (eval);
+% output fan
+\node[sm, right=14mm of eval, yshift=9mm]  (fom)  {Figures of merit\\[1pt]\footnotesize MAcc, Se, Sp, AUC};
+\node[sm, right=14mm of eval, yshift=-9mm] (diag) {Falsification\\ diagnostics};
+\draw[ar] (eval.east) -- ++(5mm,0) |- (fom.west);
+\draw[ar] (eval.east) -- ++(5mm,0) |- (diag.west);
+% lower side branch: unsupervised geometry feeding diagnostics
+\node[sm, below=12mm of agg] (km) {$k$-means\\[1pt]\footnotesize unsupervised geometry};
+\draw[ar] (feat.south) |- (km.west);
+\draw[ar] (km.east) -| (diag.south);
+\end{tikzpicture}}
+\caption{Block diagram of the classification system. Training and testing
+recordings share one preprocessing chain and are mapped into three feature
+representations that differ in kind (dashed group); a single recording-level
+protocol then classifies, aggregates window scores to a recording decision, and
+evaluates. The lower branch feeds the unsupervised geometry into the diagnostics
+that test what the aggregate metric conceals. Each stage is expanded in
+Figs.~\ref{fig:preprocessing}--\ref{fig:diagnostics}.}
+\label{fig:pipeline}
+\end{figure*}

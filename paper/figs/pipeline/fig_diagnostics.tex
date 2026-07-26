@@ -1,0 +1,49 @@
+% Falsification diagnostics (block-diagram style). From sections/02_method.tex.
+% Requires: tikz (arrows.meta, positioning, fit, backgrounds, calc).
+\begin{figure}[t]
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tikzpicture}[
+  font=\small, >={Latex[length=2.2mm]}, node distance=6mm,
+  src/.style={draw, rounded corners=3pt, align=center, fill=white,
+              minimum height=9mm, text width=17mm, line width=.5pt},
+  dg/.style={draw, rounded corners=3pt, align=center, fill=white,
+             minimum height=11mm, text width=32mm, inner xsep=4pt, line width=.5pt},
+  ver/.style={align=left, font=\footnotesize\itshape, text width=26mm},
+  ar/.style={->, line width=.5pt}, gl/.style={font=\footnotesize\itshape}
+]
+\node[src] (feats) {feature\\ spaces};
+\node[src, below=9mm of feats] (svmrf) {SVM / RF};
+\node[src, below=9mm of svmrf] (cnn) {CNN};
+
+\node[dg, right=12mm of feats] (km)
+  {$k$-means on features\\ \footnotesize ARI vs.\ diagnosis / site};
+\node[dg, above=6mm of km] (site)
+  {site classifier $+$ LOSO\\ \footnotesize is performance a shortcut?};
+\node[dg, right=12mm of svmrf] (shap)
+  {SHAP $\rightarrow$ frequency\\ \footnotesize which bands drive the model};
+\node[dg, right=12mm of cnn] (gc)
+  {Grad-CAM $\rightarrow$ time\\ \footnotesize systolic enrichment vs.\ null};
+
+
+\draw[ar] (feats) -- (km);
+\draw[ar] (svmrf) -- (shap);
+\draw[ar] (cnn)   -- (gc);
+\draw[ar] (feats.north) -- ++(0,+3mm) |- (site.west);
+
+\node[ver, right=3mm of km]   {site $\gg$ diagnosis};
+\node[ver, right=3mm of shap] {agreement weak (0.51)};
+\node[ver, right=3mm of gc]   {enrichment 1.06,\\ not decision-linked};
+\node[ver, right=3mm of site] {MAcc 0.84 $\rightarrow$ 0.46};
+
+\node[draw, dashed, rounded corners, fit=(site)(gc), inner sep=3mm] (g) {};
+\node[gl, above=0.5mm of g.north] {each claim paired with a test that could refute it};
+\end{tikzpicture}}
+\caption{Falsification diagnostics. Each performance claim is paired with a test
+capable of refuting it: unsupervised $k$-means geometry, SHAP frequency
+attribution, Grad-CAM temporal enrichment against analytic and permutation
+nulls, and a site classifier with leave-one-site-out re-evaluation. The last
+confirms that the pooled MAcc largely reflects the recording site rather than
+transferable cardiac acoustics.}
+\label{fig:diagnostics}
+\end{figure}

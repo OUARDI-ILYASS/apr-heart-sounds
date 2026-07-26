@@ -1,0 +1,39 @@
+% Evaluation (block-diagram style). From sections/02_method.tex.
+% Requires: tikz (arrows.meta, positioning, fit, backgrounds, calc).
+\begin{figure}[t]
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tikzpicture}[
+  font=\small, >={Latex[length=2.2mm]}, node distance=5mm,
+  blk/.style={draw, rounded corners=3pt, align=center, fill=white,
+              minimum height=10mm, text width=30mm, inner xsep=4pt, line width=.5pt},
+  inb/.style={blk, text width=22mm, font=\small\bfseries},
+  ar/.style={->, line width=.5pt}, gl/.style={font=\footnotesize\itshape}
+]
+\node[inb] (dec) {recording\\ decisions};
+\node[gl, below=1mm of dec.south, text width=26mm, align=center]
+  {test split opened once};
+
+\node[blk, right=14mm of dec, yshift=15mm] (fom)
+  {figures of merit\\ \footnotesize MAcc (primary), Se, Sp, AUC, MCC};
+\node[blk, right=14mm of dec, yshift=2mm] (ci)
+  {bootstrap CI\\ \footnotesize over recordings};
+\node[blk, right=14mm of dec, yshift=-11mm] (mc)
+  {paired McNemar\\ \footnotesize $+$ Holm--Bonferroni};
+\node[blk, below=5mm of mc] (ps)
+  {per-site breakdown\\ \footnotesize MAcc by sub-database};
+
+\foreach \t in {fom,ci,mc,ps}
+  \draw[ar] (dec.east) -- ++(5mm,0) |- (\t.west);
+
+\node[draw, dashed, rounded corners, fit=(fom)(ps), inner sep=3mm] (g) {};
+\node[gl, above=0.5mm of g.north] {recording-level, MAcc-primary};
+\end{tikzpicture}}
+\caption{Evaluation. Recording-level decisions are scored with the official
+challenge metric MAcc as the primary figure of merit; intervals are bootstrapped
+over recordings, and models are compared with paired McNemar tests under
+Holm--Bonferroni correction. The per-site breakdown is the result that most
+changes how the pooled number should be read, and motivates the diagnostics of
+Fig.~\ref{fig:diagnostics}.}
+\label{fig:evaluation}
+\end{figure}

@@ -1,0 +1,27 @@
+\begin{table}[t]
+\centering
+\caption{Isolating the site shortcut. All three blocks are computed on the
+\emph{training} partition by grouped cross-validation; the test split of
+Table~\ref{tab:results} is never opened here. A single fixed, balanced random
+forest is used throughout, because the quantity of interest is the gap between
+evaluation protocols rather than any absolute score. Site chance is \num{0.167}
+(six sites); MAcc chance is \num{0.500}.}
+\label{tab:siteshortcut}
+\begin{tabular}{lrr}
+\toprule
+ & MFCC & PWP \\
+\midrule
+\multicolumn{3}{l}{\emph{A. Is the site recoverable from the features?}}\\
+\quad Site MAcc, segment level      & 0.647 & 0.549 \\
+\quad Site accuracy, recording level & \textbf{0.871} & \textbf{0.817} \\
+\midrule
+\multicolumn{3}{l}{\emph{B. Does the diagnosis transfer across sites?}}\\
+\quad Diagnosis MAcc, pooled CV          & 0.840 & 0.810 \\
+\quad Diagnosis MAcc, leave-one-site-out & 0.457 & 0.472 \\
+\quad Drop (pooled $-$ LOSO)             & \textbf{0.382} & \textbf{0.338} \\
+\midrule
+\multicolumn{3}{l}{\emph{C. Does signal survive once site is fixed?}}\\
+\quad Diagnosis MAcc, within-site & 0.756 & 0.703 \\
+\bottomrule
+\end{tabular}
+\end{table}

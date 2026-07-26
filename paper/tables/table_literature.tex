@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\caption{Context from published PhysioNet/CinC 2016 entries. These were scored
+on the official hidden test set, which was never released; our numbers come from
+a held-out split of the public training data. The comparison is therefore
+contextual and \emph{not} like-for-like.}
+\label{tab:literature}
+\begin{tabular}{lrrrc}
+\toprule
+System & MAcc & Se. & Sp. & Same test set \\
+\midrule
+This work (SVM--MFCC)                      & 0.866 & 0.950 & 0.782 & -- \\
+Potes et al.~\cite{potes2016ensemble}      & 0.860 & 0.942 & 0.778 & \checkmark \\
+Zabihi et al.~\cite{zabihi2016heart}       & 0.859 & 0.869 & 0.849 & \checkmark \\
+Rubin et al.~\cite{rubin2016classifying}   & 0.839 & 0.727 & 0.951 & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table}

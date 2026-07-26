@@ -1,0 +1,72 @@
+%==============================================================================
+% Interpretable Phonocardiogram Classification
+% Audio Pattern Recognition -- course project report
+%
+% BUILD:
+%   pdflatex main && bibtex main && pdflatex main && pdflatex main
+%
+% IEEEtran.cls is not bundled. Install texlive-publishers, or on Overleaf
+% choose the "IEEE Conference" template and drop these files in.
+%
+% Figures are expected in figs/ (PDF versions of the pipeline outputs).
+% The pipeline block diagram figs/fig_pipeline.tex is drawn in TikZ here.
+%==============================================================================
+
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{url}
+\usepackage{siunitx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
+
+\graphicspath{{figs/}}
+
+\newcommand{\MAcc}{\mathrm{MAcc}}
+
+\begin{document}
+
+\title{What Does a Heart Sound Classifier Actually Learn?
+A Controlled Comparison of Cepstral, Spectral and Wavelet-Packet
+Representations with Cardiac-Cycle-Aligned Explanations}
+
+\author{
+\IEEEauthorblockN{Ouardi Ilyass}
+\IEEEauthorblockA{\textit{Dipartimento di Informatica} \\
+\textit{Universit\`a degli Studi di Milano}\\
+Milan, Italy \\
+ilyass.ouardi@studenti.unimi.it}
+}
+
+\maketitle
+
+\input{sections/00_abstract}
+
+
+\input{sections/01_introduction}
+\input{sections/02_method}
+\input{sections/03_experimental_setup}
+\input{sections/04_results_clustering}
+\input{sections/05_results_classification}
+\input{sections/06_results_xai}
+\input{sections/07_discussion}
+\input{sections/08_conclusion}
+
+\section*{Reproducibility}
+The pipeline is driven by a single YAML configuration whose hash is recorded in
+every result artifact, and every number in this report is read programmatically
+from those artifacts rather than transcribed by hand. Random seeds are fixed
+and propagated to NumPy, scikit-learn and PyTorch.
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+\end{document}

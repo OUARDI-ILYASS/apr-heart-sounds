@@ -1,0 +1,49 @@
+% Three feature domains (block-diagram style). From sections/02_method.tex.
+% Requires: tikz (arrows.meta, positioning, fit, backgrounds, calc).
+\begin{figure*}[t]
+\centering
+\resizebox{0.9\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\small, >={Latex[length=2.2mm]}, node distance=6mm,
+  blk/.style={draw, rounded corners=3pt, align=center, fill=white,
+              minimum height=10mm, inner xsep=4pt, text width=27mm, line width=.5pt},
+  outv/.style={blk, font=\small\bfseries},
+  ar/.style={->, line width=.5pt},
+  hd/.style={font=\small\bfseries}, gl/.style={font=\footnotesize\itshape}
+]
+\node[blk, text width=22mm] (win) {\SI{3}{\second} window\\ \footnotesize (\SI{2}{\kilo\hertz})};
+
+% MFCC (left)
+\node[blk, below left=12mm and 34mm of win] (m1) {STFT\\ \footnotesize 256-pt Hann, hop 32,\\ 32 mel, 25--\SI{400}{\hertz}};
+\node[blk, below=of m1] (m2) {log $\rightarrow$ DCT,\\ 13 MFCC};
+\node[blk, below=of m2] (m3) {$+\,\Delta+\Delta^2$};
+\node[outv, below=of m3] (m4) {6 statistics\\ 234-d vector};
+\node[hd, above=1.5mm of m1] {MFCC (cepstral)};
+\foreach \a/\b in {m1/m2,m2/m3,m3/m4} \draw[ar] (\a) -- (\b);
+
+% log-Mel (centre)
+\node[blk, below=12mm of win] (l1) {STFT\\ \footnotesize 256-pt Hann, hop 32,\\ 32 mel, 25--\SI{400}{\hertz}};
+\node[blk, below=of l1] (l2) {log compression};
+\node[outv, below=of l2] (l3) {time axis kept\\ $32\times188$ image};
+\node[hd, above=1.5mm of l1] {log-Mel (spectral)};
+\foreach \a/\b in {l1/l2,l2/l3} \draw[ar] (\a) -- (\b);
+
+% PWP (right)
+\node[blk, below right=12mm and 34mm of win] (p1) {db4 wavelet packet,\\ level-6 tree};
+\node[blk, below=of p1] (p2) {group into 12\\ perceptual bands};
+\node[blk, below=of p2] (p3) {7 descriptors / band};
+\node[outv, below=of p3] (p4) {84-d vector};
+\node[hd, above=1.5mm of p1] {PWP (wavelet packet)};
+\foreach \a/\b in {p1/p2,p2/p3,p3/p4} \draw[ar] (\a) -- (\b);
+
+\draw[ar] (win.south) -- (m1.north);
+\draw[ar] (win.south) -- (l1.north);
+\draw[ar] (win.south) -- (p1.north);
+\end{tikzpicture}}
+\caption{Feature extraction. Three representations that differ in kind are
+computed from the \emph{same} windows, so any downstream difference is
+attributable to the representation. MFCC and PWP are pooled into fixed-length
+vectors (234 and 84 dimensions) for the classical models; the log-Mel
+spectrogram keeps its time axis as a $32\times188$ image for the CNN.}
+\label{fig:features}
+\end{figure*}

@@ -1,0 +1,71 @@
+\section{Discussion and Limitations}
+
+Three diagnostics were applied to a system whose aggregate score, MAcc
+\num{0.866}, sits comfortably within the published range for this corpus, and
+each isolates a different weakness that the headline number hides.
+
+\emph{Unsupervised structure (k-means on the feature spaces).} In two of three
+feature spaces, $k$-means recovers the acquisition site far better than the
+diagnosis, so the class boundary is a thin supervised direction inside a geometry
+organised by how and where the recording was made.
+
+\emph{Per-site performance (best model, SVM--MFCC).} MAcc ranges from
+\num{0.986} to \num{0.477} across sub-databases, with the pooled figure carried
+by the single largest and easiest one; performance does not transfer across
+acquisition conditions.
+
+\emph{Attribution (Grad-CAM on the CNN).} The CNN's attention is genuinely
+weight-dependent and mildly systole-preferring, but no more so on correct
+decisions than on incorrect ones, so the tendency cannot be read as use of
+systolic evidence.
+
+None of the three establishes a mechanism on its own, so we ran the experiment
+that ties them together (Section~\ref{sec:siteshortcut}): predicting the
+sub-database directly from the features, and re-evaluating the diagnosis across
+sites rather than pooled. It confirms the inference, with one qualification.
+The site is recoverable at \num{0.871} recording-level accuracy against
+\num{0.167} chance, so the shortcut substrate is real; and pooled diagnosis MAcc
+collapses from \num{0.840} to \num{0.457} under leave-one-site-out evaluation,
+so almost none of the headline performance transfers across acquisition
+conditions. The qualification is that a within-site signal does not vanish:
+held at a fixed site, diagnosis MAcc is \num{0.70}--\num{0.76}, and even after
+discounting two tiny or extreme-prevalence sites that inflate that average, the
+large sites retain a modest \num{0.55}--\num{0.64}. The features are therefore
+not \emph{only} a site fingerprint. The defensible summary is the measured one:
+the aggregate metric is substantially, not entirely, a site-prevalence artefact,
+and it overstates the transferable diagnostic signal by roughly the
+\num{0.34}--\num{0.38} that disappears when the site is no longer shared between
+training and test.
+
+The two-tool design of Section~\ref{sec:xai} is a limitation as much as a
+feature. Because SHAP was read only on frequency and Grad-CAM only on time, the
+study never obtains a single explanation spanning both axes, and the one
+genuinely cross-method check available --- agreement among the four independent
+SHAP frequency profiles --- came out weak (\num{0.514}). A time--frequency
+attribution that could be trusted on both axes at once, for instance a
+higher-resolution CAM or an input-space gradient method on the spectrogram, would
+allow the frequency and timing claims to be tested jointly rather than
+separately; we leave that to future work.
+
+Several further limitations should be stated plainly. The evaluation rests on one
+split of one corpus; recording-level splitting and joint stratification guard
+against the most common leakage, but a single split cannot separate
+representation effects from split-specific variance, and repeated splits or
+nested cross-validation would give firmer footing. Both random forests overfit
+their training folds and neither classical model is well calibrated. The
+MFCC-to-frequency projection used for SHAP is sign-agnostic and approximate, and
+disagrees with the exact PWP mapping. The CNN's Grad-CAM and Grad-CAM++ maps
+agree at only \num{0.392}, so the temporal result is specific to one variant. The
+segmenter labels only \SI{66.5}{\percent} of test windows with sufficient
+confidence, and nothing is known about whether the excluded third differs
+systematically --- if the low-confidence windows are the noisy ones, they may
+also be the ones where site cues matter most. Finally, the two smallest
+sub-databases contribute 8 and 17 test recordings and carry essentially no
+statistical weight.
+
+We also note what did work. All five models substantially exceed trivial
+baselines, and the ranking of feature domains is stable and interpretable: MFCC
+outperforms PWP under both classifier families, and the log-Mel CNN attains the
+best ranking quality (AUC \num{0.961}) despite an operating point that gives it
+no MAcc advantage. The comparison the study was designed to make is answered,
+even though the answer is not the one anticipated.

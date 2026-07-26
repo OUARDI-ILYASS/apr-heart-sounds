@@ -1,0 +1,387 @@
+{
+  "model": "rf_mfcc",
+  "domain": "mfcc",
+  "explainer": "TreeSHAP",
+  "exact": true,
+  "base_value": 0.5000000000000006,
+  "n_explained": 150,
+  "top_features": [
+    {
+      "rank": 1,
+      "feature": "mfcc3_mean",
+      "mean_abs_shap": 0.073208,
+      "mean_shap": -0.024107,
+      "sign_consistency": 0.633,
+      "share_of_total": 0.1243
+    },
+    {
+      "rank": 2,
+      "feature": "mfcc3_max",
+      "mean_abs_shap": 0.043427,
+      "mean_shap": -0.012472,
+      "sign_consistency": 0.513,
+      "share_of_total": 0.0737
+    },
+    {
+      "rank": 3,
+      "feature": "mfcc3_min",
+      "mean_abs_shap": 0.029108,
+      "mean_shap": -0.008298,
+      "sign_consistency": 0.66,
+      "share_of_total": 0.0494
+    },
+    {
+      "rank": 4,
+      "feature": "mfcc7_mean",
+      "mean_abs_shap": 0.028743,
+      "mean_shap": -0.012678,
+      "sign_consistency": 0.5,
+      "share_of_total": 0.0488
+    },
+    {
+      "rank": 5,
+      "feature": "mfcc6_mean",
+      "mean_abs_shap": 0.028663,
+      "mean_shap": -0.008923,
+      "sign_consistency": 0.54,
+      "share_of_total": 0.0487
+    },
+    {
+      "rank": 6,
+      "feature": "mfcc4_mean",
+      "mean_abs_shap": 0.028334,
+      "mean_shap": -0.005954,
+      "sign_consistency": 0.547,
+      "share_of_total": 0.0481
+    },
+    {
+      "rank": 7,
+      "feature": "mfcc5_mean",
+      "mean_abs_shap": 0.021776,
+      "mean_shap": -0.005399,
+      "sign_consistency": 0.54,
+      "share_of_total": 0.037
+    },
+    {
+      "rank": 8,
+      "feature": "dmfcc1_skew",
+      "mean_abs_shap": 0.020445,
+      "mean_shap": -0.007235,
+      "sign_consistency": 0.593,
+      "share_of_total": 0.0347
+    },
+    {
+      "rank": 9,
+      "feature": "dmfcc0_min",
+      "mean_abs_shap": 0.017828,
+      "mean_shap": -0.004122,
+      "sign_consistency": 0.567,
+      "share_of_total": 0.0303
+    },
+    {
+      "rank": 10,
+      "feature": "ddmfcc0_max",
+      "mean_abs_shap": 0.015371,
+      "mean_shap": -0.003133,
+      "sign_consistency": 0.62,
+      "share_of_total": 0.0261
+    },
+    {
+      "rank": 11,
+      "feature": "ddmfcc0_std",
+      "mean_abs_shap": 0.014914,
+      "mean_shap": -0.005919,
+      "sign_consistency": 0.667,
+      "share_of_total": 0.0253
+    },
+    {
+      "rank": 12,
+      "feature": "mfcc4_max",
+      "mean_abs_shap": 0.010965,
+      "mean_shap": -0.002035,
+      "sign_consistency": 0.633,
+      "share_of_total": 0.0186
+    },
+    {
+      "rank": 13,
+      "feature": "mfcc0_std",
+      "mean_abs_shap": 0.010923,
+      "mean_shap": -0.003217,
+      "sign_consistency": 0.673,
+      "share_of_total": 0.0185
+    },
+    {
+      "rank": 14,
+      "feature": "mfcc2_mean",
+      "mean_abs_shap": 0.010876,
+      "mean_shap": -0.002329,
+      "sign_consistency": 0.553,
+      "share_of_total": 0.0185
+    },
+    {
+      "rank": 15,
+      "feature": "ddmfcc1_skew",
+      "mean_abs_shap": 0.010687,
+      "mean_shap": -0.002915,
+      "sign_consistency": 0.607,
+      "share_of_total": 0.0181
+    },
+    {
+      "rank": 16,
+      "feature": "ddmfcc0_min",
+      "mean_abs_shap": 0.009713,
+      "mean_shap": -0.002605,
+      "sign_consistency": 0.647,
+      "share_of_total": 0.0165
+    },
+    {
+      "rank": 17,
+      "feature": "dmfcc0_std",
+      "mean_abs_shap": 0.009577,
+      "mean_shap": -0.003788,
+      "sign_consistency": 0.647,
+      "share_of_total": 0.0163
+    },
+    {
+      "rank": 18,
+      "feature": "mfcc6_max",
+      "mean_abs_shap": 0.008457,
+      "mean_shap": -0.002742,
+      "sign_consistency": 0.667,
+      "share_of_total": 0.0144
+    },
+    {
+      "rank": 19,
+      "feature": "mfcc5_max",
+      "mean_abs_shap": 0.008407,
+      "mean_shap": -0.002897,
+      "sign_consistency": 0.647,
+      "share_of_total": 0.0143
+    },
+    {
+      "rank": 20,
+      "feature": "dmfcc0_skew",
+      "mean_abs_shap": 0.008407,
+      "mean_shap": -0.001818,
+      "sign_consistency": 0.673,
+      "share_of_total": 0.0143
+    }
+  ],
+  "feature_groups": [
+    {
+      "group": "mfcc3",
+      "total_abs_shap": 0.149065,
+      "share": 0.2531,
+      "n_features": 6,
+      "mean_per_feature": 0.024844
+    },
+    {
+      "group": "ddmfcc0",
+      "total_abs_shap": 0.047903,
+      "share": 0.0813,
+      "n_features": 6,
+      "mean_per_feature": 0.007984
+    },
+    {
+      "group": "mfcc4",
+      "total_abs_shap": 0.04449,
+      "share": 0.0755,
+      "n_features": 6,
+      "mean_per_feature": 0.007415
+    },
+    {
+      "group": "dmfcc0",
+      "total_abs_shap": 0.042182,
+      "share": 0.0716,
+      "n_features": 6,
+      "mean_per_feature": 0.00703
+    },
+    {
+      "group": "mfcc6",
+      "total_abs_shap": 0.041958,
+      "share": 0.0712,
+      "n_features": 6,
+      "mean_per_feature": 0.006993
+    },
+    {
+      "group": "mfcc7",
+      "total_abs_shap": 0.039574,
+      "share": 0.0672,
+      "n_features": 6,
+      "mean_per_feature": 0.006596
+    },
+    {
+      "group": "dmfcc1",
+      "total_abs_shap": 0.033615,
+      "share": 0.0571,
+      "n_features": 6,
+      "mean_per_feature": 0.005603
+    },
+    {
+      "group": "mfcc5",
+      "total_abs_shap": 0.033556,
+      "share": 0.057,
+      "n_features": 6,
+      "mean_per_feature": 0.005593
+    },
+    {
+      "group": "mfcc1",
+      "total_abs_shap": 0.032936,
+      "share": 0.0559,
+      "n_features": 6,
+      "mean_per_feature": 0.005489
+    },
+    {
+      "group": "mfcc0",
+      "total_abs_shap": 0.026442,
+      "share": 0.0449,
+      "n_features": 6,
+      "mean_per_feature": 0.004407
+    },
+    {
+      "group": "mfcc2",
+      "total_abs_shap": 0.022132,
+      "share": 0.0376,
+      "n_features": 6,
+      "mean_per_feature": 0.003689
+    },
+    {
+      "group": "ddmfcc1",
+      "total_abs_shap": 0.015375,
+      "share": 0.0261,
+      "n_features": 6,
+      "mean_per_feature": 0.002563
+    },
+    {
+      "group": "mfcc11",
+      "total_abs_shap": 0.007735,
+      "share": 0.0131,
+      "n_features": 6,
+      "mean_per_feature": 0.001289
+    },
+    {
+      "group": "mfcc12",
+      "total_abs_shap": 0.006611,
+      "share": 0.0112,
+      "n_features": 6,
+      "mean_per_feature": 0.001102
+    },
+    {
+      "group": "mfcc10",
+      "total_abs_shap": 0.005821,
+      "share": 0.0099,
+      "n_features": 6,
+      "mean_per_feature": 0.00097
+    },
+    {
+      "group": "mfcc9",
+      "total_abs_shap": 0.005594,
+      "share": 0.0095,
+      "n_features": 6,
+      "mean_per_feature": 0.000932
+    },
+    {
+      "group": "dmfcc2",
+      "total_abs_shap": 0.004827,
+      "share": 0.0082,
+      "n_features": 6,
+      "mean_per_feature": 0.000804
+    },
+    {
+      "group": "mfcc8",
+      "total_abs_shap": 0.004653,
+      "share": 0.0079,
+      "n_features": 6,
+      "mean_per_feature": 0.000776
+    },
+    {
+      "group": "ddmfcc2",
+      "total_abs_shap": 0.00287,
+      "share": 0.0049,
+      "n_features": 6,
+      "mean_per_feature": 0.000478
+    },
+    {
+      "group": "dmfcc3",
+      "total_abs_shap": 0.001769,
+      "share": 0.003,
+      "n_features": 6,
+      "mean_per_feature": 0.000295
+    }
+  ],
+  "frequency_profile": {
+    "band_frequencies_hz": [
+      36.36363636363637,
+      47.72727272727273,
+      59.09090909090909,
+      70.45454545454545,
+      81.81818181818181,
+      93.18181818181819,
+      104.54545454545455,
+      115.9090909090909,
+      127.27272727272727,
+      138.63636363636363,
+      150.0,
+      161.36363636363637,
+      172.72727272727275,
+      184.0909090909091,
+      195.45454545454547,
+      206.8181818181818,
+      218.1818181818182,
+      229.54545454545453,
+      240.9090909090909,
+      252.27272727272728,
+      263.6363636363636,
+      275.0,
+      286.3636363636364,
+      297.72727272727275,
+      309.09090909090907,
+      320.45454545454544,
+      331.8181818181818,
+      343.1818181818182,
+      354.5454545454545,
+      365.90909090909093,
+      377.27272727272725,
+      388.6363636363636
+    ],
+    "attribution": [
+      0.04439781621922361,
+      0.03690904963092102,
+      0.030951442646430558,
+      0.02931405090909074,
+      0.027809219934061567,
+      0.027279721298839855,
+      0.028683256987813675,
+      0.030118945515888857,
+      0.03312646097746023,
+      0.034342563932030536,
+      0.03486762400411296,
+      0.03187213643869173,
+      0.031045635628934334,
+      0.029538766235174936,
+      0.027340283402671556,
+      0.022403026238653846,
+      0.022403026238653825,
+      0.027340283402671556,
+      0.029538766235174936,
+      0.03104563562893433,
+      0.031872136438691724,
+      0.03486762400411297,
+      0.03434256393203054,
+      0.03312646097746023,
+      0.030118945515888843,
+      0.02868325698781366,
+      0.02727972129883986,
+      0.02780921993406156,
+      0.029314050909090734,
+      0.030951442646430575,
+      0.03690904963092104,
+      0.044397816219223604
+    ],
+    "peak_frequency_hz": 36.36363636363637,
+    "centroid_hz": 212.5,
+    "n_features_mapped": 234,
+    "method": "abs(DCT basis) projection",
+    "caveat": "Sign-agnostic approximation; PWP gives an exact band mapping."
+  }
+}

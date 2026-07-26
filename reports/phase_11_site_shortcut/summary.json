@@ -1,0 +1,136 @@
+{
+  "phase": "11_site_shortcut",
+  "experiment": "baseline_full",
+  "status": "success",
+  "timestamp_start": "2026-07-26T02:42:41.012241+00:00",
+  "timestamp_end": "2026-07-26T02:46:15.193269+00:00",
+  "duration_seconds": 214.18,
+  "config_hash": "abcfe9c4",
+  "seed": 42,
+  "environment": {
+    "python": "3.11.10",
+    "platform": "Linux-6.8.0-45-generic-x86_64-with-glibc2.35",
+    "hostname": "8483a18aa0ea",
+    "user": "root",
+    "git_commit": "603801b",
+    "git_dirty": true,
+    "packages": {
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "sklearn": "1.9.0",
+      "pandas": "3.0.5",
+      "librosa": "0.11.0",
+      "pywt": "1.8.0",
+      "torch": "2.4.1+cu124",
+      "shap": "0.51.0",
+      "matplotlib": "3.11.1",
+      "joblib": "1.5.3"
+    },
+    "gpu": {
+      "name": "NVIDIA RTX 4000 Ada Generation",
+      "count": 1,
+      "cuda": "12.4",
+      "total_memory_gb": 19.67
+    }
+  },
+  "splits_touched": [
+    "train"
+  ],
+  "inputs_loaded": [
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/mfcc/features_train.npy",
+      "shape": [
+        30695,
+        234
+      ]
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/data/processed/pwp/features_train.npy",
+      "shape": [
+        30695,
+        84
+      ]
+    }
+  ],
+  "artifacts_written": [
+    {
+      "path": "/workspace/apr-heart-sounds/results/site_shortcut/mfcc_site_shortcut.json",
+      "mb": 0.002
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/results/site_shortcut/pwp_site_shortcut.json",
+      "mb": 0.002
+    },
+    {
+      "path": "/workspace/apr-heart-sounds/figures/fig_site_shortcut.pdf",
+      "mb": 0.016
+    }
+  ],
+  "parameters": {},
+  "key_findings": {
+    "mfcc_site_balanced_accuracy": 0.647,
+    "mfcc_pooled_cv_macc": 0.8399,
+    "mfcc_loso_macro_macc": 0.4575,
+    "mfcc_pooled_minus_loso": 0.3824,
+    "mfcc_within_site_macro_macc": 0.7563,
+    "pwp_site_balanced_accuracy": 0.5495,
+    "pwp_pooled_cv_macc": 0.8096,
+    "pwp_loso_macro_macc": 0.472,
+    "pwp_pooled_minus_loso": 0.3377,
+    "pwp_within_site_macro_macc": 0.7031
+  },
+  "finding_notes": {},
+  "tables": {
+    "site_shortcut_summary": [
+      {
+        "domain": "mfcc",
+        "site_bal_acc": 0.647,
+        "chance": 0.1667,
+        "pooled_macc": 0.8399,
+        "loso_macc": 0.4575,
+        "pooled_minus_loso": 0.3824,
+        "within_site_macc": 0.7563
+      },
+      {
+        "domain": "pwp",
+        "site_bal_acc": 0.5495,
+        "chance": 0.1667,
+        "pooled_macc": 0.8096,
+        "loso_macc": 0.472,
+        "pooled_minus_loso": 0.3377,
+        "within_site_macc": 0.7031
+      }
+    ]
+  },
+  "assertions": [
+    {
+      "name": "test_split_untouched",
+      "result": "PASS",
+      "detail": "Phase 11 reads the train split only; the test partition is not opened, preserving the single-reader guarantee of phase 06."
+    }
+  ],
+  "claim_verdicts": {
+    "C6": {
+      "statement": "The recording site is directly recoverable from the features, and the pooled performance is substantially a site-prevalence shortcut: controlling for site (leave-one-site-out, or within-site) removes most of the apparent skill.",
+      "verdict": "supported",
+      "evidence": "site balanced-accuracy up to 0.647 vs 0.167 chance; diagnosis MAcc drops by up to 0.382 from pooled CV to leave-one-site-out; within-site diagnosis MAcc averages 0.730",
+      "detail": "This is the confirming experiment named in Sections V-C, VII and VIII. It converts the report's central inference into a direct measurement: the site classifier shows the shortcut substrate is present, and the pooled-vs-LOSO gap and within-site collapse show how much of the headline MAcc depends on it."
+    }
+  },
+  "warnings": [],
+  "notes": [
+    "Estimator is a fixed, untuned balanced random forest across all three blocks; the quantity of interest is the gap between evaluation protocols, not an absolute score, so per-fold tuning is deliberately avoided. Sites with a single class or too few recordings in a fold are reported as skipped rather than imputed."
+  ],
+  "timings_seconds": {
+    "mfcc_site_clf": 24.174,
+    "mfcc_pooled_cv": 38.102,
+    "mfcc_loso": 46.92,
+    "mfcc_within_site": 23.096,
+    "pwp_site_clf": 14.956,
+    "pwp_pooled_cv": 20.203,
+    "pwp_loso": 25.045,
+    "pwp_within_site": 19.756,
+    "_total": 214.181
+  },
+  "next_phase": null
+}

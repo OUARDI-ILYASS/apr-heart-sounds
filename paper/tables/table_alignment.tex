@@ -1,0 +1,19 @@
+\begin{table}[t]
+\centering
+\caption{Cardiac-cycle alignment of the CNN's Grad-CAM attribution. $E_s$ is
+enrichment, attribution mass divided by the time fraction occupied by state $s$;
+$E_s = 1$ is exactly what uniform temporal attention produces. Computed on the
+\SI{66.5}{\percent} of test windows (2235 of 3362) that the segmenter labelled
+with sufficient confidence.}
+\label{tab:alignment}
+\begin{tabular}{lrr}
+\toprule
+Cardiac state & Attribution mass & $E_s$ \\
+\midrule
+S1        & 0.190 & 1.001 \\
+systole   & 0.245 & 1.056 \\
+S2        & 0.150 & 0.753 \\
+diastole  & 0.415 & 1.067 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,53 @@
+% Model construction (block-diagram style, classical models grouped).
+% From sections/02_method.tex. Requires: tikz (arrows.meta, positioning, fit,
+% backgrounds, calc).
+\begin{figure*}[t]
+\centering
+\resizebox{0.86\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\small, >={Latex[length=2.2mm]}, node distance=6mm and 16mm,
+  feat/.style={draw, rounded corners=3pt, align=center, fill=white,
+               minimum height=10mm, text width=20mm, line width=.5pt},
+  mod/.style={draw, rounded corners=3pt, align=center, fill=white,
+              minimum height=10mm, text width=22mm, line width=.5pt},
+  agg/.style={draw, rounded corners=3pt, align=center, fill=white,
+              minimum height=13mm, text width=30mm, line width=.5pt, font=\small\bfseries},
+  ar/.style={->, line width=.5pt},
+  gl/.style={font=\footnotesize\itshape}
+]
+% feature vectors
+\node[feat] (mfcc) {MFCC\\ \footnotesize 234-d};
+\node[feat, below=8mm of mfcc] (pwp) {PWP\\ \footnotesize 84-d};
+\node[feat, below=8mm of pwp] (lmel) {log-Mel\\ \footnotesize $32\times188$};
+
+% classical model group (SVM + RF)
+\node[mod, right=22mm of mfcc, yshift=-4mm] (svm) {SVM (RBF)};
+\node[mod, below=5mm of svm] (rf) {random forest};
+\node[draw, dashed, rounded corners, fit=(svm)(rf), inner sep=4mm] (cls) {};
+\node[gl, above=0.5mm of cls.north] {classical models};
+
+% CNN
+\node[mod, right=22mm of lmel] (cnn) {2-D CNN\\ \footnotesize $\sim\!10^5$ par.};
+
+% shared feature arrows -> routed to the GROUP, not to individual models
+\draw[ar] (mfcc.east) -- (cls.west |- mfcc.east);
+\draw[ar] (pwp.east)  -- (cls.west |- pwp.east);
+\draw[ar] (lmel.east) -- (cnn.west);
+
+% aggregation, fed by the group (single merged arrow) and the CNN
+\node[agg, right=20mm of cls, yshift=-6mm] (dec)
+  {window probabilities\\[1pt]\footnotesize $\rightarrow$ mean over windows\\ $\rightarrow$ recording decision};
+\draw[ar] (cls.east) -- (dec.west |- cls.east);
+\draw[ar] (cnn.east) -- (dec.west |- cnn.east);
+
+\node[gl, below=8mm of pwp.south, xshift=6mm]
+  {hyperparameters: 5-fold grouped CV (train/val only)};
+\end{tikzpicture}}
+\caption{Model construction. The two pooled representations feed the classical
+models; both arrows are directed to the model \emph{group} (SVM and random
+forest share the same inputs) rather than to each block individually. The
+log-Mel image feeds the CNN. Window probabilities from either branch are
+averaged into one decision per recording. Hyperparameters and thresholds are
+selected by grouped cross-validation on the training and validation splits only.}
+\label{fig:models}
+\end{figure*}

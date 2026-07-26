@@ -1,0 +1,207 @@
+\section{Results II: Classification}
+\label{sec:classification}
+
+\input{tables/table_baselines}
+\input{tables/table_results}
+
+\subsection{Aggregate performance}
+
+Table~\ref{tab:results} gives recording-level test performance for the five
+feature/model pairings, and Table~\ref{tab:baselines} the trivial baselines that
+put them in perspective. All five models clearly exceed the always-normal
+predictor: MAcc ranges from \num{0.820} to \num{0.866} against \num{0.500}. The
+Matthews correlation coefficient, which is zero for any constant predictor, is
+between \num{0.59} and \num{0.66} for the leading models. This claim is
+supported without qualification.
+
+The claim that the CNN would outperform the best classical pairing is not.
+SVM--MFCC reaches MAcc \num{0.866} \SI{95}{\percent} CI $[0.834, 0.894]$ and the
+CNN \num{0.865} $[0.828, 0.900]$, a difference of \num{0.0004} inside intervals
+that almost entirely coincide. On MAcc the two are statistically
+indistinguishable, and so, on the interval criterion, are all five models.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_confusion_matrices}
+\caption{Recording-level confusion matrices. The models differ mainly in where
+they sit on the sensitivity/specificity trade-off rather than in overall
+discrimination.}
+\label{fig:confusion}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_roc_curves}
+\caption{ROC curves on the test recordings. The CNN attains the highest AUC
+(\num{0.961}) while not attaining the highest MAcc, indicating that its ranking
+of recordings is better than its operating point.}
+\label{fig:roc}
+\end{figure}
+
+The confusion matrices (Fig.~\ref{fig:confusion}) show what the aggregate hides:
+the models differ chiefly in where they sit on the sensitivity/specificity
+trade-off. RF--PWP achieves the highest sensitivity of all (\num{0.970}) at the
+cost of the lowest specificity (\num{0.670}); the CNN is the most balanced
+(\num{0.889}/\num{0.842}). For a screening application, where a missed pathology
+costs more than a referral, the high-sensitivity operating points are arguably
+preferable, but nothing in our evaluation selects among them. The ROC curves
+(Fig.~\ref{fig:roc}) add a further nuance: the CNN has the best AUC
+(\num{0.961} against \num{0.922} for SVM--MFCC) without the best MAcc, meaning
+its \emph{ranking} of recordings is better than its chosen operating point. A
+threshold tuned on validation data captures only part of that advantage.
+
+\subsection{Paired comparison}
+
+\input{tables/table_significance}
+
+MAcc intervals and paired error tests do not agree, and the disagreement is
+informative rather than contradictory. Table~\ref{tab:significance} shows that
+after Holm--Bonferroni correction the CNN makes significantly fewer
+recording-level errors than every other model, including SVM--MFCC
+($28/11$ discordant, $p = \num{1.0e-2}$), while the two MFCC classical models
+are indistinguishable from each other ($p = \num{0.21}$).
+
+These statements are compatible. McNemar tests the count of \emph{discordant
+errors} at each model's fixed operating point; MAcc averages sensitivity and
+specificity, which weights the minority class far more heavily. The CNN gets
+more recordings right overall, but its errors are distributed such that the
+sensitivity/specificity average is unchanged. Since MAcc is the metric this task
+is defined by, we do not claim the CNN is the better model; we state that it is
+better on total errors and equivalent on the primary metric.
+
+The feature domain matters more than the classifier family. Both MFCC models
+outrank both PWP models, and every MFCC-versus-PWP comparison that is
+significant favours MFCC. The wavelet-packet representation, adopted on the
+principled grounds of Section~II, did not pay off here. We note in
+Section~\ref{sec:xai} that it nevertheless remains the more useful representation
+for interpretation, which is a different property from accuracy.
+
+\subsection{The aggregate metric is not uniform across sites}
+\label{sec:persite}
+
+\input{tables/table_per_site}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_per_site_macc}
+\caption{Per-sub-database MAcc of the best model, with sub-database size. The
+pooled figure of \num{0.866} is dominated by \texttt{training-e}, which supplies
+\SI{66}{\percent} of the test recordings and on which the model is nearly
+perfect.}
+\label{fig:persite}
+\end{figure}
+
+Table~\ref{tab:persite} and Fig.~\ref{fig:persite} decompose the best model's performance by
+acquisition sub-database, and this is the result that most changes how the
+preceding numbers should be read. Performance is not uniform. MAcc is
+\num{0.986} on \texttt{training-e} and \num{0.477} on \texttt{training-a}, a
+spread of \num{0.509}; on \texttt{training-a}, \texttt{training-b} and
+\texttt{training-d} the model is at or below the \num{0.500} of a constant
+predictor. Specificity collapses to \num{0.000} on \texttt{training-a} and
+\num{0.155} on \texttt{training-b}: on those sites the model labels almost
+everything abnormal.
+
+The pooled figure is therefore an average dominated by one site.
+\texttt{training-e} contributes 321 of the 484 test recordings
+(\SI{66}{\percent}) and has a low abnormal prevalence of \SI{8.7}{\percent}; it
+is both the largest and the easiest partition. \texttt{training-a}, by contrast,
+has \SI{72.1}{\percent} abnormal prevalence, and a model that answers
+``abnormal'' there is right \SI{72}{\percent} of the time by accident of
+prevalence.
+
+This is exactly the behaviour Section~\ref{sec:clustering} predicted from the
+unsupervised geometry, and it is what a site-prevalence shortcut looks like when
+measured. We are careful about the inference: the per-site breakdown establishes
+that performance does not transfer across acquisition conditions, which is a
+measurement. That the mechanism is prevalence-driven site recognition is a
+further inference, supported by the clustering result and by the direction of
+the failures. The natural confirming experiment --- training a classifier to
+predict the sub-database from the same features, and re-evaluating the diagnosis
+across sites rather than pooled --- is reported next in
+Section~\ref{sec:siteshortcut}.
+
+The smaller sub-databases (\texttt{training-d}, $n=8$; \texttt{training-f},
+$n=17$) carry very little weight, and their figures should be read as tendencies
+rather than findings. \texttt{training-c} ($n=4$) contains a single class in the
+test split and is omitted.
+
+\subsection{Isolating the site shortcut}
+\label{sec:siteshortcut}
+
+\input{tables/table_site_shortcut}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_site_shortcut}
+\caption{Isolating the site shortcut on the training partition. Recording site
+is recoverable from the features well above chance (blue); pooled
+cross-validated diagnosis MAcc (orange) collapses to chance under
+leave-one-site-out evaluation (green); a weak diagnosis signal nonetheless
+survives once site is held fixed (red). Test data is not used.}
+\label{fig:siteshortcut}
+\end{figure}
+
+The per-site breakdown shows that performance does not transfer, but it does not
+by itself prove that the site is what the features encode. We test that directly,
+on the training split only so that the test partition of
+Table~\ref{tab:results} stays sealed, with three grouped cross-validation
+experiments driven by one fixed balanced random forest
+(Table~\ref{tab:siteshortcut}, Fig.~\ref{fig:siteshortcut}).
+
+First, the site is plainly recoverable. A classifier asked to name the
+sub-database from the MFCC features alone reaches \num{0.871} accuracy at the
+recording level against a \num{0.167} chance rate, and \num{0.817} on PWP. The
+substrate for a shortcut is therefore present in the representation itself,
+before any diagnostic label is introduced.
+
+Second, the diagnosis does not transfer across that structure. When the same
+features are used for the intended task but the model is evaluated
+\emph{leave-one-site-out} --- trained on five sites and tested on the held-out
+sixth --- MAcc falls from \num{0.840} pooled to \num{0.457} on MFCC, and from
+\num{0.810} to \num{0.472} on PWP. Both land at the \num{0.500} of a constant
+predictor. The pooled figure that anchors the leaderboard describes performance
+\emph{within} the corpus's site mixture; almost none of it survives a change of
+acquisition site, which is the condition a screening deployment would actually
+face.
+
+Third --- and this is the qualification that keeps the conclusion honest --- the
+features are not \emph{only} a site fingerprint. Held at a fixed site, where
+prevalence can no longer stand in for the label, diagnosis MAcc is \num{0.756}
+on MFCC and \num{0.703} on PWP, clearly above chance. That average is, however,
+inflated by two untrustworthy partitions: \texttt{training-c} ($n=22$) reports a
+within-site MAcc of \num{1.000} and \texttt{training-e} (abnormal prevalence
+\SI{7.4}{\percent}) of \num{0.985}, both artefacts of tiny or extremely skewed
+samples. On the three large, better-balanced sites the within-site MAcc is a
+more sober \num{0.55}--\num{0.64}. The reading we take from all three blocks is
+that the pooled metric is substantially, but not entirely, a site-prevalence
+artefact: a genuine but weak diagnostic signal exists, and the aggregate score
+overstates it by roughly the \num{0.34}--\num{0.38} that evaporates under
+leave-one-site-out evaluation.
+
+\subsection{Overfitting and calibration}
+
+Two weaknesses are worth stating. Both random forests show a large gap between
+training and cross-validated balanced accuracy --- \num{0.947} versus
+\num{0.867} on MFCC, and \num{0.945} versus \num{0.814} on PWP --- so they are
+memorising the training folds despite the depth and leaf-size grid; stronger
+regularisation would be the obvious next step. Second, the classical models are
+poorly calibrated, with expected calibration error \num{0.129} for RF--MFCC and
+\num{0.150} for RF--PWP. Since recording-level decisions are formed by averaging
+window probabilities, miscalibration propagates into the aggregation, and the
+close agreement between mean-probability and majority-vote aggregation
+(within \num{0.004} MAcc) suggests the probabilities are contributing little
+beyond their ordering.
+
+\subsection{Comparison with published work}
+
+\input{tables/table_literature}
+
+Table~\ref{tab:literature} places our best result alongside published CinC 2016
+entries. Our MAcc of \num{0.866} sits at the top of the \num{0.84}--\num{0.86}
+band those entries occupy. This must not be read as an improvement. The published
+figures were obtained on the official hidden test set, which was never released;
+ours come from a self-defined split of the public training data, with a
+different class balance, a different site mix and a different difficulty. The
+numbers are of the same order, which is the only conclusion the comparison
+supports, and it is reassuring mainly as evidence that the pipeline is not
+broken.

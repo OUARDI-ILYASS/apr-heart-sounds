@@ -1,0 +1,103 @@
+% Pipeline block diagram. Included from sections/02_method.tex.
+% Requires: tikz with libraries arrows.meta, positioning, fit, backgrounds.
+\begin{figure*}[t]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\small,
+  node distance=4.5mm,
+  box/.style={draw, rounded corners=1pt, align=center, minimum height=8mm,
+              inner xsep=3pt, text width=20mm},
+  pre/.style={box, fill=black!5},
+  feat/.style={box, fill=blue!8},
+  mod/.style={box, fill=green!10},
+  xai/.style={box, fill=orange!12},
+  diag/.style={box, fill=red!8, text width=24mm},
+  ar/.style={-{Latex[length=2mm]}, thick},
+  lbl/.style={font=\footnotesize\itshape}
+]
+
+% ---- stage 1: preprocessing -------------------------------------------------
+\node[pre] (raw) {PCG\\ recording};
+\node[pre, right=of raw] (rs) {resample\\ \SI{2}{\kilo\hertz}};
+\node[pre, right=of rs] (bp) {band-pass\\ 25--\SI{400}{\hertz}\\ zero-phase};
+\node[pre, right=of bp] (sp) {spike\\ removal};
+\node[pre, right=of sp] (nz) {per-rec.\\ $z$-norm};
+\node[pre, right=of nz] (seg) {\SI{3}{\second}\\ windows};
+
+\draw[ar] (raw) -- (rs);
+\draw[ar] (rs) -- (bp);
+\draw[ar] (bp) -- (sp);
+\draw[ar] (sp) -- (nz);
+\draw[ar] (nz) -- (seg);
+
+% ---- stage 2: three feature domains ----------------------------------------
+\node[feat, below left=9mm and +6mm of seg] (mfcc) {MFCC\\ $13{+}\Delta{+}\Delta^2$\\ $\times 6$ stats\\ (234-d)};
+\node[feat, below=9mm of seg]               (pwp)  {PWP db4\\ 12 mel bands\\ $\times 7$ desc.\\ (84-d)};
+\node[feat, below right=9mm and +6mm of seg](lmel) {log-Mel\\ $32\times188$\\ (time kept)};
+
+\draw[ar] (seg) -- (mfcc);
+\draw[ar] (seg) -- (lmel);
+\draw[ar] (seg) -- (pwp);
+
+% ---- stage 3: unsupervised diagnostic --------------------------------------
+\node[diag, left=12mm of mfcc] (km) {$k$-means $+$ PCA / t-SNE\\[1mm]
+  ARI vs.\ \emph{diagnosis}\\ ARI vs.\ \emph{site}};
+\draw[ar] (mfcc.west) -- (km.east);
+\draw[ar] (pwp.south west) to[out=200,in=-80] (km.south);
+
+% ---- stage 4: classifiers ---------------------------------------------------
+\node[mod, below=15mm of mfcc] (svm) {SVM (RBF)};
+\node[mod, below=15mm of lmel] (cnn) {2-D CNN\\ $\sim\!10^5$ par.};
+\node[mod, below=15mm of pwp]  (rf)  {random\\ forest};
+
+\draw[ar] (mfcc) -- (svm);
+\draw[ar] (mfcc.south east) to[out=-60,in=120] (rf.north west);
+\draw[ar] (pwp.south west)  to[out=-120,in=60] (svm.north east);
+\draw[ar] (pwp) -- (rf);
+\draw[ar] (lmel) -- (cnn);
+
+% ---- stage 5: aggregation + evaluation -------------------------------------
+\node[mod, below=9mm of cnn, text width=34mm] (agg)
+  {window scores $\rightarrow$ mean probability $\rightarrow$ \textbf{recording decision}};
+\draw[ar] (svm) -- ++(0,-4mm) |- (agg.west);
+\draw[ar] (rf)  |- (agg.west);
+\draw[ar] (cnn) -- (agg);
+
+\node[diag, left=50mm of agg, text width=32mm] (ev)
+  {MAcc $\pm$ bootstrap CI\\ McNemar $+$ Holm\\ \textbf{per-site breakdown}};
+\draw[ar] (ev) -- (agg);
+
+% ---- stage 6: XAI -----------------------------------------------------------
+\node[diag, below=9mm of agg, text width=30mm] (align)
+  {enrichment $E_s$ vs.\\ uniform \& shuffled null\\ $+$ sanity checks};
+\node[xai, left=6mm of align, text width=26mm] (shap) {SHAP\\ (tree exact / kernel)\\ $\rightarrow$ frequency};
+\node[xai, right=6mm of align, text width=26mm] (gc) {Grad-CAM\\ (last conv block)\\ $\rightarrow$ time};
+
+
+\draw[ar] (svm.south) -- ++(0,-3mm) -| (shap.north);
+\draw[ar] (rf.south) -- ++(0,-3mm) -| (shap.north);
+\draw[ar] (cnn.south) -- ++(0,-4mm) -| (gc.north);
+\draw[ar] (gc) -- (align.east|-gc.east);
+\draw[ar] (shap) -- (align) ;
+
+% ---- grouping labels --------------------------------------------------------
+\begin{scope}[on background layer]
+  \node[fit=(raw)(seg), draw=black!30, dashed, rounded corners,
+        label={[lbl]above:preprocessing}] {};
+  \node[fit=(mfcc)(lmel), draw=black!30, dashed, rounded corners,
+        label={[lbl]above right:three feature domains}] {};
+  \node[fit=(gc)(shap), draw=black!30, dashed, rounded corners,
+        label={[lbl]below:explainability as a falsifiable test}] {};
+\end{scope}
+
+\end{tikzpicture}}
+\caption{Pipeline. The three feature domains are extracted from identical
+windows and evaluated under a single recording-level protocol, so that any
+difference between them is attributable to the representation. The two shaded
+blocks on the right are diagnostics rather than outputs: $k$-means asks whether
+the class structure exists before supervision, and the enrichment test asks
+whether the CNN's attribution is placed where cardiac physiology says the
+evidence should be.}
+\label{fig:pipeline}
+\end{figure*}

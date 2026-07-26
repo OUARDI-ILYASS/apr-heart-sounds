@@ -1,0 +1,23 @@
+\begin{table}[t]
+\centering
+\caption{Pairwise McNemar tests on recording-level predictions. Discordant
+counts are (A correct / B correct). Significance is assessed after
+Holm--Bonferroni correction across the family of ten comparisons.}
+\label{tab:significance}
+\begin{tabular}{lccc}
+\toprule
+Comparison & Discordant & $p$ & Sig. \\
+\midrule
+CNN--log-Mel vs.\ RF--PWP    & 68/10 & $1.1\times10^{-10}$ & \checkmark \\
+RF--PWP vs.\ SVM--MFCC       & 8/49  & $1.2\times10^{-7}$  & \checkmark \\
+RF--MFCC vs.\ RF--PWP        & 39/5  & $6.5\times10^{-7}$  & \checkmark \\
+CNN--log-Mel vs.\ SVM--PWP   & 43/11 & $2.5\times10^{-5}$  & \checkmark \\
+RF--PWP vs.\ SVM--PWP        & 9/35  & $1.6\times10^{-4}$  & \checkmark \\
+CNN--log-Mel vs.\ RF--MFCC   & 35/11 & $7.0\times10^{-4}$  & \checkmark \\
+CNN--log-Mel vs.\ SVM--MFCC  & 28/11 & $1.0\times10^{-2}$  & \checkmark \\
+SVM--MFCC vs.\ SVM--PWP      & 27/12 & $2.5\times10^{-2}$  & -- \\
+RF--MFCC vs.\ SVM--MFCC      & 8/15  & $2.1\times10^{-1}$  & -- \\
+RF--MFCC vs.\ SVM--PWP       & 24/16 & $2.7\times10^{-1}$  & -- \\
+\bottomrule
+\end{tabular}
+\end{table}

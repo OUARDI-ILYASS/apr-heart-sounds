@@ -1,0 +1,216 @@
+\section{Results III: Explainability as a Test}
+\label{sec:xai}
+
+Displaying a few heat maps and asserting that a model ``focuses on clinically
+relevant regions'' is unfalsifiable as stated. This section instead states two
+predictions in advance and tests each with the tool suited to it.
+
+\textbf{Two tools, two axes.} Our explainability evidence comes from two methods
+that describe different things, and keeping them apart is essential to reading
+the results. SHAP is applied to the \emph{classical} models (SVM and random
+forest, on MFCC and PWP features) and answers a question about \emph{frequency}:
+which spectral regions carry the attribution. Grad-CAM is applied to the
+\emph{CNN} (on the log-Mel spectrogram) and answers a question about
+\emph{time}: where in the cardiac cycle the attribution falls. The two are
+orthogonal by construction, and deliberately so. SHAP acts on pooled feature
+vectors, from which the time axis has already been discarded, so it can speak
+only to frequency; the trustworthiness of that frequency mapping is why it is
+used there. Grad-CAM produces a two-dimensional time--frequency map, but its
+last convolutional feature map is only a few cells wide, so its frequency axis
+is too coarse for spectral claims while its time axis (188 frames) is
+fine-grained. We therefore read each method on the axis where it is reliable and
+on no other. There is consequently no common axis on which a SHAP frequency
+profile and a Grad-CAM temporal profile could be compared directly, and we do
+not attempt such a comparison; the cross-method agreement we \emph{can} measure
+is agreement among independent SHAP explainers, reported in
+Section~\ref{sec:xai-freq}.
+
+\begin{table}[t]
+\centering
+\caption{What each explainability experiment tests. ``Target'' is the axis the
+method is read on; the other axis is not claimed.}
+\label{tab:xai-map}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llll}
+\toprule
+Experiment & Model & Method & Target \\
+\midrule
+Weight randomisation & CNN & Grad-CAM & (validity) \\
+Energy confound      & CNN & Grad-CAM & (validity) \\
+Variant robustness   & CNN & Grad-CAM vs.\ ++ & (validity) \\
+Frequency profile    & SVM, RF & SHAP & frequency \\
+Cross-model agreement& SVM, RF & SHAP & frequency \\
+Cardiac-cycle enrichment & CNN & Grad-CAM & time \\
+Outcome stratification   & CNN & Grad-CAM & time \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The specific estimators: for SHAP, the exact tree estimator on the random
+forests and the model-agnostic kernel estimator on the
+SVMs~\cite{lundberg2017unified,lundberg2020local}; for the CNN, Grad-CAM at the
+last convolutional block~\cite{selvaraju2017grad}. Table~\ref{tab:xai-map}
+summarises which model and method each experiment below uses and which axis it
+is allowed to speak to.
+
+\subsection{Sanity checks: is the CNN's Grad-CAM meaningful at all?}
+
+\emph{Model: CNN. Method: Grad-CAM. Tested: whether the attribution reflects
+learned weights rather than architecture or loudness.} These checks are reported
+before any finding, because an attribution map means nothing until it is shown
+to depend on the trained weights~\cite{adebayo2018sanity}.
+
+\textbf{Weight randomisation.} Recomputing Grad-CAM from a randomly
+re-initialised copy of the same architecture gives maps that correlate with the
+trained model's at only \num{0.051} over 100 windows. The maps therefore reflect
+what the network learned, not its wiring. \emph{Pass.}
+
+\textbf{Energy confound.} Correlating the CNN's temporal attribution profile
+with the signal envelope gives \num{0.068} over 499 windows, with no window
+above \num{0.5}. Attribution is not merely tracking loudness --- which matters
+because S1 and S2 are the loud events, so a loudness-driven map would confound
+the timing claim of Section~\ref{sec:xai-time}. \emph{Pass.}
+
+\textbf{Variant robustness.} Grad-CAM and Grad-CAM++~\cite{chattopadhay2018grad}
+maps correlate at only \num{0.392}. The temporal conclusions below are therefore
+specific to the Grad-CAM configuration and should not be assumed to transfer to
+other CAM variants. \emph{Reported as a limitation.}
+
+\subsection{Where in frequency? (SHAP, classical models)}
+\label{sec:xai-freq}
+
+\emph{Models: SVM and RF, on MFCC and PWP. Method: SHAP. Tested: which
+frequencies drive the classical models, and whether independent explainers
+agree on the answer.} This is the only place the frequency axis is claimed, and
+Grad-CAM contributes nothing to it.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_frequency_attribution}
+\caption{SHAP attribution mapped to frequency for the four classical
+feature/model pairings. PWP features map onto bands exactly; the MFCC profile is
+obtained by redistributing attribution through the magnitude of the DCT basis
+and is approximate.}
+\label{fig:freqattr}
+\end{figure}
+
+The frequency mapping is exact for PWP and approximate for MFCC, and the
+distinction governs which number to trust. A PWP feature belongs to exactly one
+frequency band by construction, so its SHAP value maps onto frequency directly.
+An MFCC coefficient is a weighted sum over all mel bands, so its attribution must
+be redistributed through the magnitude of the DCT basis; that projection is
+sign-agnostic and therefore approximate. Where the two disagree, the PWP result
+is the reliable one.
+
+\textbf{Cross-model agreement is weak.} All four classical pairings peak at the
+low band edge, \SI{25}{\hertz} (Fig.~\ref{fig:freqattr}), but the mean pairwise
+correlation between the four frequency profiles is only \num{0.514}, and that
+average hides a wide range. The two MFCC models agree almost perfectly with each
+other (\num{0.961}), whereas RF--PWP and SVM--MFCC agree at \num{0.280}. The high
+figure is a statement about a shared \emph{representation}, not a shared
+physiological finding: models built on the same features attribute similarly,
+models built on different features do not. Agreement across independent
+explainers would have been the strongest single piece of interpretability
+evidence available --- it is what a genuine cross-method check looks like on the
+frequency axis --- and it did not materialise. We report frequency agreement as
+weak.
+
+\textbf{The individual PWP features are plausible but not decisive.} The top two
+by mean absolute SHAP value are the Shannon entropy of band~0
+(25--\SI{51}{\hertz}, \SI{9.5}{\percent} of total attribution) and of band~9
+(291--\SI{326}{\hertz}, \SI{7.9}{\percent}), followed by relative energy in
+77--\SI{105}{\hertz}. Spectral entropy in a low band and a high band is a
+sensible murmur descriptor, since murmurs are noise-like where S1 and S2 are
+tonal. But their sign consistency is only \num{0.57} and \num{0.55}: they push
+toward ``abnormal'' barely more often than toward ``normal''. We therefore
+describe them as the features the model relies on most, not as evidence of a
+murmur detector. For the MFCC models the leading features are $\mathrm{MFCC}_3$
+mean and $\mathrm{MFCC}_0$ statistics; the prominence of the zeroth coefficient,
+which encodes overall energy, is not encouraging given the site dependence of
+Section~\ref{sec:persite}.
+
+\subsection{Where in the cardiac cycle? (Grad-CAM, CNN)}
+\label{sec:xai-time}
+
+\emph{Model: CNN. Method: Grad-CAM. Tested: whether the CNN's attention
+concentrates in systole, where clinically important adult murmurs occur.} This
+is the only place the time axis is claimed, and SHAP contributes nothing to it.
+
+\input{tables/table_alignment}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_alignment_cnn}
+\caption{Distribution of per-window systolic enrichment $E_\text{systole}$ for
+the CNN. The dashed line at $E=1$ is what uniform temporal attention produces;
+the distribution sits slightly to its right.}
+\label{fig:alignment}
+\end{figure}
+
+An envelope-based segmenter, operating independently of the CNN, labels each
+window's timeline into S1, systole, S2 and diastole. Given a unit-mass Grad-CAM
+map, the enrichment for cardiac state $s$ is
+\begin{equation}
+E_s = \frac{\text{fraction of attribution mass inside } s}
+           {\text{fraction of time occupied by } s},
+\end{equation}
+so $E_s = 1$ is exactly what uniform temporal attention produces, $E_s > 1$ is a
+genuine preference, and $E_s < 1$ is avoidance. The normalisation is the point:
+``\SI{25}{\percent} of attention fell in systole'' is uninterpretable until one
+knows systole occupies \SI{23}{\percent} of the window. Because most clinically
+important adult murmurs are systolic, a CNN that has learned pathology should
+show $E_\text{systole} > 1$ --- a prediction fixed before the measurement.
+
+\textbf{Confirmed in sign, negligible in magnitude.} Table~\ref{tab:alignment}
+gives $E_\text{systole} = \num{1.056}$, above the uniform null by about
+\SI{6}{\percent}. Against a permutation null --- the same attribution profile
+shuffled in time, so its sparsity and dynamic range survive but any relation to
+the cardiac cycle is destroyed --- only \SI{33}{\percent} of the 200 tested
+windows reach $\alpha = 0.05$, the mean $p$-value is \num{0.43}, and the effect
+size is Cohen's $d = \num{0.131}$ (below the conventional threshold for a small
+effect). Fig.~\ref{fig:alignment} shows a distribution shifted right of $E = 1$
+but overlapping it heavily. This is a tendency, not a property of the model.
+
+Three conditions attach to these numbers. First, the segmenter is a simplified
+envelope-based labeller, not the reference hidden semi-Markov
+model~\cite{springer2016logistic}; it is used only at evaluation and never in
+training, so a noisier segmenter adds variance and makes the test \emph{harder}
+to pass rather than easier, and cannot manufacture a positive result. Second,
+low-confidence windows are excluded, so the honest denominator for every figure
+here is the \SI{66.5}{\percent} inclusion rate (2235 of 3362 windows, mean
+segmenter confidence \num{0.559}, mean estimated heart rate \SI{82}{bpm}).
+Third, as stated at the outset, Grad-CAM's coarse frequency axis means no
+spectral claim is drawn from it; the frequency evidence is entirely SHAP's.
+
+\subsection{The check that decides it: right for the right reason? (Grad-CAM, CNN)}
+
+\emph{Model: CNN. Method: Grad-CAM. Tested: whether the systolic tendency
+distinguishes correct from incorrect decisions --- the difference between the
+CNN \emph{attending} to systole and the CNN \emph{using} systolic evidence.}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_gradcam_example}
+\caption{Grad-CAM on a correctly classified abnormal window, with the segmenter
+state track below. Maps such as this motivate the enrichment test but cannot,
+on their own, support it.}
+\label{fig:gradcam}
+\end{figure}
+
+If the systolic tendency reflected murmur detection, it should be stronger when
+the CNN is right than when it is wrong. Stratifying the same Grad-CAM enrichment
+by outcome, it is not: mean $E_\text{systole}$ is \num{1.085} on true positives
+but \num{1.115} on false positives and \num{1.157} on false negatives
+($n = 26$, so the last is a tendency at best). The true-minus-false-positive
+difference is $\num{-0.030}$ --- the systolic focus is marginally
+\emph{stronger} when the CNN raises a false alarm.
+
+This is the clearest negative result in the project, and it bounds what the rest
+of the section may claim. The maps are not artifacts --- the sanity checks
+establish that --- and they do lean toward systole. But the lean does not
+separate correct from incorrect decisions, so it cannot be evidence that the CNN
+uses systolic information to decide. It behaves more like a fixed positional
+habit of the architecture than like a learned mechanism. Fig.~\ref{fig:gradcam}
+shows a representative correctly classified abnormal window: visual inspection of
+such a map is what suggested the hypothesis, and the quantitative test is what
+stops us concluding it.

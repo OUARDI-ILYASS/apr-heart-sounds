@@ -1,0 +1,31 @@
+% Preprocessing detail (block-diagram style). From sections/02_method.tex.
+% Requires: tikz (arrows.meta, positioning, fit, backgrounds, calc).
+\begin{figure*}[t]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\small, >={Latex[length=2.2mm]},
+  blk/.style={draw, rounded corners=3pt, align=center, fill=white,
+              minimum height=11mm, inner xsep=4pt, text width=22mm, line width=.5pt},
+  io/.style={blk, text width=20mm},
+  ar/.style={->, line width=.5pt}, node distance=8mm,
+  gl/.style={font=\footnotesize\itshape}
+]
+\node[io] (raw) {Raw PCG\\ \footnotesize \SIrange{5}{120}{\second}};
+\node[blk, right=of raw] (rs) {Resample\\ \footnotesize \SI{2}{\kilo\hertz}};
+\node[blk, right=of rs] (bp) {Band-pass filter\\ \footnotesize 25--\SI{400}{\hertz},\\ zero-phase};
+\node[blk, right=of bp] (sp) {Spike removal};
+\node[blk, right=of sp] (nz) {Per-recording\\ normalisation};
+\node[blk, right=of nz] (seg) {Windowing\\ \footnotesize \SI{3}{\second}, no overlap};
+\node[io, right=of seg] (out) {To feature\\ extraction};
+\foreach \a/\b in {raw/rs, rs/bp, bp/sp, sp/nz, nz/seg, seg/out} \draw[ar] (\a) -- (\b);
+\node[draw, dashed, rounded corners, fit=(rs)(nz), inner sep=4mm] (g) {};
+\node[gl, above=0.5mm of g.north] {artefact suppression and normalisation};
+\end{tikzpicture}}
+\caption{Preprocessing. Recordings are resampled to \SI{2}{\kilo\hertz},
+band-pass filtered to the diagnostic 25--\SI{400}{\hertz} range with a zero-phase
+(forward--backward) filter that preserves event timing, despiked, amplitude
+normalised per recording, and cut into non-overlapping \SI{3}{\second} windows.
+The same windows feed all three feature domains.}
+\label{fig:preprocessing}
+\end{figure*}

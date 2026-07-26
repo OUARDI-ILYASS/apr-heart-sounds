@@ -1,0 +1,364 @@
+# =============================================================================
+# MASTER CONFIGURATION - Single source of truth for the entire pipeline.
+#
+# Every script reads this file. Nothing is hardcoded in the scripts.
+#
+# =============================================================================
+
+experiment:
+  name: "baseline_full"
+  seed: 42                      # Propagated to numpy, random, torch, sklearn
+  description: "Full pipeline: MFCC/logMel/PWP x SVM/RF/CNN with XAI"
+
+# -----------------------------------------------------------------------------
+# PATHS - all relative to repository root
+# -----------------------------------------------------------------------------
+paths:
+  raw_dir: "data/raw/physionet2016"
+  interim_dir: "data/interim"
+  processed_dir: "data/processed"
+  models_dir: "models"
+  results_dir: "results"
+  figures_dir: "figures"
+  reports_dir: "reports"
+  paper_dir: "paper"
+
+# -----------------------------------------------------------------------------
+# DATASET
+# -----------------------------------------------------------------------------
+dataset:
+  name: "physionet2016"
+  # PhysioNet/CinC Challenge 2016. Six training sub-databases (a..f) collected
+  # at different sites with different equipment -> a natural source of domain
+  # shift that we control for by stratifying splits on sub-database.
+  subdatabases: ["training-a", "training-b", "training-c", "training-d", "training-e", "training-f"]
+  base_url: "https://physionet.org/files/challenge-2016/1.0.0/"
+  # REFERENCE.csv encodes: -1 = Normal, 1 = Abnormal.
+  # We remap to 0 = Normal, 1 = Abnormal for sklearn/torch conventions.
+  label_map: {"-1": 0, "1": 1}
+  class_names: ["Normal", "Abnormal"]
+
+# -----------------------------------------------------------------------------
+# PREPROCESSING
+# -----------------------------------------------------------------------------
+preprocessing:
+  target_sr: 2000               # Native rate of the PhysioNet 2016 recordings
+
+  # Bandpass 25-400 Hz.
+  bandpass_low: 25.0
+  bandpass_high: 400.0
+  filter_order: 4
+  # Zero-phase filtering (scipy.signal.filtfilt) - applies the filter forwards
+  # and backwards so there is NO phase distortion. Critical here: our whole XAI
+  # story is about WHEN in the cardiac cycle the model attends, so any group
+  # delay introduced by a causal filter would shift the evidence in time.
+  zero_phase: true
+
+  # Spike removal (Schmidt et al. 2010): PCG recordings frequently contain
+  # high-amplitude transients from friction on the stethoscope diaphragm.
+  # These are not cardiac and would dominate any energy-based feature.
+  spike_removal: true
+  spike_window_ms: 500
+  spike_threshold_factor: 3.0   # Windows whose max abs > factor * median max
+
+  # Per-recording z-score. Removes recording-specific gain (different clinics
+  # used different amplification), so the model cannot cheat by learning
+  # "loud recording => site X => label Y".
+  normalize: "zscore"           # one of: zscore | peak | none
+
+# -----------------------------------------------------------------------------
+# SEGMENTATION
+# -----------------------------------------------------------------------------
+segmentation:
+  # 3 s window.
+  segment_seconds: 3.0
+  train_hop_seconds: 1.5        # 50% overlap on TRAIN -> more samples for CNN
+  eval_hop_seconds: 3.0         # NO overlap on VAL/TEST -> unbiased evaluation
+  pad_policy: "drop"            # drop | zero_pad  (for trailing partial window)
+  min_segments_per_recording: 1
+
+# -----------------------------------------------------------------------------
+# SPLITS
+# -----------------------------------------------------------------------------
+splits:
+  # SUBJECT-INDEPENDENT: splitting happens on recording_id, never on segments.
+  # This is the single most important guard against optimistic bias. Script 01
+  # asserts disjointness and hard-fails if violated.
+  level: "recording"
+  train_ratio: 0.70
+  val_ratio: 0.15
+  test_ratio: 0.15
+  # Stratify jointly on (label, sub-database) so each split has the same class
+  # balance AND the same site mix - otherwise a test set dominated by one
+  # clinic would measure site transfer rather than pathology detection.
+  stratify_on: ["label", "subdb"]
+
+# -----------------------------------------------------------------------------
+# FEATURES
+# -----------------------------------------------------------------------------
+features:
+  # ---- Shared STFT front-end -------------------------------------------------
+  n_fft: 256                    # 128 ms window at 2 kHz
+  hop_length: 32                # 16 ms hop -> fine temporal grid for Grad-CAM
+  window: "hann"
+  fmin: 25.0
+  fmax: 400.0
+  n_mels: 32
+
+  mfcc:
+    n_mfcc: 13                  # Classic choice; 13 <= n_mels is required
+    use_delta: true             # Velocity  - captures transient onsets (S1/S2)
+    use_delta2: true            # Accel.    - captures the sharpness of onsets
+    delta_width: 5
+    # Temporal aggregation: MFCCs are per-frame; classical models need one
+    # fixed-length vector per segment. We summarise each coefficient's
+    # trajectory with 6 statistics.
+    # Resulting dim = 13 * 3 (static+d+dd) * 6 stats = 234
+    aggregations: ["mean", "std", "min", "max", "skew", "kurtosis"]
+
+  logmel:
+    # Kept as a 2-D (n_mels x n_frames) "image" - this is the CNN input.
+    # 3 s at hop 32 -> 1 + 6000//32 = 188 frames -> input shape (32, 188).
+    log_offset: 1.0e-6          # Avoid log(0)
+    normalize_per_segment: false  # Normalisation stats come from TRAIN only
+
+  pwp:
+    # Perceptual Wavelet Packet features.
+    wavelet: "db4"              # Daubechies-4: compact support, 4 vanishing
+                                # moments -> good for sharp onsets
+    # Level 6 -> 2^6 = 64 uniform subbands of 15.6 Hz each, ~25 of which fall
+    # inside 25-400 Hz. Chosen so that the perceptual grouping below actually
+    # merges several nodes per band; at level 5 there would be only ~13 nodes
+    # in the band and the "grouping" would be almost one-to-one.
+    # At 6000 samples per segment each level-6 node still holds ~94
+    # coefficients, comfortably more than the db4 filter length (8), so
+    # boundary effects stay negligible.
+    level: 6
+    node_order: "freq"
+    # Restrict to nodes overlapping the diagnostic band 25-400 Hz.
+    band_low: 25.0
+    band_high: 400.0
+    # "Perceptual" grouping: merge the uniform WP subbands into perceptually
+    # spaced bands (mel-spaced edges over the band of interest). This is what
+    # makes it PERCEPTUAL wavelet packet rather than plain WP.
+    perceptual_grouping: true
+    n_perceptual_bands: 12
+    # Best-basis selection by Shannon entropy (Coifman-Wickerhauser). Off by
+    # default because a data-dependent basis complicates cross-segment
+    # comparability of feature indices - which matters for SHAP.
+    best_basis: false
+    descriptors: ["log_energy", "rel_energy", "shannon_entropy", "std", "skew", "kurtosis", "max_abs"]
+
+  scaling:
+    method: "standard"          # StandardScaler, FIT ON TRAIN ONLY
+
+# -----------------------------------------------------------------------------
+# CLUSTERING (unsupervised analysis - course requirement)
+# -----------------------------------------------------------------------------
+clustering:
+  k_range: [2, 3, 4, 5, 6, 7, 8]
+  n_init: 10
+  max_iter: 300
+  # For log-Mel we must flatten the 2-D map to compare it fairly against the
+  # 1-D feature sets. We optionally reduce with PCA first because raw flattened
+  # log-Mel is ~6000-dim and k-means in that space is dominated by noise.
+  logmel_flatten_pca_dim: 50
+  pca:
+    n_components_variance: 0.95   # Components retained for the variance report
+    n_components_plot: 2
+  tsne:
+    n_components: 2
+    perplexity: 30
+    learning_rate: "auto"
+    n_iter: 1000
+    init: "pca"                 # More stable / reproducible than random init
+    subsample: 3000             # t-SNE is O(N^2)-ish; subsample for tractability
+  metrics: ["silhouette", "davies_bouldin", "calinski_harabasz", "ari", "nmi", "purity"]
+
+# -----------------------------------------------------------------------------
+# CLASSICAL MODELS
+# -----------------------------------------------------------------------------
+classical:
+  cv_folds: 5
+  cv_strategy: "stratified_group_kfold"
+  scoring: "balanced_accuracy"  # == MAcc = (Se+Sp)/2, the official CinC metric
+  n_jobs: -1
+
+  feature_sets: ["mfcc", "pwp"]  # log-Mel goes to the CNN, not to SVM/RF
+
+  # ---------------------------------------------------------------------------
+  # SEARCH ACCELERATION (see src/models/classical.py for the full rationale)
+  #   - Rank candidates on a few segments per recording (segments are
+  #     near-duplicates within a recording, so ranking does not need all of them).
+  #   - Then re-score the top-k on the FULL training set and choose there. The
+  #     subsample PRUNES; the full data DECIDES. This is required: a subsample
+  #     can mis-rank models, especially with gamma='scale', whose value depends
+  #     on the training-set variance.
+  #   - segments_per_recording: 0 disables subsampling (exhaustive full search;
+  #     use once to confirm the fast path selects the same hyperparameters).
+  # ---------------------------------------------------------------------------
+  search:
+    segments_per_recording: 4    # raised from 2: 2 was too thin and mis-ranked
+    refit_top_k: 3               # shortlist re-scored on full data
+
+  svm:
+    kernel: "rbf"
+    class_weight: "balanced"    # Compensates the ~1:3 abnormal:normal ratio
+    probability: true           # Restored for the final refit; OFF during search
+    cache_size: 2000            # MB. libsvm kernel cache; 200 (default) thrashes.
+    max_iter: -1                # Guard against a non-converging corner candidate.
+    grid:
+      C: [0.1, 1.0, 10.0, 100.0]
+      # Absolute gamma values only. 'scale' == 1/(n_features * X.var()) changes
+      # meaning when the training set is subsampled, which mis-ranked the search.
+      # These bracket the full-search winner (gamma=0.001).
+      gamma: [0.0005, 0.001, 0.005, 0.01]
+
+  random_forest:
+    class_weight: "balanced_subsample"
+    n_jobs: -1                  # Forced to 1 inside the search; applies to refit.
+    grid:
+      n_estimators: [200, 500]
+      max_depth: [null, 10, 20]
+      min_samples_leaf: [1, 2, 5]
+      max_features: ["sqrt", 0.3]
+# -----------------------------------------------------------------------------
+# CNN
+# -----------------------------------------------------------------------------
+cnn:
+  # 4 convolutional blocks on the (1, 32, 188) log-Mel "image".
+  architecture:
+    conv_channels: [16, 32, 64, 128]
+    kernel_size: 3
+    padding: 1
+    pool_size: 2
+    batch_norm: true
+    dropout: 0.3
+    fc_hidden: 64
+    n_classes: 2
+    global_pool: "avg"          # Makes the head independent of input width
+
+  training:
+    epochs: 60
+    batch_size: 64
+    optimizer: "adam"
+    learning_rate: 0.001
+    weight_decay: 0.0001
+    scheduler: "reduce_on_plateau"
+    scheduler_patience: 5
+    scheduler_factor: 0.5
+    early_stopping_patience: 12
+    monitor: "val_macc"         # Checkpoint on balanced accuracy, not accuracy
+    # Class-weighted cross-entropy. Without it the model can reach ~78%
+    # accuracy by predicting "Normal" for everything, while MAcc stays at 0.5.
+    class_weighting: true
+    device: "cuda"              # Local GPU; falls back to cpu automatically
+    num_workers: 4
+    pin_memory: true
+    amp: true                   # Mixed precision - free speedup on modern GPUs
+
+  augmentation:
+    enabled: true
+    time_shift: true            # Circular shift - the cycle phase is arbitrary
+    time_shift_max_frac: 0.2
+    gaussian_noise: true
+    noise_std: 0.01
+    # NOT used: SpecAugment frequency masking. Masking whole frequency bands
+    # could delete the murmur itself, and would also corrupt the Grad-CAM
+    # frequency analysis we depend on later.
+    spec_augment: false
+
+# -----------------------------------------------------------------------------
+# EVALUATION
+# -----------------------------------------------------------------------------
+evaluation:
+  # Headline numbers are RECORDING level. Segment-level numbers are reported
+  # too, but a clinician diagnoses a patient, not a 3-second window.
+  aggregation: ["majority_vote", "mean_probability"]
+  primary_aggregation: "mean_probability"
+  primary_metric: "macc"
+  metrics: ["accuracy", "f1_macro", "precision", "recall", "sensitivity", "specificity", "macc", "roc_auc"]
+  bootstrap:
+    enabled: true
+    n_resamples: 1000
+    ci: 0.95
+  mcnemar:
+    enabled: true
+    correction: true            # Continuity correction for small discordant counts
+  # Reference numbers from the published CinC 2016 entries, reported alongside
+  # ours for context. NOT a like-for-like comparison: they used the official
+  # hidden test set. We say so explicitly in the paper.
+  literature_reference:
+    "Potes et al. 2016 (CinC winner)": {macc: 0.860, sensitivity: 0.942, specificity: 0.778}
+    "Rubin et al. 2016 (CNN)": {macc: 0.839, sensitivity: 0.727, specificity: 0.951}
+    "Zabihi et al. 2016 (ensemble)": {macc: 0.859, sensitivity: 0.869, specificity: 0.849}
+
+# -----------------------------------------------------------------------------
+# EXPLAINABILITY
+# -----------------------------------------------------------------------------
+xai:
+
+    
+  shap:
+    # TreeExplainer is exact and fast for forests. KernelSHAP is a
+    # model-agnostic approximation and is expensive (O(n_background * n_samples)),
+    # so we subsample aggressively for the SVM.
+    tree_models: ["rf_mfcc", "rf_pwp"]
+    kernel_models: ["svm_mfcc"]
+    background_size: 50        # was 100 — linear in cost
+    explain_subsample: 150     # was 500 — linear in cost
+    nsamples: 512              # was "auto" (~2516) — linear in cost
+    top_k_features: 20
+    # Mapping cepstral coefficients back to frequency:
+    # MFCCs are a DCT of the log-mel spectrum, so coefficient i is not tied to
+    # one frequency. We project SHAP mass through |DCT basis| to obtain an
+    # approximate per-mel-band attribution. This is an approximation and we
+    # label it as such in the paper.
+    map_to_frequency: true
+
+  gradcam:
+    target_layer: "conv_block_4"   # Last conv block: best trade-off between
+                                   # semantic content and spatial resolution
+    n_examples_per_category: 4     # TP / TN / FP / FN
+    normalize: "unit_mass"         # So heatmaps are comparable across examples
+    upsample_mode: "bilinear"
+
+  segmentation:
+    method: "envelope_hsmm_lite"
+    envelope: "shannon"           # shannon | homomorphic | hilbert
+    smoothing_ms: 20
+    min_hr_bpm: 40
+    max_hr_bpm: 180
+    # Physiological prior: at normal heart rates systole is shorter than
+    # diastole. This is what lets us label which of the two intervals between
+    # detected peaks is systole without any supervision.
+    systole_fraction_prior: 0.35
+    confidence_threshold: 0.5     # Segments below this are EXCLUDED and counted
+
+  alignment:
+    states: ["S1", "systole", "S2", "diastole"]
+    # Null baselines for the permutation test.
+    null_baselines: ["uniform", "shuffled"]
+    n_permutations: 1000
+    # The headline statistic: fraction of attribution mass inside systole,
+    # compared against the fraction of TIME occupied by systole. A model that
+    # attends uniformly scores exactly the time fraction; a model that has
+    # learned murmurs should score above it.
+    primary_state: "systole"
+
+
+# -----------------------------------------------------------------------------
+# FIGURES
+# -----------------------------------------------------------------------------
+figures:
+  dpi: 300
+  formats: ["png", "pdf"]
+  # IEEE two-column: a single column is 3.5 in wide, a full-width figure 7.16 in.
+  single_col_width: 3.5
+  double_col_width: 7.16
+  default_height: 2.6
+  font_family: "serif"
+  font_size: 8
+  cmap_diverging: "RdBu_r"
+  cmap_sequential: "viridis"
+  class_colors: ["#2E86AB", "#D7263D"]   # Normal (blue) / Abnormal (red)

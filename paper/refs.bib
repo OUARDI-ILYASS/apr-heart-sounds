@@ -1,0 +1,390 @@
+% =============================================================================
+% References. Written up front because they do not depend on our results.
+%
+% Grouped by role so it is obvious what each citation is doing in the paper:
+%   [DATASET]     the corpus and its reference annotations
+%   [BASELINE]    CinC 2016 entries we compare against
+%   [FEATURES]    the feature representations we use
+%   [XAI]         the explainability methods and their critiques
+%   [CLINICAL]    the physiological facts our interpretation rests on
+%   [METHODS]     statistics and general ML methodology
+% =============================================================================
+
+% ---------------------------------------------------------------- [DATASET] --
+@article{liu2016open,
+  title     = {An open access database for the evaluation of heart sound algorithms},
+  author    = {Liu, Chengyu and Springer, David and Li, Qiao and Moody, Benjamin
+               and Juan, Ricardo Abad and Chorro, Francisco J and Castells, Francisco
+               and Roig, Jos{\'e} Millet and Silva, Ikaro and Johnson, Alistair E W
+               and Syed, Zeeshan and Schmidt, Samuel E and Papadaniil, Chrysa D
+               and Hadjileontiadis, Leontios and Naseri, Hosein and Moukadem, Ali
+               and Dieterlen, Alain and Brandt, Christian and Tang, Hong
+               and Samieinasab, Maryam and Samieinasab, Mohammad Reza
+               and Sameni, Reza and Mark, Roger G and Clifford, Gari D},
+  journal   = {Physiological Measurement},
+  volume    = {37},
+  number    = {12},
+  pages     = {2181--2213},
+  year      = {2016},
+  publisher = {IOP Publishing},
+  doi       = {10.1088/0967-3334/37/12/2181}
+}
+
+@article{clifford2016classification,
+  title   = {Classification of normal/abnormal heart sound recordings:
+             The PhysioNet/Computing in Cardiology Challenge 2016},
+  author  = {Clifford, Gari D and Liu, Chengyu and Moody, Benjamin
+             and Springer, David and Silva, Ikaro and Li, Qiao and Mark, Roger G},
+  journal = {Computing in Cardiology},
+  volume  = {43},
+  pages   = {609--612},
+  year    = {2016}
+}
+
+@article{goldberger2000physiobank,
+  title   = {PhysioBank, PhysioToolkit, and PhysioNet: Components of a new
+             research resource for complex physiologic signals},
+  author  = {Goldberger, Ary L and Amaral, Luis A N and Glass, Leon
+             and Hausdorff, Jeffrey M and Ivanov, Plamen Ch and Mark, Roger G
+             and Mietus, Joseph E and Moody, George B and Peng, Chung-Kang
+             and Stanley, H Eugene},
+  journal = {Circulation},
+  volume  = {101},
+  number  = {23},
+  pages   = {e215--e220},
+  year    = {2000}
+}
+
+% --------------------------------------------------------------- [BASELINE] --
+@inproceedings{potes2016ensemble,
+  title     = {Ensemble of feature-based and deep learning-based classifiers
+               for detection of abnormal heart sounds},
+  author    = {Potes, Cristhian and Parvaneh, Saman and Rahman, Asif and Conroy, Bryan},
+  booktitle = {Computing in Cardiology Conference (CinC)},
+  pages     = {621--624},
+  year      = {2016},
+  note      = {Challenge winner, MAcc 0.860}
+}
+
+@inproceedings{rubin2016classifying,
+  title     = {Classifying heart sound recordings using deep convolutional
+               neural networks and mel-frequency cepstral coefficients},
+  author    = {Rubin, Jonathan and Abreu, Rui and Ganguli, Anurag
+               and Nelaturi, Saigopal and Matei, Ion and Sricharan, Kumar},
+  booktitle = {Computing in Cardiology Conference (CinC)},
+  pages     = {813--816},
+  year      = {2016},
+  note      = {MAcc 0.839}
+}
+
+@inproceedings{zabihi2016heart,
+  title     = {Heart sound anomaly and quality detection using ensemble of
+               neural networks without segmentation},
+  author    = {Zabihi, Morteza and Rad, Ali Bahrami and Kiranyaz, Serkan
+               and Gabbouj, Moncef and Katsaggelos, Aggelos K},
+  booktitle = {Computing in Cardiology Conference (CinC)},
+  pages     = {613--616},
+  year      = {2016},
+  note      = {MAcc 0.859; notable for avoiding segmentation entirely}
+}
+
+@article{springer2016logistic,
+  title   = {Logistic regression-HSMM-based heart sound segmentation},
+  author  = {Springer, David B and Tarassenko, Lionel and Clifford, Gari D},
+  journal = {IEEE Transactions on Biomedical Engineering},
+  volume  = {63},
+  number  = {4},
+  pages   = {822--832},
+  year    = {2016},
+  doi     = {10.1109/TBME.2015.2475278}
+}
+
+@article{schmidt2010segmentation,
+  title   = {Segmentation of heart sound recordings by a duration-dependent
+             hidden Markov model},
+  author  = {Schmidt, Samuel E and Holst-Hansen, Claus and Graff, Claus
+             and Toft, Egon and Struijk, Johannes J},
+  journal = {Physiological Measurement},
+  volume  = {31},
+  number  = {4},
+  pages   = {513--529},
+  year    = {2010},
+  note    = {Source of the spike-removal procedure used in preprocessing}
+}
+
+% --------------------------------------------------------------- [FEATURES] --
+@article{davis1980comparison,
+  title   = {Comparison of parametric representations for monosyllabic word
+             recognition in continuously spoken sentences},
+  author  = {Davis, Steven and Mermelstein, Paul},
+  journal = {IEEE Transactions on Acoustics, Speech, and Signal Processing},
+  volume  = {28},
+  number  = {4},
+  pages   = {357--366},
+  year    = {1980},
+  note    = {Original MFCC formulation}
+}
+
+@article{safara2013multi,
+  title   = {Multi-level basis selection of wavelet packet decomposition tree
+             for heart sound classification},
+  author  = {Safara, Fatemeh and Doraisamy, Shyamala and Azman, Azreen
+             and Jantan, Azrul and Abdullah Ramaiah, Asri Ranga},
+  journal = {Computers in Biology and Medicine},
+  volume  = {43},
+  number  = {10},
+  pages   = {1407--1414},
+  year    = {2013},
+  note    = {Perceptual wavelet packet features for PCG}
+}
+
+@article{coifman1992entropy,
+  title   = {Entropy-based algorithms for best basis selection},
+  author  = {Coifman, Ronald R and Wickerhauser, Mladen Victor},
+  journal = {IEEE Transactions on Information Theory},
+  volume  = {38},
+  number  = {2},
+  pages   = {713--718},
+  year    = {1992}
+}
+
+@book{mallat2008wavelet,
+  title     = {A Wavelet Tour of Signal Processing: The Sparse Way},
+  author    = {Mallat, St{\'e}phane},
+  edition   = {3},
+  year      = {2008},
+  publisher = {Academic Press}
+}
+
+@article{daubechies1988orthonormal,
+  title   = {Orthonormal bases of compactly supported wavelets},
+  author  = {Daubechies, Ingrid},
+  journal = {Communications on Pure and Applied Mathematics},
+  volume  = {41},
+  number  = {7},
+  pages   = {909--996},
+  year    = {1988}
+}
+
+@inproceedings{mcfee2015librosa,
+  title     = {librosa: Audio and music signal analysis in Python},
+  author    = {McFee, Brian and Raffel, Colin and Liang, Dawen and Ellis, Daniel P W
+               and McVicar, Matt and Battenberg, Eric and Nieto, Oriol},
+  booktitle = {Proceedings of the 14th Python in Science Conference},
+  pages     = {18--25},
+  year      = {2015}
+}
+
+% -------------------------------------------------------------------- [XAI] --
+@inproceedings{lundberg2017unified,
+  title     = {A unified approach to interpreting model predictions},
+  author    = {Lundberg, Scott M and Lee, Su-In},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {30},
+  pages     = {4765--4774},
+  year      = {2017}
+}
+
+@article{lundberg2020local,
+  title   = {From local explanations to global understanding with explainable
+             AI for trees},
+  author  = {Lundberg, Scott M and Erion, Gabriel and Chen, Hugh and DeGrave, Alex
+             and Prutkin, Jordan M and Nair, Bala and Katz, Ronit and Himmelfarb, Jonathan
+             and Bansal, Nisha and Lee, Su-In},
+  journal = {Nature Machine Intelligence},
+  volume  = {2},
+  number  = {1},
+  pages   = {56--67},
+  year    = {2020},
+  note    = {TreeSHAP}
+}
+
+@inproceedings{selvaraju2017grad,
+  title     = {Grad-CAM: Visual explanations from deep networks via
+               gradient-based localization},
+  author    = {Selvaraju, Ramprasaath R and Cogswell, Michael and Das, Abhishek
+               and Vedantam, Ramakrishna and Parikh, Devi and Batra, Dhruv},
+  booktitle = {IEEE International Conference on Computer Vision (ICCV)},
+  pages     = {618--626},
+  year      = {2017}
+}
+
+@inproceedings{chattopadhay2018grad,
+  title     = {Grad-CAM++: Generalized gradient-based visual explanations for
+               deep convolutional networks},
+  author    = {Chattopadhay, Aditya and Sarkar, Anirban and Howlader, Prantik
+               and Balasubramanian, Vineeth N},
+  booktitle = {IEEE Winter Conference on Applications of Computer Vision (WACV)},
+  pages     = {839--847},
+  year      = {2018}
+}
+
+@inproceedings{adebayo2018sanity,
+  title     = {Sanity checks for saliency maps},
+  author    = {Adebayo, Julius and Gilmer, Justin and Muelly, Michael
+               and Goodfellow, Ian and Hardt, Moritz and Kim, Been},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {31},
+  year      = {2018},
+  note      = {Model-randomisation test used in our phase 08}
+}
+
+@article{rudin2019stop,
+  title   = {Stop explaining black box machine learning models for high stakes
+             decisions and use interpretable models instead},
+  author  = {Rudin, Cynthia},
+  journal = {Nature Machine Intelligence},
+  volume  = {1},
+  number  = {5},
+  pages   = {206--215},
+  year    = {2019}
+}
+
+@inproceedings{kumar2020problems,
+  title     = {Problems with Shapley-value-based explanations as feature
+               importance measures},
+  author    = {Kumar, I Elizabeth and Venkatasubramanian, Suresh and Scheidegger, Carlos
+               and Friedler, Sorelle},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  pages     = {5491--5500},
+  year      = {2020},
+  note      = {The correlated-features caveat we acknowledge}
+}
+
+@article{degrave2021ai,
+  title   = {AI for radiographic COVID-19 detection selects shortcuts over signal},
+  author  = {DeGrave, Alex J and Janizek, Joseph D and Lee, Su-In},
+  journal = {Nature Machine Intelligence},
+  volume  = {3},
+  number  = {7},
+  pages   = {610--619},
+  year    = {2021},
+  note    = {Motivates our per-site shortcut analysis}
+}
+
+% --------------------------------------------------------------- [CLINICAL] --
+@book{leatham1975auscultation,
+  title     = {Auscultation of the Heart and Phonocardiography},
+  author    = {Leatham, Aubrey},
+  edition   = {2},
+  year      = {1975},
+  publisher = {Churchill Livingstone}
+}
+
+@article{abbas2009phonocardiography,
+  title     = {Phonocardiography signal processing},
+  author    = {Abbas, Abbas K and Bassam, Rasha},
+  journal   = {Synthesis Lectures on Biomedical Engineering},
+  volume    = {4},
+  number    = {1},
+  pages     = {1--194},
+  year      = {2009},
+  publisher = {Morgan \& Claypool},
+  note      = {Source for the spectral content of S1, S2 and murmurs}
+}
+
+@article{chizner2008cardiac,
+  title   = {Cardiac auscultation: Rediscovering the lost art},
+  author  = {Chizner, Michael A},
+  journal = {Current Problems in Cardiology},
+  volume  = {33},
+  number  = {7},
+  pages   = {326--408},
+  year    = {2008}
+}
+
+% ---------------------------------------------------------------- [METHODS] --
+@article{dietterich1998approximate,
+  title   = {Approximate statistical tests for comparing supervised
+             classification learning algorithms},
+  author  = {Dietterich, Thomas G},
+  journal = {Neural Computation},
+  volume  = {10},
+  number  = {7},
+  pages   = {1895--1923},
+  year    = {1998},
+  note    = {Justifies McNemar's test for paired classifier comparison}
+}
+
+@article{holm1979simple,
+  title   = {A simple sequentially rejective multiple test procedure},
+  author  = {Holm, Sture},
+  journal = {Scandinavian Journal of Statistics},
+  volume  = {6},
+  number  = {2},
+  pages   = {65--70},
+  year    = {1979}
+}
+
+@article{chicco2020advantages,
+  title   = {The advantages of the Matthews correlation coefficient (MCC) over
+             F1 score and accuracy in binary classification evaluation},
+  author  = {Chicco, Davide and Jurman, Giuseppe},
+  journal = {BMC Genomics},
+  volume  = {21},
+  number  = {1},
+  pages   = {6},
+  year    = {2020}
+}
+
+@article{vandermaaten2008visualizing,
+  title   = {Visualizing data using t-SNE},
+  author  = {van der Maaten, Laurens and Hinton, Geoffrey},
+  journal = {Journal of Machine Learning Research},
+  volume  = {9},
+  pages   = {2579--2605},
+  year    = {2008}
+}
+
+@article{wattenberg2016how,
+  title   = {How to use t-SNE effectively},
+  author  = {Wattenberg, Martin and Vi{\'e}gas, Fernanda and Johnson, Ian},
+  journal = {Distill},
+  year    = {2016},
+  doi     = {10.23915/distill.00002},
+  note    = {Why t-SNE global geometry must not be over-interpreted}
+}
+
+@article{pedregosa2011scikit,
+  title   = {Scikit-learn: Machine learning in Python},
+  author  = {Pedregosa, Fabian and Varoquaux, Ga{\"e}l and Gramfort, Alexandre
+             and Michel, Vincent and Thirion, Bertrand and Grisel, Olivier
+             and Blondel, Mathieu and Prettenhofer, Peter and Weiss, Ron
+             and Dubourg, Vincent and Vanderplas, Jake and Passos, Alexandre
+             and Cournapeau, David and Brucher, Matthieu and Perrot, Matthieu
+             and Duchesnay, {\'E}douard},
+  journal = {Journal of Machine Learning Research},
+  volume  = {12},
+  pages   = {2825--2830},
+  year    = {2011}
+}
+
+@inproceedings{paszke2019pytorch,
+  title     = {PyTorch: An imperative style, high-performance deep learning library},
+  author    = {Paszke, Adam and Gross, Sam and Massa, Francisco and Lerer, Adam
+               and Bradbury, James and Chanan, Gregory and Killeen, Trevor
+               and Lin, Zeming and Gimelshein, Natalia and Antiga, Luca and others},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {32},
+  year      = {2019}
+}
+
+@article{cortes1995support,
+  title   = {Support-vector networks},
+  author  = {Cortes, Corinna and Vapnik, Vladimir},
+  journal = {Machine Learning},
+  volume  = {20},
+  number  = {3},
+  pages   = {273--297},
+  year    = {1995}
+}
+
+@article{breiman2001random,
+  title   = {Random forests},
+  author  = {Breiman, Leo},
+  journal = {Machine Learning},
+  volume  = {45},
+  number  = {1},
+  pages   = {5--32},
+  year    = {2001}
+}
