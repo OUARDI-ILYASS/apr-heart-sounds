@@ -36,7 +36,8 @@ def plot_projection(coords: np.ndarray, labels: np.ndarray, path: str | Path,
 
 def plot_projection_grid(projections: Dict[str, Dict], labels: np.ndarray,
                          path: str | Path, cfg: Optional[Dict] = None,
-                         label_names: Optional[List[str]] = None):
+                         label_names: Optional[List[str]] = None,
+                         palette: Optional[List] = None):
     """One row per feature domain, PCA and t-SNE side by side.
 
     This is the course-required clustering figure. Laying the three feature
@@ -46,7 +47,7 @@ def plot_projection_grid(projections: Dict[str, Dict], labels: np.ndarray,
     """
     apply_ieee_style(cfg)
     label_names = label_names or ["Normal", "Abnormal"]
-    colors = class_colors(cfg)
+    colors = palette if palette is not None else class_colors(cfg)
     domains = list(projections)
 
     fig, axes = plt.subplots(len(domains), 2,

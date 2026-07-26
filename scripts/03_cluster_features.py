@@ -164,6 +164,21 @@ def main() -> int:
                          cfg, list(cfg["dataset"]["class_names"]))
     summary.add_artifact(figures_dir / "fig_feature_projections.pdf")
 
+    # ---- same projections, coloured by recording site ----------------------
+    # The class-coloured grid shows the diagnosis is not the dominant geometry;
+    # colouring the identical coordinates by sub-database shows what *is*.
+    import matplotlib.pyplot as _plt
+    from matplotlib.colors import to_hex as _to_hex
+    site_names = sorted(np.unique(sites).tolist())
+    site_to_int = {s: i for i, s in enumerate(site_names)}
+    site_codes = np.array([site_to_int[s] for s in sites])
+    site_palette = [_to_hex(_plt.cm.tab10(i % 10)) for i in range(len(site_names))]
+    plot_projection_grid(projections, site_codes,
+                         figures_dir / "fig_feature_projections_by_site",
+                         cfg, site_names, palette=site_palette)
+    summary.add_artifact(figures_dir / "fig_feature_projections_by_site.pdf")
+    logger.info(f"Per-site projection figure written for {len(site_names)} sites")
+
     # ---- claim verdict -----------------------------------------------------
     best_ari = max(
         (r["sweep"][k_range.index(2)].get("ari", 0.0) for r in all_results.values()),
