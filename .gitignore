@@ -1,7 +1,7 @@
 # Data — never commit the corpus. It is ~3 GB and PhysioNet has its own terms.
 data/raw/
-data/interim/
-data/processed/
+# data/interim/
+# data/processed/
 *.wav
 *.hea
 
