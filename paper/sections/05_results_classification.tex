@@ -149,10 +149,16 @@ experiments driven by one fixed balanced random forest
 (Table~\ref{tab:siteshortcut}, Fig.~\ref{fig:siteshortcut}).
 
 First, the site is plainly recoverable. A classifier asked to name the
-sub-database from the MFCC features alone reaches \num{0.871} accuracy at the
-recording level against a \num{0.167} chance rate, and \num{0.817} on PWP. The
-substrate for a shortcut is therefore present in the representation itself,
-before any diagnostic label is introduced.
+sub-database from the MFCC features alone reaches a balanced accuracy of
+\num{0.647} against the \num{0.167} chance rate of the six-site problem
+(\num{0.549} on PWP), well above chance on the metric this paper is defined by
+(Table~\ref{tab:siteshortcut}, block~A). We deliberately quote the balanced
+figure rather than raw accuracy: the site distribution is heavily skewed ---
+\texttt{training-e} alone is roughly two thirds of the recordings --- so a
+predictor that always names the majority site would already score about
+\SI{66}{\percent}, and raw accuracy against a \num{0.167} reference would badly
+overstate recoverability. The substrate for a shortcut is nonetheless plainly
+present in the representation itself, before any diagnostic label is introduced.
 
 Second, the diagnosis does not transfer across that structure. When the same
 features are used for the intended task but the model is evaluated

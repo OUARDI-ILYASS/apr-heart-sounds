@@ -4,16 +4,18 @@
 \emph{training} partition by grouped cross-validation; the test split of
 Table~\ref{tab:results} is never opened here. A single fixed, balanced random
 forest is used throughout, because the quantity of interest is the gap between
-evaluation protocols rather than any absolute score. Site chance is \num{0.167}
-(six sites); MAcc chance is \num{0.500}.}
+evaluation protocols rather than any absolute score. Site recoverability is
+reported as modified accuracy (balanced over the six sites, MAcc chance
+\num{0.167}) rather than raw accuracy, since the site distribution is heavily
+skewed and raw accuracy would be inflated by the majority site; diagnosis MAcc
+chance is \num{0.500}.}
 \label{tab:siteshortcut}
 \begin{tabular}{lrr}
 \toprule
  & MFCC & PWP \\
 \midrule
 \multicolumn{3}{l}{\emph{A. Is the site recoverable from the features?}}\\
-\quad Site MAcc, segment level      & 0.647 & 0.549 \\
-\quad Site accuracy, recording level & \textbf{0.871} & \textbf{0.817} \\
+\quad Site MAcc (balanced over sites) & \textbf{0.647} & \textbf{0.549} \\
 \midrule
 \multicolumn{3}{l}{\emph{B. Does the diagnosis transfer across sites?}}\\
 \quad Diagnosis MAcc, pooled CV          & 0.840 & 0.810 \\
